@@ -7,6 +7,6 @@
 add:
 	git add ./*/*.tex
 	git add Makefile
-	git add README.me
+	git add README.md
 
 # end
