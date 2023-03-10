@@ -1,0 +1,252 @@
+\documentclass[12pt, letterpaper]{article}
+
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{tikz}
+\usepackage{parskip}
+\usepackage{amssymb}
+
+% Copied from, with some minor changes:
+% https://tex.stackexchange.com/questions/306004/drawing-the-rules-for-the-bracket-polynomial
+\newcommand{\KP}[1]{%
+  \begin{tikzpicture}[baseline=-\dimexpr\fontdimen22\textfont2\relax]
+  #1
+  \end{tikzpicture}%
+}
+\newcommand{\Circle}{%
+  \KP{\filldraw[color=gray, fill=none, thick] circle (0.3);}%
+}
+\newcommand{\UCross}{%
+  \KP{
+    \draw[color=gray,thick] (-0.3,0.3) -- (0.3,-0.3);
+    \draw[color=gray,thick] (-0.3,-0.3) -- (-0.05,-0.05);
+    \draw[color=gray,thick] (0.05,0.05) -- (0.3,0.3);
+  }%
+}
+\newcommand{\UOCross}{%
+  \KP{
+    \draw[color=gray,thick] (-0.3,0.3) -- (-0.05,0.05);
+    \draw[color=gray,thick] (0.05,-0.05) -- (0.3,-0.3);
+    \draw[color=gray,thick] (-0.3,-0.3) -- (0.3,0.3);
+  }%
+}
+\newcommand{\DPCross}{%
+  \KP{
+    \draw[color=gray,thick,->] (-0.3,0.3) -- (0.3,-0.3);
+    \draw[color=gray,thick] (-0.3,-0.3) -- (-0.05,-0.05);
+    \draw[color=gray,thick,->] (0.05,0.05) -- (0.3,0.3);
+  }%
+}
+\newcommand{\DNCross}{%
+  \KP{
+    \draw[color=gray,thick] (-0.3,0.3) -- (-0.05,0.05);
+    \draw[color=gray,thick,->] (0.05,-0.05) -- (0.3,-0.3);
+    \draw[color=gray,thick,->] (-0.3,-0.3) -- (0.3,0.3);
+  }%
+}
+\newcommand{\RSmooth}{%
+  \KP{%
+    \draw[color=gray,thick] (-0.3,0.3)..controls (0,-0.05).. (0.3,0.3);
+    \draw[color=gray,thick] (-0.3,-0.3)..controls (0,0.05).. (0.3,-0.3);
+  }%
+}
+\newcommand{\LSmooth}{%
+  \KP{%
+    \draw[color=gray,thick] (-0.3,-0.3)..controls (0.05,0).. (-0.3,0.3);
+    \draw[color=gray,thick] (0.3,-0.3)..controls (-0.05,0).. (0.3,0.3);
+  }%
+}
+\newcommand{\DSmooth}{%
+  \KP{%
+    \draw[color=gray,thick,->] (-0.3,0.3)..controls (0,-0.05).. (0.3,0.3);
+    \draw[color=gray,thick,->] (-0.3,-0.3)..controls (0,0.05).. (0.3,-0.3);
+  }%
+}
+
+\title{Geometric Topologies}
+\author{Arkadiusz Naks}
+
+\begin{document}
+\begin{titlepage}
+  \begin{center}
+    \makeatletter
+    \vspace*{1cm}
+    \Huge
+    \textbf{\@title}
+
+    \vspace{0.5cm}
+    \Large
+    Lecture notes from Geometric Topologies 2 module at Durham University
+
+    \vspace{1.5cm}
+
+    \textbf{\@author}
+
+    \vfill
+
+    \vspace{0.8cm}
+
+    \small
+    Based on my understanding of lectures and notes of Prof Anrew Jay Lobb, based on notes by Prof Dirk Shutz
+    \@date{}
+  \end{center}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\begin{section}{Important Definisions}
+  A place for short and important definisions
+  \textsc{Definision 1.10} (Achiral) \textit{A link which is isotopic to its mirror image is called \textbf{achiral}.}
+\end{section}
+
+\begin{section}{Basic Knot/Link Properties}
+
+  \begin{subsection}{Tricolouring}
+    Tricolouring can be used as one of the criteria to establish knot diagrams are different.
+    This is invarient under all Reidemeister moves.
+
+    Tricolouring rules:
+    \begin{itemize}
+      \item Each arc is assigned exacly one colour
+      \item At least two colour are used
+      \item At each crossing either 3 colours are used or only 1 colour is used
+    \end{itemize}
+    If all of these are met the diagram is called tricolourable.
+  \end{subsection}
+
+  \begin{subsection}{Writhe}
+    Writhe of a knot diagram or an orientated link diagram D, mostly denoted as \(w(D)\),
+    is a sum of all the positive crossings \(-\) the sum of all the negative crossings in D.
+    Writhe of an orientated link diagram is dependent on the orientation of the link,
+    and \emph{not invarient under R1 move}.
+    Fromal definision is: \[w(D) = \sum_{x \in D} sign(x)\]
+  \end{subsection}
+
+\end{section}
+
+\begin{section}{Knot/Link Polynomials}
+
+\begin{subsection}{Bracket Polynomial}
+Bracket Polynomial is a polynomial of an undirectd link in terms of A
+The bracket polynomial is invarient under R0, R2 and R3.
+Importantly bracket polynomial \emph{is not invarient under R1},
+\[\left\langle D \right\rangle = -A^{3n} \left\langle D' \right\rangle\]
+where D' is D after a R1 and \(n=1\) for positive R1 and \(n=-1\) for negative R1.
+
+This are the basic rules that establis how the bracket polynomials work:
+\begin{enumerate}
+  \item \(\left\langle \Circle \right\rangle = 1\) where \(\Circle\) is the unknot
+  \item\(\left\langle \Circle + D \right\rangle =- (A^{2} + A^{-2}) \left\langle D\right\rangle\) where D is any link diagram
+  \item \(\left\langle \UCross \right\rangle = A \left\langle \RSmooth \right\rangle + A^{-1} \left\langle \LSmooth \right\rangle\)
+\end{enumerate}
+
+Bracket polynomials of some basic link diagrams:
+\begin{itemize}
+  \item Trefoil \(= A^{-7} - A^{-3} - A^{-5}\)
+  \item Figure8 \(= A^{-8} - A^{-4} + 1 - A^{4} + A^{8}\)
+  \item Hopflink \(= -A^{-4} - A^{4}\)
+\end{itemize}
+\end{subsection}
+
+\begin{subsection}{X-Polynomial}
+The X-polynomial, denoted as \(X(D)\) or \(X(D)[A]\),
+is a development upon the bracket polynomial, now depending on the orientation of the link.
+This polynomial is in terms of A.
+This makes the X-polynomial \emph{invarient under all} Reidemeister moves.
+
+This is achived through: \[X(D) = (-A){}^{-3w(D)} \left\langle D \right\rangle\]
+where w is the writhe of D.
+
+A knot is called achiral if \(X(D)[A] = X(D)[A^{-1}]\).
+\end{subsection}
+
+\begin{subsubsection}{Jones Polynomial}
+The Jones polynomial, denoted as \(V_{D}(t)\), as is simply the X-polynomial with \(A = t^{-\frac{1}{4}}\), meaning it is definded as:
+\[V_{D}(t) = X(D)[t^{-\frac{1}{4}}]\]
+\end{subsubsection}
+
+\begin{subsection}{Alexander-Conway Polynomial}
+The Alexander-Conway polynomial, denoted \(\nabla_{K}(z)\)
+is another polynomial to express a knot or link diagram. It also acts on orientated link diagrams.
+There is no war to determin the achiral with this polynomial.
+
+\begin{itemize}
+  \item \(K_{+} = K\) is the original link contatint a positive crossing \(\DPCross\)
+  \item \(K_{-}\) is the link after changing the crossing to \(\DNCross\)
+  \item \(K_{0}\) is the link after changing the crossing to \(\DSmooth\)
+\end{itemize}
+
+Rules for computing the Alexandr-Conway polynomial
+\begin{enumerate}
+  \item \(\nabla_{U}(z) = 1\) where the U is the unknot
+  \item \(\nabla_{K_{+}}(z) - \nabla_{K_{-}}(z) = z\nabla_{K_{0}}(z)\)
+\end{enumerate}
+
+Absolute polynomials of some basic link diagrams:
+\begin{itemize}
+  \item \(\nabla_{U_{2}} = 0\)
+  \item Hopflink \(= z\)
+  \item Trefoil \(z^{2} + 1\)
+\end{itemize}
+\end{subsection}
+
+\begin{subsection}{Absolute Polynomial}
+The absolute polynomial is the last polynomial tought on this course.
+It is expressed as \(Q_{L}(x)\) and does not take into account the orientation of the link diagram.
+
+\begin{itemize}
+  \item \(L_{+}\) is the original containig \(\UCross\)
+  \item \(L_{-}\) is the link after changing the crossing to \(\UOCross\)
+  \item \(L_{0}\) is the link after changing the crossing to \(\RSmooth\)
+  \item \(L_{\infty}\) is the link after changing the crossing to \(\LSmooth\)
+\end{itemize}
+\emph{Important note} both \(L_{+}\), \(L_{-}\) and  \(L_{0}\), \(L_{/infty}\) are interchangable!
+
+Rules for compuing the absolute polynomial
+\begin{enumerate}
+  \item \(Q_{U}(x) = 1\) where U is the unknot
+  \item \(Q_{L_{+}}(x) + Q_{L_{-}} = x(Q_{L_{0}} + Q_{L_{\infty}})\)
+\end{enumerate}
+
+Absolute polynomials of some basic link diagrams:
+\begin{itemize}
+  \item \(Q_{U_{2}} = 2x^{-1} - 1\)
+  \item Hopflink \(= 2x + 1 + 2x^{-1}\)
+  \item Trefoil \(= 2x^{2} + 2x - 3\)
+\end{itemize}
+\end{subsection}
+
+\end{section}
+
+\begin{section}{Surface Shit}
+
+  \begin{subsection}{Surface}
+    \textsc{Definision 2.1} (Surface) \textit{A \textbf{(parametric) surface S} in \(\mathbb{R}^{3}\) is a subset \(S \subset \mathbb{R}\)
+      such that for every point \textbf{p} \(\in S\) there exists an injective, continously differentiable map \(\varphi: D^{2} \mapsto \mathbb{R}^{3}2\)
+      satisfying the following:}
+    \begin{enumerate}
+      \item \textit{We have \(\varphi(\textbf{0}) = \textbf{p}\)} and \(\varphi(D^{2}) = S \cap D(\textbf{p}, r)\) for some \(r > 0\)
+      \item \textit{The matrix of partial derivatives}
+            \textit{\[ D_{\varphi}(a, b) = \begin{pmatrix}
+              \frac{\partial \varphi_{1}}{\partial x_{1}}(a, b) & \frac{\partial \varphi_{1}}{\partial x_{2}}(a, b) \\
+              \frac{\partial \varphi_{2}}{\partial x_{1}}(a, b) & \frac{\partial \varphi_{2}}{\partial x_{2}}(a, b) \\
+              \frac{\partial \varphi_{3}}{\partial x_{1}}(a, b) & \frac{\partial \varphi_{3}}{\partial x_{2}}(a, b)
+            \end{pmatrix}\]}
+            \textit{has rank 2 for every \((a, b) \in D^{2}\)}
+    \end{enumerate}
+    \textit{Where \(\varphi(x, y) = (\varphi_{1}(x, y), \varphi_{2}(x, y), \varphi_{3}(x, y))\) and such a map is called a
+    \textbf{parametrization around p} \(\in S\).}
+
+    Insert actualy explenation of what a surface is here
+
+    If S is a surface and \(\textbf{p} \in S\), then \(S \backslash{} \{{} \textbf{p} \}{}\) is also a surface.
+  \end{subsection}
+
+  \begin{subsection}{name2}
+    some stuff here
+  \end{subsection}
+
+\end{section}
+
+\end{document}
