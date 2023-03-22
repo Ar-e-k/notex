@@ -88,7 +88,9 @@
     \vspace{0.8cm}
 
     \small
-    Based on my understanding of lectures and notes of Prof Anrew Jay Lobb, based on notes by Prof Dirk Shutz\\
+    Based on my understanding of lectures and notes of Prof Anrew Jay Lobb,
+    based on notes by Prof Dirk Shutz\\
+    
     \@date{}
   \end{center}
 \end{titlepage}
@@ -128,95 +130,106 @@
 
 \begin{section}{Knot/Link Polynomials}
 
-\begin{subsection}{Bracket Polynomial}
-Bracket Polynomial is a polynomial of an undirectd link in terms of A
-The bracket polynomial is invarient under R0, R2 and R3.
-Importantly bracket polynomial \emph{is not invarient under R1},
-\[\left\langle D \right\rangle = -A^{3n} \left\langle D' \right\rangle\]
-where D' is D after a R1 and \(n=1\) for positive R1 and \(n=-1\) for negative R1.
+  \begin{subsection}{Bracket Polynomial}
+    Bracket Polynomial is a polynomial of an undirectd link in terms of A
+    The bracket polynomial is invarient under R0, R2 and R3.
+    Importantly bracket polynomial \emph{is not invarient under R1},
+    \[\left\langle D \right\rangle = -A^{3n} \left\langle D' \right\rangle\]
+    where D' is D after a R1 and \(n=1\) for positive R1 and \(n=-1\) for
+    negative R1.
 
-This are the basic rules that establis how the bracket polynomials work:
-\begin{enumerate}
-  \item \(\left\langle \Circle \right\rangle = 1\) where \(\Circle\) is the unknot
-  \item\(\left\langle \Circle + D \right\rangle =- (A^{2} + A^{-2}) \left\langle D\right\rangle\) where D is any link diagram
-  \item \(\left\langle \UCross \right\rangle = A \left\langle \RSmooth \right\rangle + A^{-1} \left\langle \LSmooth \right\rangle\)
-\end{enumerate}
+    This are the basic rules that establis how the bracket polynomials work:
+    \begin{enumerate}
+      \item \(\left\langle \Circle \right\rangle = 1\) where \(\Circle\) is the
+            unknot
+      \item \(\left\langle \Circle + D \right\rangle =- (A^{2} + A^{-2}) \left\langle D\right\rangle\)
+            where D is any link diagram
+      \item
+            \(\left\langle \UCross \right\rangle = A \left\langle \RSmooth \right\rangle + A^{-1} \left\langle \LSmooth \right\rangle\)
+    \end{enumerate}
 
-Bracket polynomials of some basic link diagrams:
-\begin{itemize}
-  \item Trefoil \(= A^{-7} - A^{-3} - A^{-5}\)
-  \item Figure8 \(= A^{-8} - A^{-4} + 1 - A^{4} + A^{8}\)
-  \item Hopflink \(= -A^{-4} - A^{4}\)
-\end{itemize}
-\end{subsection}
+    Bracket polynomials of some basic link diagrams:
+    \begin{itemize}
+      \item Trefoil \(= A^{-7} - A^{-3} - A^{-5}\)
+      \item Figure8 \(= A^{-8} - A^{-4} + 1 - A^{4} + A^{8}\)
+      \item Hopflink \(= -A^{-4} - A^{4}\)
+    \end{itemize}
+  \end{subsection}
 
-\begin{subsection}{X-Polynomial}
-The X-polynomial, denoted as \(X(D)\) or \(X(D)[A]\),
-is a development upon the bracket polynomial, now depending on the orientation of the link.
-This polynomial is in terms of A.
-This makes the X-polynomial \emph{invarient under all} Reidemeister moves.
+  \begin{subsection}{X-Polynomial}
+    
+    The X-polynomial, denoted as \(X(D)\) or \(X(D)[A]\),
+    is a development upon the bracket polynomial, now depending on the
+    orientation of the link.
+    This polynomial is in terms of A.
+    This makes the X-polynomial \emph{invarient under all} Reidemeister moves.
 
-This is achived through: \[X(D) = (-A){}^{-3w(D)} \left\langle D \right\rangle\]
-where w is the writhe of D.
+    This is achived through: \[X(D) = (-A){}^{-3w(D)} \left\langle D \right\rangle\]
+    where w is the writhe of D.
 
-A knot is called achiral if \(X(D)[A] = X(D)[A^{-1}]\).
-\end{subsection}
+    A knot is called achiral if \(X(D)[A] = X(D)[A^{-1}]\).
+  \end{subsection}
 
-\begin{subsubsection}{Jones Polynomial}
-The Jones polynomial, denoted as \(V_{D}(t)\), as is simply the X-polynomial with \(A = t^{-\frac{1}{4}}\), meaning it is definded as:
-\[V_{D}(t) = X(D)[t^{-\frac{1}{4}}]\]
-\end{subsubsection}
+  \begin{subsubsection}{Jones Polynomial}
+    The Jones polynomial, denoted as \(V_{D}(t)\), as is simply the X-polynomial
+    with \(A = t^{-\frac{1}{4}}\), meaning it is definded as:
+    \[V_{D}(t) = X(D)[t^{-\frac{1}{4}}]\]
+  \end{subsubsection}
 
-\begin{subsection}{Alexander-Conway Polynomial}
-The Alexander-Conway polynomial, denoted \(\nabla_{K}(z)\)
-is another polynomial to express a knot or link diagram. It also acts on orientated link diagrams.
-There is no war to determin the achiral with this polynomial.
+  \begin{subsection}{Alexander-Conway Polynomial}
+    The Alexander-Conway polynomial, denoted \(\nabla_{K}(z)\)
+    is another polynomial to express a knot or link diagram. It also acts on
+    orientated link diagrams.
+    There is no war to determin the achiral with this polynomial.
 
-\begin{itemize}
-  \item \(K_{+} = K\) is the original link contatint a positive crossing \(\DPCross\)
-  \item \(K_{-}\) is the link after changing the crossing to \(\DNCross\)
-  \item \(K_{0}\) is the link after changing the crossing to \(\DSmooth\)
-\end{itemize}
+    \begin{itemize}
+      \item \(K_{+} = K\) is the original link contatint a positive crossing
+            \(\DPCross\)
+      \item \(K_{-}\) is the link after changing the crossing to \(\DNCross\)
+      \item \(K_{0}\) is the link after changing the crossing to \(\DSmooth\)
+    \end{itemize}
 
-Rules for computing the Alexandr-Conway polynomial
-\begin{enumerate}
-  \item \(\nabla_{U}(z) = 1\) where the U is the unknot
-  \item \(\nabla_{K_{+}}(z) - \nabla_{K_{-}}(z) = z\nabla_{K_{0}}(z)\)
-\end{enumerate}
+    Rules for computing the Alexandr-Conway polynomial
+    \begin{enumerate}
+      \item \(\nabla_{U}(z) = 1\) where the U is the unknot
+      \item \(\nabla_{K_{+}}(z) - \nabla_{K_{-}}(z) = z\nabla_{K_{0}}(z)\)
+    \end{enumerate}
 
-Absolute polynomials of some basic link diagrams:
-\begin{itemize}
-  \item \(\nabla_{U_{2}} = 0\)
-  \item Hopflink \(= z\)
-  \item Trefoil \(z^{2} + 1\)
-\end{itemize}
-\end{subsection}
+    Absolute polynomials of some basic link diagrams:
+    \begin{itemize}
+      \item \(\nabla_{U_{2}} = 0\)
+      \item Hopflink \(= z\)
+      \item Trefoil \(z^{2} + 1\)
+    \end{itemize}
+  \end{subsection}
 
-\begin{subsection}{Absolute Polynomial}
-The absolute polynomial is the last polynomial tought on this course.
-It is expressed as \(Q_{L}(x)\) and does not take into account the orientation of the link diagram.
+  \begin{subsection}{Absolute Polynomial}
+    The absolute polynomial is the last polynomial tought on this course.
+    It is expressed as \(Q_{L}(x)\) and does not take into account the orientation
+    of the link diagram.
 
-\begin{itemize}
-  \item \(L_{+}\) is the original containig \(\UCross\)
-  \item \(L_{-}\) is the link after changing the crossing to \(\UOCross\)
-  \item \(L_{0}\) is the link after changing the crossing to \(\RSmooth\)
-  \item \(L_{\infty}\) is the link after changing the crossing to \(\LSmooth\)
-\end{itemize}
-\emph{Important note} both \(L_{+}\), \(L_{-}\) and  \(L_{0}\), \(L_{/infty}\) are interchangable!
+    \begin{itemize}
+      \item \(L_{+}\) is the original containig \(\UCross\)
+      \item \(L_{-}\) is the link after changing the crossing to \(\UOCross\)
+      \item \(L_{0}\) is the link after changing the crossing to \(\RSmooth\)
+      \item \(L_{\infty}\) is the link after changing the crossing to \(\LSmooth\)
+    \end{itemize}
+    \emph{Important note} both \(L_{+}\), \(L_{-}\) and  \(L_{0}\), \(L_{/infty}\)
+    are interchangable!
 
-Rules for compuing the absolute polynomial
-\begin{enumerate}
-  \item \(Q_{U}(x) = 1\) where U is the unknot
-  \item \(Q_{L_{+}}(x) + Q_{L_{-}} = x(Q_{L_{0}} + Q_{L_{\infty}})\)
-\end{enumerate}
+    Rules for compuing the absolute polynomial
+    \begin{enumerate}
+      \item \(Q_{U}(x) = 1\) where U is the unknot
+      \item \(Q_{L_{+}}(x) + Q_{L_{-}} = x(Q_{L_{0}} + Q_{L_{\infty}})\)
+    \end{enumerate}
 
-Absolute polynomials of some basic link diagrams:
-\begin{itemize}
-  \item \(Q_{U_{2}} = 2x^{-1} - 1\)
-  \item Hopflink \(= 2x + 1 + 2x^{-1}\)
-  \item Trefoil \(= 2x^{2} + 2x - 3\)
-\end{itemize}
-\end{subsection}
+    Absolute polynomials of some basic link diagrams:
+    \begin{itemize}
+      \item \(Q_{U_{2}} = 2x^{-1} - 1\)
+      \item Hopflink \(= 2x + 1 + 2x^{-1}\)
+      \item Trefoil \(= 2x^{2} + 2x - 3\)
+    \end{itemize}
+  \end{subsection}
 
 \end{section}
 
