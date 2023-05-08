@@ -1,0 +1,728 @@
+\documentclass[12pt, letterpaper]{article}
+
+\usepackage{graphicx}
+\usepackage{parskip} % Disabling paragraph index as it does not fit maths
+\usepackage{amssymb} % Used for curly Q
+\usepackage{mathrsfs} % Used for curly L and M
+
+\graphicspath{{images}}
+
+\title{Theory of Computation}
+\author{Arkadiusz Naks}
+\date{2023}
+
+\begin{document}
+\begin{titlepage}
+  \begin{center}
+    \makeatletter
+    \vspace*{1cm}
+    \Huge
+    \textbf{\@title}
+
+    \vspace{0.5cm}
+    \Large
+    Lecture notes from Theory of Computation module at Durham University
+
+    \vspace{1.5cm}
+
+    \textbf{\@author}
+
+    \includegraphics[scale=0.55]{toc.png}
+    \vfill
+
+    \vspace{0.8cm}
+
+    \small
+    Based on my understanding of lectures and notes of Stefan Dantchev and George Mertzios\\
+    \@date{}
+  \end{center}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\begin{section}{Important Definisions}
+  A place for short and important definisions
+
+  \textsc{Definision} (Big-O) \textit{A function \(f(n)\) is said to be
+    \(O(g(n))\iff \exists c, n_{0} \; s.t. \;
+    f(n) \leq c \times g(n) \; \forall n > n_{0}\)}
+
+  \textsc{Definision} (Time Complexity Class) \textit{Class of problems
+    (or languages) with time complexity \(O(n)\). It is denoted as TIME[f] or
+    sometimes DTIME[f] for deterministic time}
+
+  \textsc{Definision} (Halting Problem) \textit{Given a
+    \(\langle \mathscr{M} \rangle\) and a word w,
+    does \(\mathscr{M}\) terminate on w?}
+
+  \textsc{Definision} (Co-Halting Problem) \textit{Given a
+    \(\langle \mathscr{M} \rangle\) and a word w,
+    does \(\mathscr{M}\) not terminate on w?}
+
+  \textsc{Definision} (m-completness) \textit{A is semi-decidable
+    and all semi-decidable languages have a m-reduction to A}
+
+  \textsc{Definision} (Oracle) \textit{An oracle on a language A is
+    a black box which takes a word w and instantly and correctly
+    replies if \(w \in A\)}
+
+  \textsc{Definision} (Alphabet) \textit{A finite set of symbols,
+    usualy denoted as \(\sum\)}
+
+  \textsc{Definision} (String) \textit{A sequence of symbols over
+    a given language}
+
+  \textsc{Definision} (Language) \textit{A language is defined
+    over an alphabet, and it is any set of strings over that alphabet}
+
+  \textsc{Definision} (Gödel Numbers) \textit{Number
+    \(p^{x_{1}}_{1} \dots p^{x_{n - 1}}_{n - 1}, p^{x_{n} + 1}_{n}\) for
+    \(p_{i}\) being the \(i^{th}\) prime number and
+  \(\forall i \in [1, n] \; x_{i} \in \mathbb{Z}\)}
+
+  \textsc{Definision} (TM Time Complexity) \textit{Time complexity
+    of a Turing Machine \(\mathscr{M}\), denoted as \(Time_{\mathscr{M}}\),
+    is a function such that \(Time_{/mathscr{M}}(x)\) is equivelant to the
+    number of steps taken by \(\mathscr{M}\) on input x}
+
+  \textsc{Definision} (TM Space Complexity) \textit{Space complexity
+    of a Turing Machine \(\mathscr{M}\), denoted as \(Space_{/mathscr{M}}\),
+    is a function such that \(Space_{\mathscr{M}}(x)\) is equivelant to the
+    number of tape cells visited by \(mathscr{M}\) during a computation on x}
+
+  \textsc{Definision} (NTM Time Complexity) \textit{Time complexity
+    of a Non-deterministic Turing Machine \(\mathscr{M}\), denoted as \(NTime_{\mathscr{M}}\),
+    is a function such that \(Time_{mathscr{M}}(x)\) is equivelant to the
+    number of steps in the shortest accepting path of \(\mathscr{M}(x)\) if there is ones
+    otherwise the shortest rejecting path, if not all paths on x halt, this func is undefined}
+
+  \textsc{Definision} (Graph Complement) \textit{A graph which has an edge
+    between all verticies which have no edge in the original graph}
+
+\end{section}
+
+\begin{section}{Models of Computation}
+
+  \begin{subsection}{DFAs}
+
+    \textbf{Deterministic }
+
+  \end{subsection}
+
+\end{section}
+
+\begin{section}{Turing Machines}
+
+  \begin{subsection}{Basics}
+
+    \begin{subsubsection}{Basic Turing Machine}
+      A \textbf{Turing Machine} (or TM) is a 7-tuple
+      \((\mathcal{Q}, \sum, \Gamma, \delta, q_{0}, q_{accept}, q_{reject})\) where
+      \begin{enumerate}
+        \item \(\mathcal{Q}\) is the set of all possible states
+        \item \(\sum\) is the input alphabet, \textit{not containing the \textbf{blank} symbol \(\sqcup\)}
+        \item \(\Gamma\) is the tape alphabet satisfying \(\sum \subset \Gamma\) and \(\sqcup \in \Gamma\)
+        \item \(\delta: \mathcal{Q} \times \Gamma \to \mathcal{Q} \times \Gamma \times \{{} L, R \}{}\)
+              is the transition function. L means the head moves left and R right.
+        \item \(q_{0} \in \mathcal{Q}\) is the start state
+        \item \(q_{accept} \in \mathcal{Q}\) is the accept state
+        \item \(q_{reject} \in \mathcal{Q}\) is the reject state
+        \item \(q_{accept} \neq q_{reject}\)
+      \end{enumerate}
+
+      The Turing machine has infinite memory (tape) to the right. It has a tape head which
+      can read, write and nove around in both directions (R and L). The alphabet \(\Gamma\)
+      is writen on the tape. \\
+      The tape content is always finite, the first \(\sqcup\) empty symbol maps the end of
+      the tape's content. The current configuration consists of
+      \emph{current state \(\in \mathcal{Q}\), tape content \(\in \Gamma\) and head location on the tape}.
+      Accepting or rejecting configuration is when \(q_{accept}\) and \(q_{reject}\)
+      are the states in the configuration respectfully.
+
+      If a TM never halts, its time and space complexity are both undefined.
+    \end{subsubsection}
+
+    \begin{subsubsection}{Multitape TM}
+      A Multitape TM its like an ordinary TM with several tapes and heads.
+      \emph{Every Multitape TM has an \textbf{equivelant} single tape TM}.
+      The formal difference of the Multitape TM is
+      \[\delta: \mathcal{Q} \times \Gamma^{k} \to \mathcal{Q} \times \Gamma^{k} \times \{{} L, R \}{}^{k}\]
+      where k is the number of tapes.
+
+      For time complexity, for a multitape TM \(\mathscr{M}_{M}\) and single tape
+      TM \(\mathscr{M}_{s}\) \linebreak \(TIME_{\mathscr{M}_{M}} = TIME_{\mathscr{M}_{S}}^{2}\)
+    \end{subsubsection}
+
+    \begin{subsubsection}{Non-deterministic TM}
+      This is a TM which only accepts an input if there is a computation
+      that ends in the accepting configuration. \emph{Similarly to Multitape TM
+        there is always a regular TM that is \textbf{equivelant}
+        to the non-deterministic one}. Proof idea: Consider a tree
+      of all possible comutations. Start from the beggining and only accept if
+      \textbf{BFS} finds the accepting configuration. \textit{Note: DFS would not work}. \\
+      Formaly
+      \[\delta: \mathcal{Q} \times \Gamma \to \mathscr{P}(\mathcal{Q} \times \Gamma \times \{{} L, R \}{})\]
+      where \(\mathscr{P}\) is whatever the fuck it wants to be.
+    \end{subsubsection}
+
+    \begin{subsubsection}{Univeral Turing Machine}
+      Every TM \(\mathscr{M}\) can be encoded as a word over a finite alphabet.
+      The encoding of this TM can be denoted as \(\langle \mathscr{M} \rangle\). \\
+      The \textbf{Universal Turing Machine} takes a two-part input, them being
+      \(\langle \mathscr{M} \rangle\) and a word \textit{w} and simulate
+      \textit{w} on \(\mathscr{M}\).
+
+      Any such encodint can also be represented as a \textbf{Gödel number},
+      denoted as \([\mathscr{M}]\).
+    \end{subsubsection}
+
+    \begin{subsubsection}{Oracle Turing Machine}
+      This is a regular Turing Machine \(\mathscr{M}\) except for it has the
+      capability of making calls to an oracle for a language A. Such a TM is
+      denoted as \(\mathscr{M}^{A}\).
+    \end{subsubsection}
+
+    \begin{subsubsection}{Some TM properies}
+      \textbf{Parameter Theorem} \\
+      Let \(\mathscr{M}(x, y)\) be a TM that accepts two inputs. There exists
+      another TM which on input \(\langle \mathscr{M} \rangle\) and x produces
+      a description of the original TM on x, \(\langle \mathscr{M}_{x} \rangle\)
+      s.t.\ \(\forall y \; \mathscr{M}_{x}(y) = \mathscr{M}(x, y)\). \\
+      This means every two input TM can be transformed infinite amount of one
+      input TMs, one for every specific input.
+
+      \textbf{Recursion Theorem} \\
+      For every TM \(\mathscr{M}(x, y) \exists\) a TM \(\mathscr{R}\) s.t.\
+      \(\forall y \; \mathscr{R}(y) = \mathscr{M}(\langle \mathscr{R} \rangle, y)\). \\
+      This sure does mean something but it is wierd.
+
+      Any TM \(\mathscr{M}\) can be encoded as a single number, \([\mathscr{M}]\). \\
+      Any configuration of this (or any other) TM can also be encodied as a single number,
+      denoted [q,i,w] which are state, head position and and tape content, via a
+      \textbf{primitive recursive} function \([q, i, w] = C(q, i, w)\).
+      Moreover if the given configuration yields a new configuration, the funcion
+      \(Step([q, i, w]) = [q', i', w']\) (where q', i', w' is the new configuration)
+      is also a \textbf{primitive recursive} function.
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Language}
+    A string \textit{w} is a sequence of configurations \(C_{1}, C_{2}, \dots C_{k}\) such that
+    \begin{itemize}
+      \item \(C_{1}\) is the configuration
+      \item \(C_{i}\) goes to \(C_{i+1}\) for all \(i \in [1, k - 1]\)
+    \end{itemize}
+    String \textit{w} is \emph{accepted} if \(C_{k}\) is the accepting configuration. \\
+    The set of strings accepted by a TM \(\mathscr{M}\) is called the language of \(\mathscr{M}\)
+    and denoted as \(L(\mathscr{M})\).
+
+    A language \(\mathscr{L}\) is defined to be \textbf{Turing-Recognisable (or semi-decidable)}
+    if there is a TM \(\mathscr{M}\) that recognises it, i.e. \(\mathscr{L} = L(\mathscr{M})\).
+    So if there \(\mathscr{M}\) accepts all \(\textit{w} \in \mathscr{L}\) then \(\mathscr{L}\)
+    is \textbf{Turing-Recognisable}.
+    Another way to determin if a language is \textbf{semi-decidable if and only if} its in:
+    \begin{itemize}
+      \item Domain of a \textbf{partially computable} function
+      \item Range of a \textbf{computable} function
+      \item Range of a \textbf{partially computable} function
+    \end{itemize}
+
+    Similarly, a language \(\mathscr{L}\) is called \textbf{Turing-Decidable (or decidable)}
+    if it is Turing-Recognisable and all \(\textit{w} \notin \mathscr{L}\) is rejected.
+    From this it is visible that \textbf{Turing-Decidable} is a stronger notion than
+    \textbf{Turing-Recognisable}.
+
+    \textbf{Important note:} The notion used to be recursiverly enumerable (r.e.)
+    and recursive for semi-decidable and decidable. \\
+    A language \(\mathscr{L}\) is decidable if \(\mathscr{L}\) is semi-decidable
+    and co-\(\mathscr{L}\) is also semi-decidable.
+
+    \textbf{Time complexity} of a decidable language is \(f(x)\) if there exists
+    a TM \(\mathscr{M}\) such that \(Time_{\mathscr{M}} = f(x)\)
+  \end{subsection}
+
+  \begin{subsection}{Halting Problem}
+
+    \begin{subsubsection}{Normal Halting Problem}
+      The \textbf{Halting Problem (H)} is determining whenether any given TM
+      accepts any given word. This problem \textbf{\emph{is} Turing-Recognisable}
+      but \textbf{\emph{is not} Turing-Decidable}.
+
+      \emph{The \textbf{Halting Problem} is m-complete}.
+    \end{subsubsection}
+
+    \begin{subsubsection}{Co-Halting Problem}
+      The \textbf{Co-Halting Problem (co-H)} is the opposite of the \textbf{Halting Problem},
+      namely determine if a given TM does not accept a given word. This problem
+      \textbf{\emph{is not} Turing-Recognisable}.
+    \end{subsubsection}
+
+    \emph{\textbf{H} and \textbf{co-H} are \textbf{t-reducable} to each other, but
+      neither \textbf{m-reducable} to the other.}
+
+  \end{subsection}
+
+  \begin{subsection}{Reducibility}
+
+    \begin{subsubsection}{m-reducibility}
+      Let A and B be languages over the same alphabet \(\sum\).
+      A is \textbf{many-to-one} reducible to B (writen as \(A \leq B\)) if
+      there is a Turing Machine \(\mathscr{M}\) that terminates on every input
+      \(u \in \sum^{*}\) and such that \(A=\{{} u \in \sum^{*} | \mathscr{M}(u) \in B\}\).
+      This means that \(\sum^{*}\) is semi-decidable by \(\mathscr{M}\). \\
+      This is equivelant to saying that checking if \(u \in A\) is as hard as
+      checking if \(w \in B\). \\
+      Properites of m-reducibility, where \(A \leq B\):
+      \begin{itemize}
+        \item B is semi-decidable \(\Rightarrow\) A is semi-decidable
+        \item B is decidable \(\Rightarrow\) A is decidable
+        \item \(A \leq B \land B \leq C \Rightarrow A \leq C\)
+      \end{itemize}
+
+      If \(A \leq B \land B \leq A\) then we write \(A \equiv B\), meaning
+      A and B are both as dificult to solve.
+
+      A is m-complete is A is at least as hard as any other Turing-Recognisable language.
+      If A is m-complete and \(B \leq A\) then B is m complete and \(A \equiv B\).
+    \end{subsubsection}
+
+    \begin{subsubsection}{t-reducibility}
+      A language A is \textbf{t-reducible} to a language B is A can be decided
+      by the oracle Turing Machine \(\mathscr{M}^{B}\). This is denoted as
+      \(A \leq_{t} B\). \\
+      Take A and B s.t. \(A \leq_{t} B\) then
+      B is decidable \(\Rightarrow\) A is decidable.
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Functions}
+    A \textbf{total function} \(f: \sum \rightarrow \sum\) is \textbf{computable} if
+    \(\exists\) a TM \(\mathscr{M}\) s.t.\ on any input \(x \in \sum\)
+    \(\mathscr{M}(x) = f(x)\).
+
+    A \textbf{partial function} \(f: \sum \rightarrow \sum\) is
+    \textbf{partially computabl} if \(\exists\) a TM \(\mathscr{M}\) s.t.
+    for any \(x \in dom(f)\) \(\mathscr{M}(x) = f(x)\) and if \(x \notin dom(f)\)
+    \(\mathscr{M}\) does not terminate.
+
+    Obtaining a function by \textbf{composition} \\
+    Take function \(f(x_{1}, \dots, x_{k})\) and functons
+    \(g_{1}(x_{1}, \dots, x_{n}), \dots, g_{k}(x_{1}, \dots, x_{n})\).
+    Then \(h(x_{1}, \dots, x_{n})\) is obtaitained by \textbf{composition}
+    of f and gs if
+    \[h(x_{1}, \dots, x_{n}) := f(g_{1}(x_{1}, \dots, x_{n}), \dots, g_{k}(x_{1}, \dots, x_{n}))\]
+
+    Obtaining a function by \textbf{primitive recursion} \\
+    Take \(f(x_{1}, \dots, x_{n})\) and \(g(x_{1}, \dots, x_{n+2})\). Then
+    \(h(x_{1}, \dots, x_{n + 1})\) if obtaitained by \textbf{primitive recursion}
+    of f and g if
+    \[h(x_{1}, \dots, x_{n}, 0) := f(x_{1}, \dots, x_{n})\]
+    \[h(x_{1}, \dots, x_{n}, t + 1) := g(t, h, x_{1}, \dots, x_{n})\]
+
+    A function is called \textbf{primitive recursive} if it can be obtaitained
+    from an inital function by a finite aplication of
+    \textbf{compositions} and \textbf{primitive recursions}
+
+    \textit{The following functions are primitive recursive:
+      addition, subtraction, multiplication, integral division
+      (quotient and remainder), exponentiation, integral logarithm,
+      n-th prime number, i-th digit in base b expansion.}
+
+    \textbf{Gödel Numbers} is also primitive recursive.
+
+    \textbf{Step-Counter} function is defined to be
+    \[SC([\mathscr{M}], [w], 0) = [q_{start}, 0, w]\]
+    \[SC([\mathscr{M}], [w], t + 1) = Step(SC([\mathscr{M}], [w], t))\]
+    on a given TM \(\mathscr{M}\) and word w as well as their encoding.
+    This function \textbf{primitive recursive}. \\
+    This function can return any configuration of a given TM on any input
+    after any amount of steps.
+  \end{subsection}
+
+\end{section}
+
+\begin{section}{Graphs}
+
+  \begin{subsection}{General Graph Stuff?}
+
+    \begin{subsubsection}{Vertex Cover}
+      Graph of vertecies which inclueds one edgepoint of every edge. This porblem
+      attempts to minimise the size.
+
+      Vertex cover can be used to solve set cover.
+    \end{subsubsection}
+
+    \begin{subsubsection}{Independent Set}
+      An independent set of a graph G is a set of vertecies s.t.\ no two
+      verticies in the set have an common edge.
+    \end{subsubsection}
+
+    \begin{subsubsection}{Clique}
+      A clique is a set of verticies s.t.\ every vertex v in the clique
+      has an edge to all the other verticies in the clique.
+    \end{subsubsection}
+
+    \begin{subsubsection}{Graph Colouring}
+      Colour the graph s.t.\ every vertex has exacly one colour and
+      for every edge \((u, v)\) u and v have different colour. Graph colouring
+      problem can be made more specific, with k-coloability being a decision
+      problem asking can a graph be coloured with at most k colours.
+
+      2-coloability can be reduced to 2-satisfiability.
+    \end{subsubsection}
+
+    \begin{subsubsection}{Bipartite}
+      Fill later
+    \end{subsubsection}
+
+    \begin{subsubsection}{Graph Problem Equivelances}
+
+      \textbf{Independent Set and Vertex Cover} \\
+      A graph G has an independent set of size k \textbf{if and only if}
+      G has a vertex cover of size \(n - k\), with n being the number of
+      verticies in G.
+
+      \textbf{Independent Set and Clique} \\
+      A graph G has an independent set of size k \textbf{if and only if}
+      its complement \(\overline{G}\) has a clique of size k.
+
+      \textbf{Bipartite and Graph Colouring} \\
+      Equivelant for \(k = 2\) for graph colouring
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Encoding To HM}
+      Given a CNF-formula f which clauses \(C_{1}, \dots C_{m}\) and variables
+      \(x_{1}, \dots x_{n}\). This can be encoded as a graph which has a HM iff
+      the CNF is satisfiable.
+
+      A choice gadged exists \ldots
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Shortest Path}
+    A shortest path between two edges, u and v, in a graph is denoted
+    as \(\delta(u, v)\). Each eadge has a weight, so for u, v next to each other
+    the weight between u and v is denoted as \(w(u, v)\).
+    If there is no path between the edges \(\delta(u, v) = \infty\).
+    There can be no possitive cycles in the shortest path.
+    If there is a negative cycle in the graph, \(\delta(u, v) = -\infty\), so
+    we shall assume there are no negative cycles.
+
+    An algorithm which finds the shortest path between a specific vertex s
+    and all other verticies in the graph is a generalisations of
+    \textbf{BFS}, where \textbf{BfS} works on graphs
+    where all verticies have length 1.
+    The output of such a function should be two arrays, denoted as d and \(\pi\)
+    where
+    \begin{itemize}
+      \item \(d(v) = \delta(s, v)\)
+      \item \(\pi(v)\) is the predecessor of v
+    \end{itemize}
+    Dijkstra's algorithm is the algorithm with such outputs, explenation of
+    how the algorithm works is ommited here. Dijkstra only works under certain
+    relaxation that there are no negative edges.
+
+    Dijkstra has a running time of \(O(V \log(V) + E)\).
+
+    Some properies of shortest path:
+    \begin{itemize}
+      \item For all edge u, v \(\delta(s, v) \leq \delta(s, u) + w(u, v)\)
+      \item Any subpath of a shortest path is also a shortest path
+      \item For every vertex v, \(d(v \geq s)\)
+      \item If \(\delta(s, v) = \infty\) then \(d(v) = \infty\) at every itteration
+    \end{itemize}
+  \end{subsection}
+
+  \begin{subsection}{Network Flow}
+    Weight of a directed edge from u to v is called \(c(u, v)\).
+    For a network flow we have:
+    \begin{itemize}
+      \item \(G = (V, E)\) is a directed graph
+      \item There exists a \emph{source s} and \emph{sink t}
+      \item Each edge \((u, v) \in E\) has no negative capacity
+      \item If \((u, v) \notin E\) we assume the capacity is 0
+    \end{itemize}
+    We assume that every vertex \(v \in V\) lies between s and t.
+
+    The flow in G is a real-valued function \(f: V \times V \to \mathbb{R}\)
+    that satisfies the following properties:
+    \begin{itemize}
+      \item Flow from u to v must not exceed the vertex capacity, meaning
+            \(f(u, v) \leq c(u, v) \; \forall u, v \in V\)
+      \item Flow from u to v is the reverse flow v from u,
+            \(f(u, v) = -f(v, u) \; \forall u, v \in V\)
+      \item Total in is equivelant to total out for all verticies other than s and t
+            \(\sum_{v \in V} f(u, v) = 0 \; \forall u \in V/\{{} s, t \}{}\)
+    \end{itemize}
+    The function \(f(u, v)\) can also be wirten as \(f(U_{1}, U_{2})\) where
+    \(U_{1}, U_{2} \subset V\). \\
+    Total positive flow entering at v is \(\sum_{u \in V f(u, v) > 0} f(u, v)\). \\
+    Total positive flow leaving at v is \(\sum_{u \in V f(v, u) > 0} f(v, u)\). \\
+    Total net flow at v is total positive flow \(leaving - entering\). \\
+    Flow value is defined as the total flow leaving at source or the total
+    flow entering at sink (they are equivelant). \\
+    Residual capacity, denoted \(c_{f}(u, v)\) is definied as the avaliable flow
+    left on an edge, \(c(u, v) - f(u, v)\). For a network G, residual network denoted as \(G_{f}\)
+    is the same graph with all edges replaced with their residual capacity.
+
+    Flow and capacity of a network can be taken at any point in the network.
+    To do this we take a ``cut'' the network and deal with all vertecies through
+    which the cut goes. Flow is defined as the sum of all flow out of one side, including
+    negative while capacity is defined as the sum of all maximum flows. The capacity of any
+    cut is an upper bound for the total flow in the network. Such cut can be denoted
+    as \((S, T)\) and its flow and capacity can be denoted as \(f(S, T), \; c(S, T)\). \\
+    For a network G take w to be the maximum flow. This implies there are no
+    augmenting paths in \(G_{f}\) and \(|w| = c(S, T)\) for some cut \(S, T\).
+
+    A network can be maximised in \(O(V^{2} + E)\), which is polynomial time.
+
+    Some applications of network flow:
+    \begin{itemize}
+      \item Dancing Party problem
+      \item Maximum Bipartite Matching
+    \end{itemize}
+  \end{subsection}
+
+\end{section}
+
+\begin{section}{Time Complexity}
+
+  Problems refered to as ``fast'' have polynomial time algorithms to solve them.
+  This problems can also be refered to as \textbf{tractable}. Otherwise the
+  problems are refered to intractable. More formal definisions will be later
+  in this section.
+
+  \begin{subsection}{Optimisation Problems}
+    All optimisation problems talked about so far had polynomial time algorithm
+    \begin{itemize}
+      \item Shortest Path between two verticies
+      \item MST of a graph, spanning tree in G of a minimum weight
+      \item Maximum Flow in a graph
+      \item Maximum Matching in a bipartite graph
+    \end{itemize}
+  \end{subsection}
+
+  \begin{subsection}{Decision Problems}
+    For decision problems the anwser is simpy Yes or No. Every optimisation
+    problem has its decision counterpart. \\
+    \emph{An optimisation problem has a polynomial algorithm \textbf{if and only if}
+      the corresponding decision problem has a polynomial algorithm.}
+
+    Encoding is important on a decision problem. Numbers should be represented
+    efficiently, not in base 1 (whatever the fuck base 1 is). It is also
+    important not to add aditional informatino to the encoding.
+
+    For a problem \(\Pi\) and an encoding scheme e with an alphabet \(\sum\)
+    \(\mathscr{L}(\Pi, e)\) is defined to be a language of all strings corresponding
+    to the anwser yes. This language is said to be \textbf{associated} with \(\Pi\) and e.
+
+    Decision problems can be classified into \textbf{decidable} and \textbf{undecidable}.
+    All decidable problems have a set of algorithms that solve it. The decidable
+    problems also have a set of TMs that solve them, which is equivelant to
+    the set of algorithms.
+
+    This algorithms can be classified by:
+    \begin{itemize}
+      \item Difficulty to construct an algorithm
+      \item The length of the shortes possible algorithm
+      \item Efficiency of the most efficient algorithm
+    \end{itemize}
+
+    \begin{subsubsection}{Satisfiability}
+      A logical formula f is said to be \textbf{CNF}, meaning conjuctive normal form, if
+      \[f = C_{1} \land C_{2} \land \dots \land C_{m}\]
+      where each \(C_{i} \; \forall i \in [1, m]\) is a disjunction of literals
+      \[C_{i} = (I_{i1} \lor I_{i2} \lor \dots \lor I_{in})\]
+      where each \(I_{ij} \; \forall j \in [1, n]\) is either True or False.
+
+      \textbf{k-CNF} is a \textbf{CNF} where \(n \leq k \; \forall \; C \in \textbf{k-CNF}\)
+
+      The \textbf{CNF} is said to be \textbf{satisfiable} if there exists an
+      assigment of literals True and False such that the end result is True.
+      Due to how \textbf{CNF}s are defined, at least one literal per clause must be True.
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Encoding}
+    Encoding is a way to represent numbers/strings. As stated above, encoding
+    in base 1 is very inefficient.
+
+    For any number n, the length of the encoding of n in base \(b_{0}\) and the
+    length of the encoding of n in a different base \(b_{1}\) is related by
+    a constant factor. \((\forall b_{0}, b_{1} \geq 2)\)
+
+    For any graph G, the length of the encoding of G as a adjacency matrix and
+    the length of the encoding of G as a list of edges are related by
+    a polynomial factor to the number of verticies.
+
+    \begin{subsubsection}{Gödel Numbers}
+      Any string w over an alphabet \(\sum\) can be encoded by a single number,
+      denoted as [w]. Similarly any formula \(\phi\) and proof \(\Pi\)
+      can also be encoded a number, denoted as \([\phi]\) and \([\Pi]\).
+
+      By considering the \textbf{co-H} and \textbf{H} it can be shown that not
+      every true formula is provable. The predictate % define later, !!!IMPORTANT
+      \textit{\(Proof([\Pi], [\phi])\)} states that \(\Pi\) is a proof of \(\phi\).
+      This predictate is \textbf{primitive recursive}.
+
+      It is assumed that \(\phi\) and \(\lnot \phi\) cannot both be proven in a system.
+    \end{subsubsection}
+  \end{subsection}
+
+  \begin{subsection}{Complexity Classes}
+    Complexity classes can be same or different for the same problem, depending
+    on the encoding method. Numerical encodings of any base do not change the
+    complexity class. Other encodings may or may not change the complexity class.
+    (Going to be stated in the class subsections). \\
+    Any problem in a class called \textbf{complete} if there is a reduction
+    to it from every other problem in this class. This means there is no harder
+    problem in that class.
+
+    \textbf{Big open question in Computer Science is whenethr
+      \emph{P} is equivelant to \emph{NP}.} This has not been proven
+    or disproven up to date. The mostly accepted anwser is that
+    \textbf{P} is not equivelant to \textbf{NP} but there no
+    proof of that yet.
+
+    \begin{subsubsection}{Problem Reduction}
+      A problem X polynomialy reduces to a problem Y if any instance of X can
+      be transformed to Y in a polynomial number of steps and solved using
+      a polynomial amount of calls to an oracle that solves Y. This is denoted as
+      \(X \leq Y\). \\
+      Also \(X \leq Y \land Y \leq X \Rightarrow\) X and Y are equivelant.
+    \end{subsubsection}
+
+    \begin{subsubsection}{\textbf{P} Class}
+      Polynomial class \textbf{P} is defined to be
+      \[\textbf{P} = \cup_{k \geq 0} TIME[n^{k}]\]
+      In words \textbf{P} is all algorithms that have a running time
+      of a finite polynomial.
+
+      \textbf{P} is a reasonable model of the class of problems which are
+      tractable. However some polynomials can be so large that in pracitice the
+      problems are not solvable. \textit{Note:} Very large coefficiants seem to
+      only arrise in artificial problems, for the naturally defnined ones the constants
+      are usually not to large.
+
+      Invarient encodings:
+      \begin{itemize}
+        \item Graphs encoded as: list of edges and adjacency matrix
+      \end{itemize}
+
+      Class \textbf{P} is said to be \textbf{robust}, meaing it does not
+      depend on the exact details of the computation method or the encoding.
+      The most direct way to show a problem is in \textbf{P} is to find
+      a polynomial time algorithm. Problems can also be shown to be in \textbf{P}
+      by simply proving a polynomial time algorithm must exist.
+      Another way to show a problem is in \textbf{P} is to use a reduction.
+      For this to work the reduction has to also be in \textbf{P}.
+
+      Some algorithms in \textbf{P}:
+      \begin{itemize}
+        \item 2-satisfiability
+        \item 2-coloability
+        \item Knotlessness (not explenation/definision)
+        \item Linear Programming
+        \item Composite Number --- is a number (not) prime
+      \end{itemize}
+    \end{subsubsection}
+
+    \begin{subsubsection}{\textbf{NP} Class}
+      This is a class of problems which do not have \textit{(up to date)}
+      a polynomial time algorithm but do have a polynomial time verifier.
+
+      There is another way to define the \textbf{NP} class is through
+      non-deterministic TMs. The non-deterministic time complexity
+      of a decidable language \(\mathscr{L} = O(f)\) if there exists a NTM
+      \(\mathscr{M}\) which decides \(\mathscr{L}\) and \(NTime_{\mathscr{M}} = O(f)\). \\
+      Lastly a non-deterministic time complexity NTIME[f] is defined similarly to
+      regular time complexity class. \\
+      This results in the alternative definision of \textbf{NP} being
+      \[\textbf{NP} = \cup_{k \geq 0} NTIME[n^{k}]\]
+      and \textbf{NP} can be expanded as non-deterministic polynomial-time. \\
+      It can be proven that both of these definisions of \textbf{NP} are equivelant.
+
+      Some algorithms in \textbf{NP}, items bold if also complete:
+      \begin{itemize}
+        \item \textbf{Satisfiability}
+        \item \textbf{Subgraph Isomorphism}
+        \item \textbf{Vertex Cover}
+        \item \textbf{Clique}
+        \item k-Colourability \textbf{probably, 3-Colourability is NP-comp}
+        \item \textbf{Hamiltonian Cycle}
+        \item \textbf{Traveling Salesman Problem}
+        \item \textbf{Hitting Set}
+        \item \textbf{Subset Sum} --- is there a subset adding up to t
+      \end{itemize}
+
+      Some algorithms which are probably not in \textbf{NP}:
+      \begin{itemize}
+        \item No Hamiltonian Cycle
+        \item Checkers --- is there a winning position
+      \end{itemize}
+    \end{subsubsection}
+
+    \begin{subsubsection}{\textbf{NP}-Complete Sub Class}
+      By definision of \textbf{completness} this are the hardest problems in \textbf{NP}.
+      All \textbf{NP}-Complete problems are by definision equivelant.
+      To show a problem is in this class it must be shown that every problem in
+      the \textbf{NP} reduces to that problem. Although this is very hard, once there
+      exists one problem in this class, a new problem X can be shown to be \textbf{complete}
+      by simply showing that a problem already in \textbf{NP}-Complete (Y) reduces to X,
+      \(Y \leq X\).
+      It also must be shown that the problem in question is in \textbf{NP}. \\
+      \emph{This first \textbf{NP}-complete problem is \textbf{Satisfiability}.} \\
+      This also means \(\textbf{P} = \textbf{NP} \iff Satisfiability \in \textbf{P}\).
+
+      Some ways for a problem X and \(Y \in \textbf{NP}-Complete\) to show that
+      \(Y \leq X\):
+      \begin{itemize}
+        \item Show that Y is a subproblem of X
+        \item Show that every basic instance of Y can be manipulated to an instance of X
+        \item Show that instances of X can be used to design compnents that can encode Y
+      \end{itemize}
+
+      Some algorithms in \textbf{NP}-complete are listed with the other \textbf{NP} algorithms.
+    \end{subsubsection}
+
+    \begin{subsubsection}{\textbf{NP}-Intermidiate Sub Class}
+      This only exists if \(\textbf{P} \neq \textbf{NP}\).
+      If it exists, it consists infinite amount of problems.
+
+      \textbf{NP}-intermidiate sublass can also be defnined as a class of
+      problems which are neither in \textbf{P} or \textbf{NP}-complete.
+      This two definisions can be used to deduce that
+      \(\textbf{NP}-intermidiate \neq \emptyset \iff \textbf{P} \neq \textbf{NP}\).
+
+      Currently the best candidate for \textbf{NP}-intermidiate is Graph Isomorphism.
+    \end{subsubsection}
+
+    \begin{subsubsection}{\textbf{NP}-Hard Sub Class}
+      For a given problem X and a problem \(Y \in \textbf{NP}-Complete\) if
+      \(Y \leq X\) but \(X \notin \textbf{NP}\) then \(X \in \textbf{NP}-Hard\)
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Checkable Problems}
+    Every yes-instane hard problem has a short and easly checkable \textbf{certificate}
+
+    An \textbf{acceptor} machine V which acts on all inputs is called a \textbf{verifier}
+    for a language \(\mathscr{L}\) if
+    \begin{center}
+      \(\mathscr{L} = \) \{{} w | V accept ``w; c'' for some string c \}{}
+    \end{center}
+    where c is called a \textbf{certificate (or witness)} for w. The verifier is
+    polynomial time if for any \(w \in \mathscr{L}\) there exists a certificate
+    c with c is \(O(p(n))\) where p a polynomial function.
+  \end{subsection}
+
+\end{section}
+
+\end{document}
