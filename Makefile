@@ -10,4 +10,7 @@ add:
 	git add Makefile
 	git add README.md
 
+count:
+	texcount second-year/toc.tex -inc -incbib -sum -1
+
 # end

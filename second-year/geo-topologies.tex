@@ -5,6 +5,7 @@
 \usepackage{tikz} % Used for drawing arcs for knots
 \usepackage{parskip} % Disabling paragraph index as it does not fit maths
 \usepackage{amssymb} % Used to show sets of sumbers, like the real numbers
+\usepackage{hyperref} % Usable menu and references
 
 % Copied from, with some minor changes and major additions:
 % https://tex.stackexchange.com/questions/306004/drawing-the-rules-for-the-bracket-polynomial
@@ -101,10 +102,12 @@
 \begin{section}{Important Definisions}
 
   A place for short and important definisions \\
-  \textsc{Definision 1.10} (Achiral) \textit{A link which is isotopic to its
+  \textsc{Definision} (Achiral) \textit{A link which is isotopic to its
     mirror image is called \textbf{achiral}.} \\
-  \textsc{Definision 1.10} (Topological Invariant) \textit{It is a property of
+  \textsc{Definision} (Topological Invariant) \textit{It is a property of
     a \textbf{surface} which does not change under \textbf{homeomorphism}.} \\
+  \textsc{Definision} (Isotopy Invariant for knots) \textit{Property which does
+    not change under isotopy (mostly R-moves)}
 
 \end{section}
 
@@ -136,6 +139,7 @@
 \begin{section}{Knot/Link Polynomials}
 
   \begin{subsection}{Bracket Polynomial}
+
     Bracket Polynomial is a polynomial of an undirectd link in terms of A
     The bracket polynomial is invarient under R0, R2 and R3.
     Importantly bracket polynomial \emph{is not invarient under R1},
@@ -159,6 +163,7 @@
       \item Figure8 \(= A^{-8} - A^{-4} + 1 - A^{4} + A^{8}\)
       \item Hopflink \(= -A^{-4} - A^{4}\)
     \end{itemize}
+
   \end{subsection}
 
   \begin{subsection}{X-Polynomial}
@@ -173,15 +178,19 @@
     where w is the writhe of D.
 
     A knot is called achiral if \(X(D)[A] = X(D)[A^{-1}]\).
+
   \end{subsection}
 
   \begin{subsection}{Jones Polynomial}
+
     The Jones polynomial, denoted as \(V_{D}(t)\), as is simply the X-polynomial
     with \(A = t^{-\frac{1}{4}}\), meaning it is definded as:
     \[V_{D}(t) = X(D)[t^{-\frac{1}{4}}]\]
+
   \end{subsection}
 
   \begin{subsection}{Alexander-Conway Polynomial}
+
     The Alexander-Conway polynomial, denoted \(\nabla_{K}(z)\)
     is another polynomial to express a knot or link diagram. It also acts on
     orientated link diagrams.
@@ -203,12 +212,15 @@
     Alexander-Conway polynomials of some basic link diagrams:
     \begin{itemize}
       \item \(\nabla_{U_{2}} = 0\)
-      \item Hopflink \(= z\)
+      \item Hopflink \(= z\) with same orientation
+      \item Hopflink \(= -z\) with different orientations
       \item Trefoil \(= z^{2} + 1\)
     \end{itemize}
+
   \end{subsection}
 
   \begin{subsection}{Absolute Polynomial}
+
     The absolute polynomial is the last polynomial tought on this course.
     It is expressed as \(Q_{L}(x)\) and does not take into account the orientation
     of the link diagram.
@@ -234,6 +246,7 @@
       \item Hopflink \(= 2x + 1 + 2x^{-1}\)
       \item Trefoil \(= 2x^{2} + 2x - 3\)
     \end{itemize}
+
   \end{subsection}
 
 \end{section}
@@ -249,27 +262,36 @@
       (x - p_{1})^{2} + (y - p_{2})^{2} + (z - p_{3})^{2} \leq r^{2} \}\]
     This ia a ball or radious r around point \textbf{p}.
 
-    \textsc{Definision 2.1} (Surface) \textit{A \textbf{(parametric) surface S} in \(\mathbb{R}^{3}\) is a subset \(S \subset \mathbb{R}\)
-      such that for every point \textbf{p} \(\in S\) there exists an injective, continously differentiable map \(\varphi: D^{2} \mapsto \mathbb{R}^{3}\)
-      satisfying the following:}
+    \textsc{Definision 2.1} (Surface) \textit{A \textbf{(parametric) surface S}
+      in \(\mathbb{R}^{3}\) is a subset \(S \subset \mathbb{R}^{3}\) such that for
+      every point \textbf{p} \(\in S\) there exists an injective, continously
+      differentiable map \(\varphi: D^{2} \mapsto \mathbb{R}^{3}\)
+      satisfying the following}:
     \begin{enumerate}
-      \item \textit{We have \(\varphi(\textbf{0}) = \textbf{p}\)} and \(\varphi(D^{2}) = S \cap D(\textbf{p}, r)\) for some \(r > 0\)
+      \item \textit{We have \(\varphi(\textbf{0}) = \textbf{p}\)} and
+            \(\varphi(D^{2}) = S \cap D(\textbf{p}, r)\) for some \(r > 0\)
       \item \textit{The matrix of partial derivatives}
-            \textit{\[ D_{\varphi}(a, b) = \begin{pmatrix}
+            \textit{\[ D_{\varphi}(a, b) =
+            \begin{pmatrix}
               \frac{\partial \varphi_{1}}{\partial x_{1}}(a, b) & \frac{\partial \varphi_{1}}{\partial x_{2}}(a, b) \\
               \frac{\partial \varphi_{2}}{\partial x_{1}}(a, b) & \frac{\partial \varphi_{2}}{\partial x_{2}}(a, b) \\
               \frac{\partial \varphi_{3}}{\partial x_{1}}(a, b) & \frac{\partial \varphi_{3}}{\partial x_{2}}(a, b)
             \end{pmatrix}\]}
             \textit{has rank 2 for every \((a, b) \in D^{2}\)}
     \end{enumerate}
-    \textit{Where \(\varphi(x, y) = (\varphi_{1}(x, y), \varphi_{2}(x, y), \varphi_{3}(x, y))\) and such a map is called a
-    \textbf{parametrization around p} \(\in S\).}
+    \textit{Where
+      \(\varphi(x, y) = (\varphi_{1}(x, y), \varphi_{2}(x, y), \varphi_{3}(x, y))\)
+      and such a map is called a \textbf{parametrization around p} \(\in S\).}
 
-    Insert actualy explenation of what a surface is here, it is some hard stuff
+    This means for each point \(\textbf{p} \in S\) there exists a map mapping
+    all points from a disc around it to either the surface around (S) or a
+    small ball around it (radius r). (Prey this is correct)
 
-    If S is a surface and \(\textbf{p} \in S\), then \(S \backslash{} \{{} \textbf{p} \}{}\) is also a surface.
+    If S is a surface and \(\textbf{p} \in S\), then \(S \backslash{}
+    \{{} \textbf{p} \}{}\) is also a surface.
 
-    A \textbf{surface} is called \textbf{compact} if it can be \textbf{triangulated}.
+    A \textbf{surface} is called \textbf{compact} if it can be
+    \textbf{triangulated}.
     It is also called \textbf{connected} if any two 0-simplexes can be joined by
     a finite amount of 1-simplexes in C.
 
@@ -380,7 +402,7 @@
   \begin{subsection}{Simplexes}
 
     For a list of \(k + 1\) points \(\textbf{v}_{0}, \dots , \textbf{v}_{k} \in \mathbb{R}^{n}\)
-    where \(v_{i} = (x_{1}, \dots , x_{n}) | x_{j} \in \mathbb{R}\) for all i.
+    where \(v_{i} = \{ (x_{1}, \dots , x_{n}) | x_{j} \in \mathbb{R} \}\) for all i.
     The \textbf{convex hull} of these points, denoted \(c(\textbf{v}_{0}, \dots , \textbf{v}_{k})\) is
     \(c(\textbf{v}_{0}, \dots , \textbf{v}_{k}) = \sum_{i = 0}^{k}\lambda_{i}v_{i} \in \mathbb{R}\)
     where all \(\lambda \in [0, 1]\) and \(\sum_{i = 0}^{k}\lambda_{i} = 1\). \\
@@ -409,7 +431,7 @@
             \(\exists \tau \leq \sigma_{1}, \sigma_{2}\) s.t.
             \(\sigma_{1} \bigcap \sigma_{2} = \tau\)
     \end{itemize}
-    Where for simplexes \(\tau and \sigma \; \tau \leq \sigma\) means \(\tau\)
+    Where for simplexes \(\tau, \sigma \; \tau \leq \sigma\) means \(\tau\)
     is a point/face/\dots contained in \(\sigma\). \\
     The dimention of C is the size of the biggest k-simplex. \\
     \(|C| \subset \mathbb{R}^{n}\) is called \textbf{polyhedron associated} to C.
@@ -520,7 +542,7 @@
     point in an infinitely small disc around the \textbf{singularity} that is also
     a \textbf{singularity}.
     The boundry of this disc can be written as \(\partial D(p; r) =
-    \{ p + rz : z \in  S^{1} \}\)
+    \{ p + rz : z \in  S^{1} \}\). \\
     A map \(\lambda_{r} : S^{1} \to S^{1}\) is defined as \(\lambda_{r}(z) =
     \frac{v(p + rz)}{|v(p + rz)|}\). This function takes a value at the edge
     of the disc and scale them to unit vectors.
@@ -575,7 +597,7 @@
       \item if \(p \in \partial S\) then \(\phi_{p}(t) \;
             \forall t \in (-\epsilon, 0] \cup [0, \epsilon)\)
     \end{itemize}
-    The last two poits can be summerised to say \(\phi_{p}\) mapps all \(t \neq 0\)
+    The last two points can be summerised to say \(\phi_{p}\) maps all \(t \neq 0\)
     to inside S.
 
     A continously differentiable map \(v: S \to R^{3}\) is called a \textbf{vector field}
@@ -588,8 +610,8 @@
     \(p \in S\) to a vector field w on \(D^{2}\) s.t.\ for every \(z \in D^{2}\)
     \(D_{\varphi_{p}}(z)w(z) = v(\varphi_{p}(z))\). \\
     \(D_{\varphi_{p}}(\textbf{0})\) is an injective linear map so if p is an
-    isolated singularity of v, then \(D_{varphi_{p}}(\textbf{0})w(\textbf{0}) = 0\).
-    This implies \(w(\textbf{0}) = \textbf{0}\). This means \(textbf{0}\) is an
+    isolated singularity of v, then \(D_{\varphi_{p}}(\textbf{0})w(\textbf{0}) = 0\).
+    This implies \(w(\textbf{0}) = \textbf{0}\). This means \(\textbf{0}\) is an
     isolated singularity of w. This does not depend on the parametrization.
 
 

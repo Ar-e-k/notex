@@ -4,6 +4,8 @@
 \usepackage{parskip} % Disabling paragraph index as it does not fit maths
 \usepackage{amssymb} % Used for curly Q
 \usepackage{mathrsfs} % Used for curly L and M
+\usepackage{xcolor} % Used for coloured text
+\usepackage{hyperref} % Usable menu and references
 
 \graphicspath{{images}}
 
@@ -126,43 +128,60 @@
     \begin{subsubsection}{Regular Language and Expression}
 
       A \textbf{language} is called \textbf{regular} if there exists a DFA which
-      recognises it.
+      recognises it (or an NFA but all NFAs have a corresponding DNF).
       To prove a language is non-regular, assume a DFA that recoginises the
       language exists and then show a contradiction.
 
-      A \textbf{regular expression} R defines a language \(\mathscr{L}(R)\). RE
-      also defines an exacly a calss of regular languages, as \(RE \equiv DFA\).
+      A \textbf{regular expression} R defines a regular language \(\mathscr{L}(R)\).
+      RE also defines an exacly a class of regular languages, as \(RE \equiv DFA\).
       REs are defined \textbf{recursively}, meaning from initial RE new REs can
       be obtained following the rules below (over an alphabet \(\sum\))
       \begin{itemize}
         \item \(a \in \sum\)
         \item Empty string
         \item \(R_{1} \cup R_{2}\) with \(R_{1}, R_{2} \in R\)
-        \item \(R_{1} \cup R_{2}\) with \(R_{1}, R_{2} \in R\)
+        \item \(R_{1} \cdot R_{2}\) with \(R_{1}, R_{2} \in R\)
         \item \(R_{1}^{*}\) with \(R_{1} \in R\)
       \end{itemize}
 
-      Limit of a regular language A, denoted lim A, is
-      \{ \(a \in \sum^{\omega} |\) a has infinitely many prefixes in A \}.
+      An example use of a regular language
+      \footnote{
+        \href{https://web.stanford.edu/class/archive/cs/cs103/cs103.1134/lectures/14/Small14.pdf}
+        {Source: Standford University}} \\
+      For a alphabet \(\sum = \{ a, ., @ \}\) where a is any letter in the real
+      alphabet, a regular expression for an email address can be defined as \\
+      \[\color{cyan} aa* \color{violet} (.aa*)* \color{gray} @
+        \color{green} aa*.aa* \color{blue} (.aa*)*\]
+      This represents all the possible emails, with \(* \in [0, \infty)\) begin
+      the amount of repetes of a regular expression. Example emails with
+      colouring \\
+      \(\color{cyan} bob \color{gray} @
+      \color{green} bob.com \) \\
+      \(\color{cyan} bob \color{violet} .bb \color{gray} @
+      \color{green} bob.co \color{blue} .un\) \\
+      Note \(aa*\) can also be represented as \(a^{+}\) where the difference is
+      \(* \in [0, \infty)\) and \(^{+} \in [1, \infty)\).
             
     \end{subsubsection}
 
     \begin{subsubsection}{Combining Automata}
 
       Given a language \(\mathscr{L}_{1}\) recognised by
-      \(M_{1} = (\mathscr{Q}_{1}, \sum, \delta_{1}, q_{1}, F_{1})\) and
+      \(M_{1} = (\mathcal{Q}_{1}, \sum, \delta_{1}, q_{1}, F_{1})\) and
       similarly \(\mathscr{L}_{2}\) recognised by \(M_{2}\), these two machines
       can be combined into M whih would recognise
       \(\mathscr{L}_{1} \cup \mathscr{L}_{2}\). To achive this
       \(M_{1}, M_{2}\) are runned in parralel and the new machine M can be
-      defined as \((\mathscr{Q}, \sum, \delta, q_{0}, F)\) where
+      defined as \((\mathcal{Q}, \sum, \delta, q_{0}, F)\) where
       \begin{itemize}
-        \item \(\mathscr{Q} = \mathscr{Q}_{1} \times \mathscr{Q}_{2}\)
+        \item \(\mathcal{Q} = \mathcal{Q}_{1} \times \mathcal{Q}_{2}\)
         \item \(\delta((s, u), a) = (\delta(s, a), \delta(u, a))\) for
-              \(s \in \mathscr{Q}_{1}, u \in \mathscr{Q}_{2}, a \in \sum\)
+              \(s \in \mathcal{Q}_{1}, u \in \mathcal{Q}_{2}, a \in \sum\)
         \item \(q_{0} = (q_{1}, q_{2})\)
         \item \(F = \{ (s, u) \in Q | s \in F_{1} \lor u \in F_{2} \}\)
       \end{itemize}
+
+      The resultant machine is non-deterministic, a NFA.\
 
     \end{subsubsection}
 
@@ -173,8 +192,8 @@
     \begin{subsubsection}{Basics}
 
       A Non-Deterministic Finite-State Autonoma is a 5-tuple similar to
-      \textbf{DFA}. the only difference is \(\delta: \mathscr{Q} \times
-      (\sum \cup \{ \epsilon \}) \to \mathscr{P}(\mathscr{Q})\) where
+      \textbf{DFA}. The only difference is \(\delta: \mathcal{Q} \times
+      (\sum \cup \{ \epsilon \}) \to \mathscr{P}(\mathcal{Q})\) where
       \(\epsilon\) is an empty string \(\notin \sum\).
 
       M accepts a word w if \(\exists r_{0}, \dots , r_{n}\) s.t.
@@ -205,7 +224,7 @@
 
     For every regular language \(\mathscr{L} \; \exists p\) s.t.\
     \(\forall w \in \mathscr{L}\) where \(len(w) \geq p \;
-    exists x, y, z\) with \(w = xyz\) and
+    \exists x, y, z\) with \(w = xyz\) and
     \begin{itemize}
       \item \(xy^{i}z \in \mathscr{L} \; \forall i \in \mathbb{N}\)
       \item \(y \neq \epsilon\)
@@ -228,21 +247,26 @@
     For A and B \(\omega-regular\) language \(R^{\omega}\) and C a regular
     language
     \begin{itemize}
-      \item \(A \cup B \in \R^{omega}\)
+      \item \(A \cup B \in R^{\omega}\)
       \item \(AC \in R^{\omega}\)
       \item \(C^{\omega}\) which is \(a_{1}a_{2} \dots | a_{i} \in C^{\omega}\)
       is an infite sequence of words from C and \(\epsilon \notin C^{\omega}\)
     \end{itemize}
-    A language is only \(\omega-regular\) if there is a non deterministic
+    A language is only \(\omega-regular\) if there is a non-deterministic
     B\"uchi Automata which recognises it. This class of languages is closed
     under intersection and complementation.
 
+    Limit of a regular language A, denoted lim A, is
+    \{ \(a \in \sum^{\omega} |\) a has infinitely many prefixes in A \}. \\
     An \(\omega-language\) is a limit of a regular language iff there is a
     deterministic B\"uchi Automata recognises it.
 
   \end{subsection}
 
   \begin{subsection}{B\"uchi Automata}
+
+    An infnitite string is accepted if the accpetance state is visited
+    \textbf{infinitely} often.
 
     \emph{Some non deterministic BAs cannot be made deterministic}
 
@@ -259,21 +283,23 @@
       \item \(\square a\) is \(\lnot \lozenge \lnot a\)
     \end{itemize}
 
-    \begin{subsubsection}{Satisfaction Relation}
+    The set of all atomic propositions is dentoted as \(2^{AP}\).
 
+    \begin{subsubsection}{Satisfaction Relation}
       (Confusing stuff) \\
       Satisfaction relation, denoted as \(\models\), is defined recursively as for
-      a word \(\sigma = A_{0}A_{1} \dots\) and formulas
+      an infinite sequence of words \(\sigma \in (2^{AP})^{\omega}\)
+      \(\sigma = A_{0}A_{1} \dots\) and formulas
       \(\phi, \phi_{1}, \phi_{2}\)
       \begin{itemize}
-        \item \(\sigma \models \true\)
+        \item \(\sigma \models true\)
         \item \(\sigma \models a\) iff \(a \in A_{0}\)
         \item \(\sigma \models \phi_{1} \land \phi_{2}\) iff
         \(\sigma \models \phi_{1}\) or \(\sigma \models \phi_{2}\)
-        \item \(\sigma \models \not \phi\) iff \(\sigma \not\models \phi\)
+        \item \(\sigma \models \lnot \phi\) iff \(\sigma \not\models \phi\)
         \item \(\sigma \models \circ \phi\) iff \(A_{1} \dots \models \phi\)
         \item \(\sigma \models \phi_{1} \cup \phi_{2}\) iff
-        \(\exits i > j \geq 0\) s.t.\ \(A_{i} \dots \models \phi_{2}\) and
+        \(\exists i > j \geq 0\) s.t.\ \(A_{i} \dots \models \phi_{2}\) and
         \(A_{j} \dots \phi_{1}\).
       \end{itemize}
       The set of all words that satisfy a formla \(\phi\) is called
@@ -286,11 +312,11 @@
       A transition system TS consists of
       \begin{itemize}
         \item A finite set of states S
-        \item A transition relation \(\to \subset S \times S\) with for every
+        \item A transition relation \(\to : S \times S\) with for every
         \(s_{1} \in S \; \exists s_{2} \in S\) s.t.\ \(s_{1} \to s_{2}\)
         \item A set of inital states \(I \subset S\)
         \item A finite set of atomic propositions AP
-        \item a labelling \(L: S \to 2^{AP}\)
+        \item A labelling \(L: S \to 2^{AP}\)
       \end{itemize}
 
       A run of TS is an infinite sequene of states \(s_{0} \to s_{1} \to \dots\)
@@ -299,15 +325,83 @@
       called \textbf{Traces(TS)}. \\
       TS satisfies \(\phi\), \(TS \models \phi\) if
       \(Traces(TS) \subset Words(\phi)\), meaning each trace t satisfies a
-      formula \(phi\).
+      formula \(\phi\).\ \emph{It is possible for \(TS \not \models \phi\) and
+      \(TS \not \models \lnot \phi\)}
 
     \end{subsubsection}
 
     \begin{subsubsection}{Converting to B\"uchi Automata}
 
-      For a TS \(\tou\) and an LTL formula \(\phi\) both over the same set of
-      atomic propositions AP. A BA can be used to determine if
-      \(\tau \models \phi\).
+      For a TS \(\tau\) and an LTL formula \(\phi\) both over the same set of
+      atomic propositions AP.\ A BA can be used to determine if
+      \(\tau \models \phi\). This is identical to checking \(Traces(\tau) \subset
+      Words(\phi)\) as well as \(Traces(\tau) \cap Words(\lnot \tau) = \emptyset\).
+
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{ComputationTree Logic}
+
+    A \textbf{state-formula} is defined as
+    \[\phi := true | a | \phi_{1} \land \phi_{2} | \lnot \phi | A \varphi | E \varphi\]
+    where a is an atomic propositions, \(\phi_{1}, \phi_{2}\) are also
+    state-formulas and \(\varphi\) is a \textbf{path-formula}. This is defined as
+    \[\varphi := X \phi | G \phi | F \phi | \phi_{1} U \phi_{2} | \phi_{1} W \phi_{2}\]
+    with the letters definded as
+    \begin{itemize}
+      \item A is for all
+      \item E is there exists
+      \item X is next
+      \item G is always (global)
+      \item F is eventually (finaly)
+      \item U is until
+      \item W is week until / unless (the condition may nevery happen)
+    \end{itemize}
+    where A and E are \textbf{quantifiers over paths} and the rest are
+    \textbf{path-specific quantifiers}. These come in pairs, over path one followed
+    by a specific one.
+
+    \begin{subsubsection}{Satisfaction Relation}
+
+      This is defined similarly to the one for LTL.\ For a set of atomic propositions
+      AP, a transition system \(TS = (S, \to, I, AP, L)\) and a state \(s \in S\)
+      \begin{itemize}
+        \item \(s \models true\)
+        \item \(s \models a\) iff \(a \in L(S)\)
+        \item \(s \models \phi_{1} \land \phi_{2}\) iff
+        \(s \models \phi_{1}\) or \(s \models \phi_{2}\)
+        \item \(s \models \lnot \phi\) iff \(\sigma \not\models \phi\)
+        \item \(s \models A \varphi\) iff \(\pi \models \varphi \;
+              \forall \pi \in Paths(s)\)
+        \item \(s \models E \varphi\) iff \(\exists \pi \in Paths(s)\)
+              s.t.\ \(\pi \models \varphi\)
+      \end{itemize}
+
+      Also for a path \(\pi = \pi_{0}, p_{1} \dots\) where all \(\pi_{i} \in S\)
+      \(\pi \models X \phi \iff \pi_{1} \models \phi\) and \\
+      \(\pi \models \phi_{1} U \phi_{2} \iff \exists i > j \geq 0\) s.t
+      \(\pi_{i} \models phi_{2}\) and \(\pi_{j} \models \phi_{1}\).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Comparison to LTL}
+
+      Any CLT can be converted to a LTL by removing the \textbf{quantifiers over
+        paths}. This will always be correct \textbf{if there exists an equivelance}.
+      If the resultant formulas are not correct, both the formula in LTL and CLT
+      cannot be represented in the opposite system. One such example is AFAGa
+      and \(\lozenge \square a\). This means that LTL and CLT are \textbf{incomparable}.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{CLT*}
+
+      The \textbf{state-formula} for CLT* is the same as for CLT and the only
+      difference in \textbf{path-formula} is the addition of
+      \(\phi | \varphi_{1} \land \varphi_{2} | \lnot \varphi\) where
+      \(\pi \models \phi \iff \pi_{0} \models \pi\).
 
     \end{subsubsection}
 
@@ -364,11 +458,11 @@
     \begin{subsubsection}{Non-deterministic TM}
 
       This is a TM which only accepts an input if there is a computation
-      that ends in the accepting configuration. \emph{Similarly to Multitape TM
+      that ends in the accepting configuration.\ \emph{Similarly to Multitape TM
         there is always a regular TM that is \textbf{equivelant}
         to the non-deterministic one}. Proof idea: Consider a tree
       of all possible comutations. Start from the beggining and only accept if
-      \textbf{BFS} finds the accepting configuration. \textit{Note: DFS would not work}. \\
+      \textbf{BFS} finds the accepting configuration.\ \textit{Note: DFS would not work}. \\
       Formaly
       \[\delta: \mathcal{Q} \times \Gamma \to \mathscr{P}(\mathcal{Q} \times \Gamma \times \{{} L, R \}{})\]
       where \(\mathscr{P}\) is whatever the fuck it wants to be.
@@ -392,7 +486,8 @@
 
       This is a regular Turing Machine \(\mathscr{M}\) except for it has the
       capability of making calls to an oracle for a language A. Such a TM is
-      denoted as \(\mathscr{M}^{A}\).
+      denoted as \(\mathscr{M}^{A}\). This oracles is blackbox, it can instantly
+      determine accept or reverse on all words\(\in A\).
 
     \end{subsubsection}
 
@@ -404,13 +499,19 @@
       a description of the original TM on x, \(\langle \mathscr{M}_{x} \rangle\)
       s.t.\ \(\forall y \; \mathscr{M}_{x}(y) = \mathscr{M}(x, y)\). \\
       This means every two input TM can be transformed infinite amount of one
-      input TMs, one for every specific input.
+      input TMs, one for every specific input. This seems like its somewhat
+      similar to group actions, expand later.
 
       \textbf{Recursion Theorem} \\
-      For every TM \(\mathscr{M}(x, y) \exists\) a TM \(\mathscr{R}\) s.t.\
+      For every TM \(\mathscr{M}(x, y) \exists \mathscr{R}\) (a TM) s.t.\
       \(\forall y \; \mathscr{R}(y) = \mathscr{M}(\langle \mathscr{R} \rangle, y)\). \\
-      This sure does mean something but it is wierd.
+      This theorem is a direct extension of a TM returning its own description
+      and means any TM can be modified to do that as well as its primary job.
+      \footnote{
+        \href{https://ianfinlayson.net/class/cpsc326/notes/16-recursion-theorem}
+        {Source: Random Website}}
 
+      \textbf{Encoding TMs} \\
       Any TM \(\mathscr{M}\) can be encoded as a single number, \([\mathscr{M}]\). \\
       Any configuration of this (or any other) TM can also be encodied as a single number,
       denoted [q,i,w] which are state, head position and and tape content, via a
@@ -435,7 +536,7 @@
     and denoted as \(L(\mathscr{M})\).
 
     A language \(\mathscr{L}\) is defined to be \textbf{Turing-Recognisable (or semi-decidable)}
-    if there is a TM \(\mathscr{M}\) that recognises it, i.e. \(\mathscr{L} = L(\mathscr{M})\).
+    if there is a TM \(\mathscr{M}\) that recognises it, i.e.\ \(\mathscr{L} = L(\mathscr{M})\).
     So if there \(\mathscr{M}\) accepts all \(\textit{w} \in \mathscr{L}\) then \(\mathscr{L}\)
     is \textbf{Turing-Recognisable}.
     Another way to determin if a language is \textbf{semi-decidable if and only if} its in:
@@ -446,7 +547,7 @@
     \end{itemize}
 
     Similarly, a language \(\mathscr{L}\) is called \textbf{Turing-Decidable (or decidable)}
-    if it is Turing-Recognisable and all \(\textit{w} \notin \mathscr{L}\) is rejected.
+    if it is Turing-Recognisable and all \(\textit{w} \notin \mathscr{L}\) are rejected.
     From this it is visible that \textbf{Turing-Decidable} is a stronger notion than
     \textbf{Turing-Recognisable}.
 
@@ -494,8 +595,8 @@
       there is a Turing Machine \(\mathscr{M}\) that terminates on every input
       \(u \in \sum^{*}\) and such that \(A=\{{} u \in \sum^{*} | \mathscr{M}(u) \in B\}\).
       This means that \(\sum^{*}\) is semi-decidable by \(\mathscr{M}\). \\
-      This is equivelant to saying that checking if \(u \in A\) is as hard as
-      checking if \(w \in B\). \\
+      This is equivelant to saying that checking if \(u \in A\) is no harder
+      than checking if \(w \in B\). \\
       Properites of m-reducibility, where \(A \leq B\):
       \begin{itemize}
         \item B is semi-decidable \(\Rightarrow\) A is semi-decidable
@@ -507,13 +608,13 @@
       A and B are both as dificult to solve.
 
       A is m-complete is A is at least as hard as any other Turing-Recognisable language.
-      If A is m-complete and \(B \leq A\) then B is m complete and \(A \equiv B\).
+      If A is m-complete and \(A \leq B\) then B is m complete and \(A \equiv B\).
 
     \end{subsubsection}
 
     \begin{subsubsection}{t-reducibility}
 
-      A language A is \textbf{t-reducible} to a language B is A can be decided
+      A language A is \textbf{t-reducible} to a language B if A can be decided
       by the oracle Turing Machine \(\mathscr{M}^{B}\). This is denoted as
       \(A \leq_{t} B\). \\
       Take A and B s.t. \(A \leq_{t} B\) then
@@ -526,11 +627,11 @@
   \begin{subsection}{Functions}
 
     A \textbf{total function} \(f: \sum \rightarrow \sum\) is \textbf{computable} if
-    \(\exists\) a TM \(\mathscr{M}\) s.t.\ on any input \(x \in \sum\)
+    \(\exists \mathscr{M}\) (a TM) s.t.\ on any input \(x \in \sum\)
     \(\mathscr{M}(x) = f(x)\).
 
     A \textbf{partial function} \(f: \sum \rightarrow \sum\) is
-    \textbf{partially computabl} if \(\exists\) a TM \(\mathscr{M}\) s.t.
+    \textbf{partially computabl} if \(\exists \mathscr{M}\) (a TM) s.t.
     for any \(x \in dom(f)\) \(\mathscr{M}(x) = f(x)\) and if \(x \notin dom(f)\)
     \(\mathscr{M}\) does not terminate.
 
@@ -543,7 +644,7 @@
 
     Obtaining a function by \textbf{primitive recursion} \\
     Take \(f(x_{1}, \dots, x_{n})\) and \(g(x_{1}, \dots, x_{n+2})\). Then
-    \(h(x_{1}, \dots, x_{n + 1})\) if obtaitained by \textbf{primitive recursion}
+    \(h(x_{1}, \dots, x_{n + 1})\) is obtaitained by \textbf{primitive recursion}
     of f and g if
     \[h(x_{1}, \dots, x_{n}, 0) := f(x_{1}, \dots, x_{n})\]
     \[h(x_{1}, \dots, x_{n}, t + 1) := g(t, h, x_{1}, \dots, x_{n})\]
@@ -573,35 +674,35 @@
 
 \begin{section}{Graphs}
 
-  \begin{subsection}{general graph stuff?}
+  \begin{subsection}{General Graph Stuff?}
 
-    \begin{subsubsection}{vertex cover}
+    \begin{subsubsection}{Vertex Cover}
 
-      graph of vertecies which inclueds one edgepoint of every edge. this porblem
+      Graph of vertecies which inclueds one edgepoint of every edge. This porblem
       attempts to minimise the size.
 
-      vertex cover can be used to solve set cover.
+      Vertex cover can be used to solve set cover.
 
     \end{subsubsection}
 
-    \begin{subsubsection}{independent set}
+    \begin{subsubsection}{Independent Set}
 
-      an independent set of a graph g is a set of vertecies s.t.\ no two
+      An independent set of a graph g is a set of vertecies s.t.\ no two
       verticies in the set have an common edge.
 
     \end{subsubsection}
 
-    \begin{subsubsection}{clique}
+    \begin{subsubsection}{Clique}
 
-      a clique is a set of verticies s.t.\ every vertex v in the clique
+      A clique is a set of verticies s.t.\ every vertex v in the clique
       has an edge to all the other verticies in the clique.
 
     \end{subsubsection}
 
-    \begin{subsubsection}{graph colouring}
+    \begin{subsubsection}{Graph Colouring}
 
-      colour the graph s.t.\ every vertex has exacly one colour and
-      for every edge \((u, v)\) u and v have different colour. graph colouring
+      Colour the graph s.t.\ every vertex has exacly one colour and
+      for every edge \((u, v)\) u and v have different colour. Graph colouring
       problem can be made more specific, with k-coloability being a decision
       problem asking can a graph be coloured with at most k colours.
 
@@ -609,67 +710,67 @@
 
     \end{subsubsection}
 
-    \begin{subsubsection}{bipartite}
+    \begin{subsubsection}{Bipartite}
 
       fill later
 
     \end{subsubsection}
 
-    \begin{subsubsection}{graph problem equivelances}
+    \begin{subsubsection}{Graph Problem Equivelances}
 
       \textbf{independent set and vertex cover} \\
-      a graph g has an independent set of size k \textbf{if and only if}
+      A graph g has an independent set of size k \textbf{if and only if}
       g has a vertex cover of size \(n - k\), with n being the number of
       verticies in g.
 
       \textbf{independent set and clique} \\
-      a graph g has an independent set of size k \textbf{if and only if}
+      A graph g has an independent set of size k \textbf{if and only if}
       its complement \(\overline{g}\) has a clique of size k.
 
       \textbf{bipartite and graph colouring} \\
-      equivelant for \(k = 2\) for graph colouring
+      Equivelant for \(k = 2\) for graph colouring
 
     \end{subsubsection}
 
-    \begin{subsubsection}{encoding to hm}
+    \begin{subsubsection}{Encoding to Hamiltonian Cycle}
 
-      given a cnf-formula f which clauses \(c_{1}, \dots c_{m}\) and variables
-      \(x_{1}, \dots x_{n}\). this can be encoded as a graph which has a hm iff
+      Given a cnf-formula f which clauses \(c_{1}, \dots c_{m}\) and variables
+      \(x_{1}, \dots x_{n}\). This can be encoded as a graph which has a HM iff
       the cnf is satisfiable.
 
-      a choice gadged exists \ldots
+      A choice gadged exists \ldots
 
     \end{subsubsection}
 
   \end{subsection}
 
-  \begin{subsection}{shortest path}
+  \begin{subsection}{Shortest Path}
 
-    a shortest path between two edges, u and v, in a graph is denoted
-    as \(\delta(u, v)\). each eadge has a weight, so for u, v next to each other
+    A shortest path between two edges, u and v, in a graph is denoted
+    as \(\delta(u, v)\). Each eadge has a weight, so for u, v next to each other
     the weight between u and v is denoted as \(w(u, v)\).
-    if there is no path between the edges \(\delta(u, v) = \infty\).
+    If there is no path between the edges \(\delta(u, v) = \infty\).
     there can be no possitive cycles in the shortest path.
-    if there is a negative cycle in the graph, \(\delta(u, v) = -\infty\), so
+    If there is a negative cycle in the graph, \(\delta(u, v) = -\infty\), so
     we shall assume there are no negative cycles.
 
-    an algorithm which finds the shortest path between a specific vertex s
+    An algorithm which finds the shortest path between a specific vertex s
     and all other verticies in the graph is a generalisations of
-    \textbf{bfs}, where \textbf{bfs} works on graphs
+    \textbf{BFS}, where \textbf{BFS} works on graphs
     where all verticies have length 1.
-    the output of such a function should be two arrays, denoted as d and \(\pi\)
+    The output of such a function should be two arrays, denoted as d and \(\pi\)
     where
     \begin{itemize}
       \item \(d(v) = \delta(s, v)\)
       \item \(\pi(v)\) is the predecessor of v
     \end{itemize}
-    dijkstra's algorithm is the algorithm with such outputs, explenation of
-    how the algorithm works is ommited here. dijkstra only works under certain
+    Dijkstra's algorithm is the algorithm with such outputs, explenation of
+    how the algorithm works is ommited here. Dijkstra only works under certain
     relaxation that there are no negative edges.
 
-    dijkstra has a running time of \(o(v \log(v) + e)\).
+    Dijkstra has a running time of \(o(v \log(v) + e)\).
 
-    some properies of shortest path:
+    Some properies of shortest path:
     \begin{itemize}
       \item for all edge u, v \(\delta(s, v) \leq \delta(s, u) + w(u, v)\)
       \item any subpath of a shortest path is also a shortest path
@@ -679,19 +780,19 @@
 
   \end{subsection}
 
-  \begin{subsection}{network flow}
+  \begin{subsection}{Network Flow}
 
-    weight of a directed edge from u to v is called \(c(u, v)\).
-    for a network flow we have:
+    Weight of a directed edge from u to v is called \(c(u, v)\).
+    For a network flow we have:
     \begin{itemize}
       \item \(g = (v, e)\) is a directed graph
       \item there exists a \emph{source s} and \emph{sink t}
       \item each edge \((u, v) \in e\) has no negative capacity
       \item if \((u, v) \notin e\) we assume the capacity is 0
     \end{itemize}
-    we assume that every vertex \(v \in v\) lies between s and t.
+    We assume that every vertex \(v \in v\) lies between s and t.
 
-    the flow in g is a real-valued function \(f: v \times v \to \mathbb{r}\)
+    The flow in g is a real-valued function \(f: v \times v \to \mathbb{R}\)
     that satisfies the following properties:
     \begin{itemize}
       \item flow from u to v must not exceed the vertex capacity, meaning
@@ -701,29 +802,29 @@
       \item total in is equivelant to total out for all verticies other than s and t
             \(\sum_{v \in v} f(u, v) = 0 \; \forall u \in v/\{{} s, t \}{}\)
     \end{itemize}
-    the function \(f(u, v)\) can also be wirten as \(f(u_{1}, u_{2})\) where
+    Fhe function \(f(u, v)\) can also be wirten as \(f(u_{1}, u_{2})\) where
     \(u_{1}, u_{2} \subset v\). \\
-    total positive flow entering at v is \(\sum_{u \in v f(u, v) > 0} f(u, v)\). \\
-    total positive flow leaving at v is \(\sum_{u \in v f(v, u) > 0} f(v, u)\). \\
-    total net flow at v is total positive flow \(leaving - entering\). \\
-    flow value is defined as the total flow leaving at source or the total
+    Total positive flow entering at v is \(\sum_{u \in v f(u, v) > 0} f(u, v)\). \\
+    Total positive flow leaving at v is \(\sum_{u \in v f(v, u) > 0} f(v, u)\). \\
+    Total net flow at v is total positive flow \(leaving - entering\). \\
+    Flow value is defined as the total flow leaving at source or the total
     flow entering at sink (they are equivelant). \\
-    residual capacity, denoted \(c_{f}(u, v)\) is definied as the avaliable flow
-    left on an edge, \(c(u, v) - f(u, v)\). for a network g, residual network denoted as \(g_{f}\)
+    Residual capacity, denoted \(c_{f}(u, v)\) is definied as the avaliable flow
+    left on an edge, \(c(u, v) - f(u, v)\). For a network g, residual network denoted as \(g_{f}\)
     is the same graph with all edges replaced with their residual capacity.
 
-    flow and capacity of a network can be taken at any point in the network.
-    to do this we take a ``cut'' the network and deal with all vertecies through
-    which the cut goes. flow is defined as the sum of all flow out of one side, including
-    negative while capacity is defined as the sum of all maximum flows. the capacity of any
-    cut is an upper bound for the total flow in the network. such cut can be denoted
+    Flow and capacity of a network can be taken at any point in the network.
+    To do this we take a ``cut'' the network and deal with all vertecies through
+    which the cut goes. Flow is defined as the sum of all flow out of one side, including
+    negative while capacity is defined as the sum of all maximum flows. The capacity of any
+    cut is an upper bound for the total flow in the network. Such cut can be denoted
     as \((s, t)\) and its flow and capacity can be denoted as \(f(s, t), \; c(s, t)\). \\
-    for a network g take w to be the maximum flow. this implies there are no
+    For a network g take w to be the maximum flow. This implies there are no
     augmenting paths in \(g_{f}\) and \(|w| = c(s, t)\) for some cut \(s, t\).
 
-    a network can be maximised in \(o(v^{2} + e)\), which is polynomial time.
+    A network can be maximised in \(o(v^{2} + e)\), which is polynomial time.
 
-    some applications of network flow:
+    Some applications of network flow:
     \begin{itemize}
       \item dancing party problem
       \item maximum bipartite matching
@@ -804,7 +905,7 @@
 
     For any number n, the length of the encoding of n in base \(b_{0}\) and the
     length of the encoding of n in a different base \(b_{1}\) is related by
-    a constant factor. \((\forall b_{0}, b_{1} \geq 2)\)
+    a constant factor.\ \((\forall b_{0}, b_{1} \geq 2)\)
 
     For any graph G, the length of the encoding of G as a adjacency matrix and
     the length of the encoding of G as a list of edges are related by
@@ -817,11 +918,13 @@
       can also be encoded a number, denoted as \([\phi]\) and \([\Pi]\).
 
       By considering the \textbf{co-H} and \textbf{H} it can be shown that not
-      every true formula is provable. The predictate % define later, !!!IMPORTANT
+      every true formula is provable. Alternatively this can be achived by a
+      \([g]\) where g says that g cannot be proven. The predictate % define later, !!!IMPORTANT
       \textit{\(Proof([\Pi], [\phi])\)} states that \(\Pi\) is a proof of \(\phi\).
       This predictate is \textbf{primitive recursive}.
 
-      It is assumed that \(\phi\) and \(\lnot \phi\) cannot both be proven in a system.
+      It is assumed that \(\phi\) and \(\lnot \phi\) cannot both be proven in a
+      system. It is proven that this cannot be proven.
       
     \end{subsubsection}
 
@@ -835,7 +938,7 @@
     (Going to be stated in the class subsections). \\
     Any problem in a class called \textbf{complete} if there is a reduction
     to it from every other problem in this class. This means there is no harder
-    problem in that class.
+    problem in that class. Analogue with \textbf{m-completness}.
 
     \textbf{Big open question in Computer Science is whenethr
       \emph{P} is equivelant to \emph{NP}.} This has not been proven
@@ -862,7 +965,7 @@
 
       \textbf{P} is a reasonable model of the class of problems which are
       tractable. However some polynomials can be so large that in pracitice the
-      problems are not solvable. \textit{Note:} Very large coefficiants seem to
+      problems are not solvable.\ \textit{Note:} Very large coefficiants seem to
       only arrise in artificial problems, for the naturally defnined ones the constants
       are usually not to large.
 
@@ -895,7 +998,7 @@
       This is a class of problems which do not have \textit{(up to date)}
       a polynomial time algorithm but do have a polynomial time verifier.
 
-      There is another way to define the \textbf{NP} class is through
+      Another way to define the \textbf{NP} class is through
       non-deterministic TMs. The non-deterministic time complexity
       of a decidable language \(\mathscr{L} = O(f)\) if there exists a NTM
       \(\mathscr{M}\) which decides \(\mathscr{L}\) and \(NTime_{\mathscr{M}} = O(f)\). \\
@@ -948,7 +1051,8 @@
         \item Show that instances of X can be used to design compnents that can encode Y
       \end{itemize}
 
-      Some algorithms in \textbf{NP}-complete are listed with the other \textbf{NP} algorithms.
+      Some algorithms in \textbf{NP}-complete are listed with the other
+      \textbf{NP} problems.
 
     \end{subsubsection}
 
