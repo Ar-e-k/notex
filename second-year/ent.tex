@@ -173,7 +173,7 @@
         z = s^{2} + t^{2}
       \end{cases}
     \]
-    for \(s > t \leq 1\) such that \(\gcd(s, t) = 1\) and \(s \not\equiv t \pmod{2}\)
+    for \(s > t \geq 1\) such that \(\gcd(s, t) = 1\) and \(s \not\equiv t \pmod{2}\)
 
     A more general equasion is \(x^{n} + y^{n} = z^{n}, \; n > 2\). In this case
     there are \textbf{no} solutions in \textbf{natural numbers}.
@@ -249,15 +249,16 @@
     \(\varphi(mn) = \varphi(m) \varphi(n)\).
 
     Formulation of \(\varphi(n)\) for \(n \in \mathbb{N}\) then
-    \[\varphi(n) = \Pi^{r}_{i = 1}(1 - \frac{1}{p_{i}})\] where
-    \(p_{i}s\) are \textbf{prime factorisation} of n.
+    \[\varphi(n) = n \Pi^{r}_{i = 1}(1 - \frac{1}{p_{i}})\] where
+    \(n = \Pi^{r}_{i = 1} p_{i}^{a_{i}}\) is \textbf{prime factorisation} of n.
+    As it can be seen the Euler function is not dependent on the powers \(a_{i}\).
 
     Another properti of the Euler function is that \(\sum_{d | n} \varphi(d) = n\),
     meanign the Euler functions of divisors of n add up to n.
 
-    Fro \(n \in \mathbb{N}\) and \(a \in \mathbb{Z}\) s.t. \(\gcd(a, n) = 1\) we
+    For \(n \in \mathbb{N}\) and \(a \in \mathbb{Z}\) s.t. \(\gcd(a, n) = 1\) we
     have \[a^{\varphi(n)} \equiv 1 \pmod{n},\] meaing any number to the power of
-    euler of n is one mod n.
+    Euler function of n is one mod n if it shares no common factors with n.
     This means for prime p and \(a \in \mathbb{Z}\) s.t. \(p \nmid a\) then
     \(a^{p - 1} \equiv 1 \pmod{p}\).
 
@@ -277,11 +278,10 @@
     \(ord_{n}(a) | \varphi(n)\).
 
     For \(n \in \mathbb{N}\) coprime to \(a \in \mathbb{Z}\) a is called a
-    \textbf{primitive root mod n} if \(ord_{n}(a) = \varphi(n)\). Number of primitive
-    roots mod p is given by \(\varphi(\varphi(p))\).
+    \textbf{primitive root mod n} if \(ord_{n}(a) = \varphi(n)\).
 
     For a prime p, any \(f(x) \neq 0\) of degree n with integer coefficients has
-    at most n roots mod p, meaning there are at most n xs s.t. \(f(x) \equiv 0 \pmod{0}\).
+    at most n roots mod p, meaning there are at most n xs s.t. \(f(x) \equiv 0 \pmod{p}\).
 
     For \(d | (p - 1)\), the congurance \(x^{d} - 1 \equiv 0 \pmod{p}\) has
     exacly d solutions.
@@ -422,11 +422,15 @@
       \end{bmatrix}
     \]
     and then for \(k > 1\)
-    \[p_{k} = a_{k}p_{k - 1} + p_{k - 2}\]\[q_{k} = a_{k}p_{k - 1} + p_{k - 2}\]
+    \[p_{k} = a_{k}p_{k - 1} + p_{k - 2}\]\[q_{k} = a_{k}q_{k - 1} + q_{k - 2}\]
 
     \(p_{k}q_{k - 1} - q_{k}p_{k - 1} = (-1)^{k + 1}\) for all \(k \geq 1\).
-    This means \(\gcd(p_{k}, q_{k})\) and all even \(C_{i}\) are below the target
+    This means \(\gcd(p_{k}, q_{k}) = 1\) and all even \(C_{i}\) are below the target
     value and all odds are above the target value.
+
+    A convergance error boundary can be specified as
+    \[|\alpha - \frac{p_{k}}{q_{k}}| \leq \frac{1}{q_{k}q_{k + 1}}\] where
+    \(\alpha\) is the actuall number.
 
   \end{subsection}
 
@@ -434,13 +438,15 @@
 
     An infinte CF is a is the limit of the convergents \(C_{n}\). The limit
     always exists. \\
-    An infinte CF is called periodic if it is construdcted of a repeating
+    An infinte CF is called periodic if it is constructed of a repeating
     sequence, or \(a_{i} = a_{j}\) if \(i \equiv j \pmod{n}\) with n the period.
     A CF can only become periodic from any \(a_{i}\). \\
     For \(d \in \mathbb{N}\) and d not square the infinite CF of \(\sqrt{d}\)
     is periodic after \(a_{0}\).
 
   \end{subsection}
+
+  \newpage
 
   \begin{subsection}{Pell's Equation}
 
@@ -451,6 +457,7 @@
 
     The CF of \(\sqrt{d}\) can be used to solve the Pell equations if solutions
     exist. For n begin the period of CF of d \[p^{2}_{kn - 1} - dq^{2}_{kn - 1} = (-1)^{kn}.\]
+    Where \(k > 0\) is any integer.
     This can be summerised into the following rules:
     \begin{itemize}
       \item If n even
@@ -461,7 +468,7 @@
       \item if n odd
             \begin{itemize}
               \item \((x, y) = (p_{2kn - 1}, q_{2kn - 1})\) for positive Pell
-              \item \((x, y) = (p_{(2k - 1)(n - 1)}, q_{(2k - 1)(n - 1)})\) for negative Pell
+              \item \((x, y) = (p_{(2k - 1)n - 1}, q_{(2k - 1)n - 1})\) for negative Pell
             \end{itemize}
     \end{itemize}
 

@@ -1,0 +1,206 @@
+\documentclass[12pt, letterpaper]{article}
+
+\usepackage{graphicx}
+\usepackage{parskip} % Disabling paragraph index as it does not fit maths
+\usepackage{amsmath} % Used for choose
+\usepackage{hyperref} % Usable menu and references
+
+\graphicspath{{images}}
+
+\title{Data Science}
+\author{Arkadiusz Naks}
+\date{2023}
+
+\begin{document}
+
+\begin{titlepage}
+  \begin{center}
+    \makeatletter
+    \vspace*{1cm}
+    \Huge
+    \textbf{\@title}
+
+    \vspace{0.5cm}
+    \Large
+    Lecture notes from Data Science module at Durham University
+
+    \vspace{1.5cm}
+
+    \textbf{\@author}
+
+    % \includegraphics[scale=0.55]{.png}
+    \vfill
+
+    \vspace{0.8cm}
+
+    \small
+    Based on my understanding of lectures and notes of \\
+    \@date{}
+  \end{center}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\begin{section}{Important Definisions}
+
+  A place for short and important definisions
+
+\end{section}
+
+\begin{section}{Probability}
+
+  \begin{subsection}{Notation and Basics}
+
+    \(P(A)\) is the probability of an event A occuring. \(P(X = x)\) is the probability
+    of an event occuring x times.
+
+    \begin{subsubsection}{Rules}
+
+      \textbf{Product Rule} \\
+      For a sequence of tasks \(T_{1}, \dots , T_{k}\) that can be done in
+      \(n_{1}, \dots , n_{k}\) ways each where one task comes after another
+      a task composed of all this tasks has \(n_{1} \times \cdots \times n_{k}\)
+      ways to complete.
+
+      \textbf{Sum Rule} \\
+      For a sequence \textbf{independent} of tasks \(T_{1}, \dots , T_{k}\)
+      that can be done in \(n_{1}, \dots , n_{k}\) ways each where tasks cannot
+      be performed simultaneously the number of ways to do one of the tasks is
+      \(\sum_{i = 1}^{n}n_{i}\).
+
+      \textbf{Inclusion Exclusion} \\
+      Sum up same as in \textbf{sum rule} then subtruct the overlaping tasks.
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Permutations and Combinations}
+
+    For permutations \(P(n, r) =  \frac{n!}{(n - r)!}\) with the total of n
+    elements and wanting r distinct elements with order that matters.
+
+    For combinations \(C(n, r) = \binom{n}{r} = \frac{P(n, r)}{r!}\) with same
+    r and n as for permutations but the order does not matter so there are less
+    arrangments.
+
+  \end{subsection}
+
+  \begin{subsection}{Poisson Distribution}
+
+    Poisson disstribution is used for \textbf{independent} events.
+    Once the Poisson is calculated to be \(\textit{poisson}(x)\) the actual
+    probability of the event happening y times is
+    \[P(X = y) = \frac{e^{-x}x^{y}}{y!}.\]
+
+  \end{subsection}
+
+  \begin{subsection}{Binomial Distribution}
+
+    Binomial distribution is a model for a number of \textbf{independent} events
+    with equall probability. It is modeled as \(\textit{Bin}{A, B}\) where A is
+    the number of events and B is their probability. To calculate how likely an
+    amount of events y will occure \[P(X = y) = \binom{A}{y} B^{y} (1 - B)^{A - y}.\]
+
+  \end{subsection}
+
+  \begin{subsection}{Some Values}
+
+    \textbf{Expectation} \\
+    For binomial distribution if \(textit{Bin}(A, B)\) the expectation,
+    \(E[X] = A * B\).
+
+    \textbf{Variance} \\
+    For equal probability events \(V(X) = AB(1 - B)\)  where A is the sample
+    size and B is the probability.
+
+    \textbf{Standard Deviation} \\
+    \(\sigma_{X} = \sqrt{V(X)}\).
+
+  \end{subsection}
+
+\end{section}
+
+\begin{section}{Computer Graphics}
+
+  \begin{subsection}{Some GPU}
+
+    GPU would only have commands such as draw point or draw polyon. The rendered
+    images are loaded into the \textbf{frame buffer}. This is a memory space
+    optimised for storing grids. Each grid stores intensity or colour value of a
+    pixel.\ \textbf{Double buffering} is used for smother graphics.
+
+    GPUs comprise of a large number of processors that execute tasks in parallel.
+
+  \end{subsection}
+
+  \begin{subsection}{3D Polygon Mesh}
+
+    A polygon mesh is a set of connected polygons used to represent a 3D object.
+    In computer graphics triangles are used as the polygons as they are always
+    flat.
+
+  \end{subsection}
+
+  \begin{subsection}{Shaders}
+
+    \begin{subsubsection}{Vertex Shader}
+
+      Manipulates pre-vertex data such as
+      \begin{itemize}
+        \item Vertex coordinates
+        \item Normals
+        \item Colours
+        \item Texture coordinates
+      \end{itemize}
+
+      Vertex Buffer Objects (VBOs) contain the data WebGL requires to describe the
+      geometry to be rendered. Index Buffer Objects (IBOs) contain pointers to
+      data in VBOs to enable reusing them.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Fragment Shader}
+
+      Deals with surface points, aims to calculate colour of each pixel to be
+      displayed on screen.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Variable Types}
+
+      \begin{itemize}
+        \item Attributes: Input variables for VS such as coordinates, colour
+              or normals
+        \item Uniforms: Input variables for both shaders such as light position
+        \item Varying: Used for passing data between VS and FS
+      \end{itemize}
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Scene Graph}
+
+    A tree structured relation graph of an image with the leaves being the most
+    basic building blocks. It can also contain transfromations applied to the
+    objects.
+
+  \end{subsection}
+
+  \begin{subsection}{Rendering}
+
+    Processes to convert 3D geometry into a 2D image.
+
+    \textbf{Fixed-function pipeline} uses a set of standard operations to
+    generate pixel representation from 3D polygons. It is efficient.
+
+    \textbf{Programmable pipeline} focuses on flexibility in programming and
+    using parallel processing of the GPU.
+
+  \end{subsection}
+
+\end{section}
+
+\end{document}

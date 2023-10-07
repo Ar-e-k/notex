@@ -1,0 +1,82 @@
+\documentclass[12pt, letterpaper]{article}
+
+\usepackage{graphicx}
+\usepackage{parskip} % Disabling paragraph index as it does not fit maths
+\usepackage{hyperref} % Usable menu and references
+
+\graphicspath{{images}}
+
+\title{Cryptography}
+\author{Arkadiusz Naks}
+\date{2023}
+
+\begin{document}
+
+\begin{titlepage}
+  \begin{center}
+    \makeatletter
+    \vspace*{1cm}
+    \Huge
+    \textbf{\@title}
+
+    \vspace{0.5cm}
+    \Large
+    Lecture notes from Cryptography half of Cryptography and Codes module at Durham University
+
+    \vspace{1.5cm}
+
+    \textbf{\@author}
+
+    % \includegraphics[scale=0.55]{.png}
+    \vfill
+
+    \vspace{0.8cm}
+
+    \small
+    Based on my understanding of lectures and notes of \\
+    \@date{}
+  \end{center}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\begin{section}{Important Definisions}
+
+  A place for short and important definisions \\
+
+  \textsc{Definision} ()
+
+\end{section}
+
+\begin{section}{Aims}
+
+  There are multiple reasons of varying importance for encrypting comunication
+  \begin{itemize}
+    \item \textbf{Secrecy}: Hide content from outside viewers
+    \item \textbf{Integrity}: Ensure the message cannot be tampered with
+          (without the receiving side knowing)
+    \item \textbf{Authenticity}: Similar to \textbf{integrity}, ensure that the
+          receiver knows the message comes from where it claims it does
+    \item \textbf{Non-Repudiation}: Make sure the sender cannot claim they did
+          notes send the message
+  \end{itemize}
+  \textbf{Kerchhoffs's principle}: It is important cryptographic systems are
+  still secure iven if the enemy knows the details of their method.
+  There are multiple methods of attack, with the main catigories being:
+  \begin{itemize}
+    \item \textbf{Ciphertext-only}: Enemy obtains ciphertext and deduces the
+          plaintext. Mostly relevant in naive systems
+    \item \textbf{Know plaintext}: Enemy knows some plaintext and ciphertext and
+          uses it to deduce the key
+    \item \textbf{Chosen plaintext}: Enemy tricks the sender to encode some
+          chosen planetext and observes the resultant cyphertext (similar to
+          \textbf{Known plaintext})
+    \item \textbf{Chosen ciphertext}: Enemy trickes the receiver into decoding
+          some chosen ciphertexts and observers the result (\textbf{Chosent
+          plaintext})
+    \end{itemize}
+
+\end{section}
+
+\end{document}
