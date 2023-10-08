@@ -1,0 +1,99 @@
+\documentclass[12pt, letterpaper]{article}
+
+\usepackage{graphicx}
+\usepackage{parskip} % Disabling paragraph index as it does not fit maths
+\usepackage{hyperref} % Usable menu and references
+\usepackage{amssymb} % Used to show sets of sumbers, like the real numbers
+
+\graphicspath{{images}}
+
+\title{Galois Theory}
+\author{Arkadiusz Naks}
+\date{2023}
+
+\begin{document}
+
+\begin{titlepage}
+  \begin{center}
+    \makeatletter
+    \vspace*{1cm}
+    \Huge
+    \textbf{\@title}
+
+    \vspace{0.5cm}
+    \Large
+    Lecture notes from Galois Theory at Durham University
+
+    \vspace{1.5cm}
+
+    \textbf{\@author}
+
+    % \includegraphics[scale=0.55]{.png}
+    \vfill
+
+    \vspace{0.8cm}
+
+    \small
+    Based on my understanding of lectures and notes of \\
+    \@date{}
+  \end{center}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\begin{section}{Important Definisions}
+
+  A place for short and important definisions \\
+
+  \textsc{Definision} (Solutiob by Radicals) A solution that can be expressed by
+  a finite number of basic arithmeic operations a well as \(\sqrt[m]{x}\)
+
+\end{section}
+
+\begin{section}{Introduction}
+
+  The primary modivation of Galois Theory is to show that there is no general
+  solution for polynomials of degree 5 or higher that can be \textbf{solved by
+  radicals}. It can also be used to find can a particular given equasion can be
+  \textbf{solved in radicals} as well as find the algorithm to find such
+  solution (which in practice can be extremely complicated).
+
+  \begin{subsection}{Cubics over \(\mathbb{C}\)}
+
+
+    To find a general solution to an equation
+    \(x^{3} + a_{2}x^{2} + a_{1}x + a_{0} = 0\) a substitution
+    \(t = x + \frac{a_{2}}{3}\) can be used to eliminate the \(x^{2}\) term
+    leading to \[t^{3} + pt + q\] where p and q can be expressed in terms of
+    \(a_{2}, a_{1}, a_{0}\), namely \(p = \frac{-a^{2}_{2} + 3a_{1}}{3}\) and
+    \(q = \frac{2a^{3}_{2} -9a_{1}a_{2} + 27a_{0}}{27}\). The new equation is
+    called a \textbf{reduced} or \textbf{depressed} cubic. Next step is to do a
+    substituton of \(p = -3uv\) and \(q = -(u^{3} + v^{3})\). This u and v also
+    give a solution \(u + v\) to the \textbf{reduced} cubic. Starting from a
+    quodriatic with roots \(u^{3}, v^{2}\), namely
+    \((y - u^{3})(y - v^{3}) = 0\) it can be proceesed through the quodratic
+    formula
+    that \[u^{3}, v^{3} = -\frac{q}{2} \pm \sqrt{\frac{q^{2}}{4}} - \frac{p^{3}}{27}\],
+    which helps optain a solution to the original equation by optaining the
+    solutions in t, \(t = u + v\) and substituting back to x. The other two
+    solutions can be obtained by multiplying either u or v by
+    \(\omega = e^{\frac{2\pi i}{3}}\) and \(\omega^{2}\), (two other results for
+    \(x^{3} = 1\)). The pairs of results are
+    \(u + v, \omega u + \omega^{2} w, \omega^{2} u + \omega w\).
+
+    The same formulas will give \textbf{solutions in radicals} in other fields
+    \(\mathbb{F}_{p}\) for p prime and \(p \geq 5\). They fail for \(p = 2, 3\)
+    as they involve divisibily by 2 and 3.
+
+  \end{subsection}
+
+  \begin{subsection}{Quortic over \(\mathbb{C}\)}
+
+    Similarly to a cubic
+
+  \end{subsection}
+
+\end{section}
+
+\end{document}

@@ -3,6 +3,7 @@
 \usepackage{graphicx}
 \usepackage{parskip} % Disabling paragraph index as it does not fit maths
 \usepackage{hyperref} % Usable menu and references
+\usepackage{amssymb} % Used to show sets of sumbers, like the real numbers
 
 \graphicspath{{images}}
 
@@ -45,7 +46,8 @@
 
   A place for short and important definisions \\
 
-  \textsc{Definision} ()
+  \textsc{Definision} (Key Size) \textit{It is defined to be \(\log_{2}(x)\)
+    where x is the number of all possible keys}
 
 \end{section}
 
@@ -61,6 +63,7 @@
     \item \textbf{Non-Repudiation}: Make sure the sender cannot claim they did
           notes send the message
   \end{itemize}
+
   \textbf{Kerchhoffs's principle}: It is important cryptographic systems are
   still secure iven if the enemy knows the details of their method.
   There are multiple methods of attack, with the main catigories being:
@@ -76,6 +79,64 @@
           some chosen ciphertexts and observers the result (\textbf{Chosent
           plaintext})
     \end{itemize}
+
+    Types of attacks:
+    \begin{itemize}
+      \item \textbf{Brute force} Try to guess the key at random, can be simply
+            avoided by having a large key size
+      \item There is an attack on RSA encryption based on how long a machine
+            takes to decode a given message
+    \end{itemize}
+
+\end{section}
+
+\begin{section}{Symetric Key Ciphers}
+
+  \begin{subsection}{Introduction}
+
+    Symetric key ciphers use the same key for encrypting and decrypting data.
+    This introduces a huge problem in sharing the key to the recipiant of the
+    message, making this method largely outdated for usage in overinternet
+    comunications.
+
+  \end{subsection}
+
+  \begin{subsection}{Substitution ciphers}
+
+    Caesar cipher is one example of such ciphers. In this ciphers each letter is
+    assigned another letter.
+
+    Substiturion ciphers are very volnerable to \textbf{known plaintext} attacks
+    as the key can be very easly build from there. It is also quite volnerable
+    to \textbf{ciphertext-only} attacks if enough ciphertext is knonw. This is
+    due to its regularity the statistics about letters and their pairing in the
+    given language can be exploited to deduce the key.
+
+  \end{subsection}
+
+  \begin{subsection}{One time pads}
+
+    In terms of algorithmic security, this cipher is perfect. Each letter
+    \(p_{i}\) in the message is shifter by a number \(k_{i}\) which is on a key.
+    More formally the key is \(k_{1}, k_{2}, \dots\) with each k being an
+    independent random number from \(\mathbb{C}/26\) (or different if different
+    alphabet is used). This means that for a plaintext \(p_{1}p_{2} \dots\) and
+    ciphertext \(c_{1}c_{2} \dots\) each \(c_{i} = p_{i} + k_{i}\). This is
+    provably secure, the distribution of the plaintext letters is independent of
+    that of the ciphertext letters, so the ciphertext conveys no information
+    about the plaintext.
+
+    The disadvantage of this method is that the key size has to be enormous as
+    it has to be at least as long as the message that is intended to be send (or
+    as long as all messages to be send if its to be used for a full
+    conversation). This introduces a massive problem with distributing the key
+    which makes this method unviable in todays world communication. It was
+    historically most notably used by the military with keys stored in books.
+
+    It is important that the number is truly random for the method to be secure,
+    otherwise the method of key generation can be deduced and key can be broken.
+
+  \end{subsection}
 
 \end{section}
 
