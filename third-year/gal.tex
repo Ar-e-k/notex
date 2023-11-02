@@ -4,6 +4,8 @@
 \usepackage{parskip} % Disabling paragraph index as it does not fit maths
 \usepackage{hyperref} % Usable menu and references
 \usepackage{amssymb} % Used to show sets of sumbers, like the real numbers
+\usepackage{tikz} % Used for field diagrams
+% Code sourced from https://tex.stackexchange.com/questions/513118/diagram-of-field-theory
 
 \graphicspath{{images}}
 
@@ -44,10 +46,11 @@
 
 \begin{section}{Important Definisions}
 
-  A place for short and important definisions \\
+  A place for short and important definisions
 
-  \textsc{Definision} (Solutiob by Radicals) A solution that can be expressed by
-  a finite number of basic arithmeic operations a well as \(\sqrt[m]{x}\)
+  \textsc{Definision} (Solutiob by Radicals) \textit{A solution that can be
+    expressed by a finite number of basic arithmeic operations a well as
+    \(\sqrt[m]{x}\)}
 
 \end{section}
 
@@ -60,7 +63,6 @@
   solution (which in practice can be extremely complicated).
 
   \begin{subsection}{Cubics over \(\mathbb{C}\)}
-
 
     To find a general solution to an equation
     \(x^{3} + a_{2}x^{2} + a_{1}x + a_{0} = 0\) a substitution
@@ -90,7 +92,237 @@
 
   \begin{subsection}{Quortic over \(\mathbb{C}\)}
 
-    Similarly to a cubic
+    Similarly to a cubic, any given quortic can be changed to a
+    \textbf{reduced} form \(t^{4} + pt^{2} + qt + r = 0\). To solve this, it is
+    manipulated to obtain a difference (or sum, identical over \(\mathbb{C}\))
+    of two squares. This transforms the quortic into two quodritics, each
+    containing two anwsers. This can be always achived by introducing a w term
+    to get the following equation
+    \[(t + w){}^{2} + (p - 2w)t^{2} + qt + (r - w^{2}) = 0\]
+    As \((t + w){}^{2}\) is a square for all w (obvious), we need to ensure the
+    other part of the equation is also a square. As it is a quodratic, being a
+    square implies that it has a repeted root, therefor its determinant is 0.
+    Working through the determinant results in the following cubic
+    \[w^{3} - \frac{1}{2}pw^{2} - rw + \frac{1}{8}(4pr - q^{2}) = 0\] which
+    solved will give an appropriate w and is called the \textbf{cubic resolvent}.
+    Only one anwser needs to be obtained from this cubic as the two quodratics
+    contain all the anwsers.
+
+  \end{subsection}
+
+  \begin{subsection}{Symmetris}
+
+    One good example of symetries in quodratic roots are complex roots comming
+    in conjugate pairs. Another one is very similar, namely real roots come in
+    conjugate pairs similar to complex ones if they are structured over
+    \(\mathbb{Q}[\sqrt[2]{n}]\) (with n the determinant). Both of these examples
+    can be deduced from the quodratic formula.
+
+  \end{subsection}
+
+\end{section}
+
+\begin{section}{Fields}
+
+  \begin{subsection}{Characteristic}
+
+    For a ring homomorphism \(x: \mathbb{Z} \to K\) with K a field and
+    \(x: n \to 1_{0} + 1_{1} + \cdots + 1_{n}\), the  \textbf{characteristic}
+    of K (\(char(K)\)) is defined as the smalles \(n \geq 1\) s.t. \(x(n) = 0\)
+    if such n exists, otherwise \(char(K) = 0\). \\
+    \textit{The characteristic of a field is alsways 0 or prime}
+
+    Iff \(char(K) = 0\) then \(\mathbb{Q}\) is the \textbf{prime subfield} of
+    K. \\
+    Iff \(char(K) = p\) then \(F_{p}\) is the \textbf{prime subfield} of K.
+
+  \end{subsection}
+
+  \begin{subsection}{Polynomials over Fields}
+
+    For a field K, \(K[x]\) is a ring of polynomials over K,
+    \[K[x] = \{a_{0} + a_{1}x + \cdots + a_{n}x_{n} | a_{i} \in K\}{}\]
+
+    \textit{This ring is very similar to \(\mathbb{Z}\)}. It is an integral
+    domain as well as an unique factorisation domain.
+
+    \begin{subsubsection}{Irreducibility}
+
+      \textbf{Rational Root Test}: for \(f(x) = a_{n}x^{n} + \cdots + a_{1}x
+      + a_{0}\) for all \(a_{i} \in \mathbb{Z}\), if \(f(x)\) has roots in
+      \(\frac{b}{c} \in \mathbb{Q}\) then \(b | a_{0}\) and \(c | a_{n}\).
+
+      \textbf{Gauss's Lemma}: suppose \(f(x) \in \mathbb{Z}[x]\) factorises as
+      \(f(x) = g(x)h(x)\) where \(g(x), h(x) \in \mathbb{Q}[x]\) then \(\exists r
+      \in \mathbb{Q}\) s.t.\ \(rg(x), r^{-1}h(x) \in \mathbb{Z}[x]\). In other
+      words, if \(f(x)\) can be factorised in \(\mathbb{Q}\) it also has to be
+      factorised in \(\mathbb{Z}\).
+
+      For a map \(\phi: \mathbb{Z} \to F_{p}[x]\), \(f(x) \to \bar{f}(x) =
+      f(x) \pmod{p}\), if \(\bar{f}(x)\) is irreducible in \(F_{p}[x]\), then
+      \(f(x)\) is irreducible in \(\mathbb{Q}[x]\). This is valid as long as
+      p is prime and \(p \nmid a_{n}\). This only goes one way.
+
+      \textit{All of this will work if \(\mathbb{Z}\) is replaced with any ring
+        R as long as R is a UFD and \(\mathbb{Q}\) with field of fractions
+        \(K = Frac(R)\).}
+
+      \textbf{Eisteins' Criterion}: if \(f(x) = a_{n}x^{n} + \cdots a_{1}x +
+      a_{0} \in \mathbb{Z}[x]\) and prime p s.t./ \(p \nmid a_{n}\),
+      \(p | a_{n - 1}, \dots p | a_{1}\) and \(p | a_{0}\) but \(p^{2} \nmid
+      a_{0}\) then \(f(x)\) is irreducible in \(\mathbb{Q}\).
+
+      \textit{To generalise Eisteins to more rings, p has to be prime in R.}
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Field Extensions}
+
+    \textit{For a field extension \(L / K\) we generally use Roman letters for
+      elements in K and Greek letters for elements in L}.
+
+    \textit{Note: Segment similar to Number Theory (slightly later in hte
+      term)}.
+
+    A \textbf{field extension}, denoted \(L / K\) is a field L containing a
+    subfield K. Despite the notation, this is not a quotient. \\
+    A \textbf{simple field extension} is a field extension such that
+    \(L = K(x)\), meaning \(L = \{a_{0} + a_{1}x_{1} + \cdots + a_{n}x_{n}
+    | a_{i} \in K\}{}\) and \(x_{i}\) are specific elements in L. Generally
+    most field extensions are \textbf{simple}. One of the most important things
+    about \textbf{field extensions} is how they map between each other.
+
+    For \(S \subset L\) and \(L / K\), \(K(S)\) is called a \textbf{minimal
+      subfield} of L that contains both K and S, also called \textbf{K with
+      S adjoined}.
+
+    \begin{subsubsection}{Towers of Field Extensions}
+
+      In Galois Theory, towers \(K \subset M \subset L\) s.t.\ K and F are
+      fixed and M varies in between are important. One example is \(K =
+      \mathbb{Q}\), \(L = \mathbb{Q}(\sqrt{2}, \sqrt{7})\) and M is either
+      \(\mathbb{Q}(\sqrt{2}), \mathbb{Q}(\sqrt{7}), \mathbb{Q}(\sqrt{14})\).
+      This can be represented with a diagram
+      \begin{center}
+        \begin{tikzpicture}
+
+          \node (Q1) at (0,0) {\(\mathbb{Q}\)};
+          \node (Q2) at (2,2) {\(\mathbb{Q}(\sqrt{2})\)};
+          \node (Q3) at (0,4) {\(\mathbb{Q}(\sqrt{2}, \sqrt{7})\)};
+          \node (Q4) at (-2,2) {\(\mathbb{Q}(\sqrt{7})\)};
+          \node (Q5) at (0, 2) {\(\mathbb{Q}(\sqrt{14})\)};
+
+          % To add text x:
+          % node [pos=0.7, below,inner sep=0.25cm] {};
+          \draw (Q1)--(Q2);
+          \draw (Q1)--(Q4);
+          \draw (Q3)--(Q4);
+          \draw (Q2)--(Q3);
+          \draw (Q1)--(Q5);
+          \draw (Q3)--(Q5);
+
+        \end{tikzpicture}
+      \end{center}
+      \(\mathbb{Q}(\sqrt{2}, \sqrt{7}) / \mathbb{Q}\) is also a
+      \textbf{simple extension} as it can be writen as \(\mathbb{Q}()\).
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Algebraic Elements}
+
+    For a field extension \(L / K\) and \(\theta \in L\), \(\theta\) is called
+    \textbf{algebraic} if there exists a non-zero polynomial \(f(x) \in K[x]\)
+    s.t.\ \(f(\theta) = 0\), otherwise it is called \textbf{transcendental
+      over} K. \\
+    \textit{For a field \(K(t)\), t is always \textbf{transcendental} over K}.
+
+    Furthermore for the same field extention and element \(\theta \in L\),
+    \[I_{K}(\theta) = \{f(x) \in K[x] | f(\theta) = 0\}.\] This makes
+    \(I_{K}(\theta)\) a subset of all polynomials in K for which \(\theta\) is
+    a root. This subfield is clearly \(\{ 0 \}\) if \(\theta\)
+    \textbf{transcendental}. On the other hand, if \(\theta\) is
+    \textbf{agebraic}, \(\exists m(x) \in K[x]\) which generates the subset.
+    This \(m(x)\) is unique, irreducible and monic in \(K[x]\). This subset is
+    an \textbf{ideal} in \(K[x]\). \\
+    The polynomial \(m(x)\) is called the minimal polynomial of \(\theta\), and
+    the degree of \(\theta = \deg m(x)\). As \(m(x)\) generates the ideal, it
+    is the only irreducible element of it. This means that any irreducible
+    monic polynomial is a minimal polynomial for all its roots.
+
+  \end{subsection}
+
+  \begin{subsection}{Constructing Simple Field Extensions}
+
+    \(f(x) \in K\) irreducible over K \(\iff K[x]/(f(x))\) is a field (for
+    \(f(x) \neq 0\)). Furthermore for \(m(x) \in K[x]\) monic and irreducible
+    polynomial:
+    \begin{itemize}
+      \item \(K_{m} = K[x] / (m(x))\) is a field extension of K
+      \item For a map \(\pi : K[x] \to K_{m}\) and \(\theta = \pi(x)\). Then
+            \(\theta\) has minimal polynomial \(m(x)\) and \(K_{m} =
+            K(\theta)\)
+    \end{itemize}
+    This \(K_{m}\) field extension is the minimal field containg K and the root
+    of \(m(x)\).
+
+    For two field extensions \(L_{1} / K\) and \(L_{2} / K\) and \(\varphi:
+    L_{1} \to L_{2}\) a field homomorphism, then \(\varphi\) is called a
+    \textbf{K-homomorphism} if \(\forall a \in K \; \varphi(a) = a\). It can
+    be said that \(\varphi\) \textbf{fixes} K. If it is an isomorphism of fields
+    then it is called \textbf{K-isomorphism}. (Also K-automorphism is its a
+    K-isomorphism and \(L_{1} = L_{2}\), s.t.\ complex conjugation)
+
+    Take \(K_{m} / K\) with \(\pi\) and \(\theta\) as above, then for \(L / K\)
+    with \(\theta' \in L\) satisfying \(m(\theta') = 0\), \(K_{L}(\theta')\) is
+    the minimal subfield of L containg K and \(\theta'\), there exists an
+    unique K-isomorphism \(\varphi: K_{m} \to K_{L}(\theta')\) s.t.\
+    \(\varphi(\theta) = \theta'\).
+
+    This is somewhat easier to denote if \(\theta\) is \textbf{transcendental}.
+    In such cases there is a unique K-isomorphism \(\varphi: K(t) \to
+    K(\theta)\) s.t.\ \(\varphi(t) = \theta\).
+
+  \end{subsection}
+
+  \begin{subsection}{Some Interesting Simple Extensions}
+
+    \(F_{9} \neq \mathbb{Z} / 9\) is defined as \(\mathbb{Z} / 3 (\theta)
+    = F_{3}(\theta) = F_{3} / (x^{2} - 2) = F_{9}\) where \(\theta^{2} = 2\).
+    This is actually the same as \(F_{3}(i)\) with i as ususal.
+
+    Similarly \(F_{4} \neq \mathbb{Z} / 4\) is defined as
+    \(F_{4} = F_{2} / (x^{2} + x + 1) = F_{2}(\theta)\) for \(\theta^{2} =
+    \theta + 1\).
+
+    For any q power of a prime, there exists \(F_{q}\) (unique up to
+    isomorphism) with q elements. These fields are called \textbf{Galois
+      fields}. \textit{More next term}
+
+  \end{subsection}
+
+  \begin{subsection}{Degrees of Field Extensions}
+
+    For an arbitrary field extension \(L / K\) L is a vector space over K. \\
+    \textit{This construction essentially removes multiplication for elements
+      of L outside of K. This can actually be very useful}.
+
+    The degree of \(L / K\) is the dimention of L over K (size of the basis)
+    and is denoted as \([L : K]\). When \(\theta\) is algebraic over K,
+    \([K(\theta) : K] = n\). If \([L : K] < \infty\), then it is finite and
+    all elements of L are \textbf{algebraic} over K. This is called an
+    \textbf{algebraic extension}. If \(theta = t\) (\textbf{indeterminate}) or
+    is \textbf{transcendental}, \([L : K] = \infty\). \\
+    \textit{There are infinite field extensions with no transcendental
+      elements, which cannot be generated by adjoining finitely many algebraic
+      elements}.
+
+    For a tower of extensions \(K \subset M \subset L\), \([L : K] =
+    [L : M] \times [M : K]\) and \([L : K] < \infty \Rightarrow [L : M], [M : K]
+    < \infty\)
 
   \end{subsection}
 

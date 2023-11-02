@@ -44,10 +44,20 @@
 
 \begin{section}{Important Definisions}
 
-  A place for short and important definisions \\
+  A place for short and important definisions
 
   \textsc{Definision} (Key Size) \textit{It is defined to be \(\log_{2}(x)\)
     where x is the number of all possible keys}
+
+  \textsc{Definision} (Confusion) \textit{Each symbol in the ciphertext depends
+    on many parts of the key}
+
+  \textsc{Definision} (Diffusion) \textit{Each symbol in the ciphertext depends
+    on many parts of the plaintext}
+
+  \textsc{Definision} (\(\mathbb{Z}/n \mathbb{Z}^{x}\)) \textit{Set of all
+    numbers m s.t. \(\gcd(n, m) = 1, \varphi(n) = amount\) of elements in this
+    set}
 
 \end{section}
 
@@ -110,7 +120,8 @@
     as the key can be very easly build from there. It is also quite volnerable
     to \textbf{ciphertext-only} attacks if enough ciphertext is knonw. This is
     due to its regularity the statistics about letters and their pairing in the
-    given language can be exploited to deduce the key.
+    given language can be exploited to deduce the key. Such an attack is know
+    as a \textbf{frequency attack}.
 
   \end{subsection}
 
@@ -134,7 +145,293 @@
     historically most notably used by the military with keys stored in books.
 
     It is important that the number is truly random for the method to be secure,
-    otherwise the method of key generation can be deduced and key can be broken.
+    otherwise the method of key geration can be deduced and key can be broken.
+
+  \end{subsection}
+
+  \begin{subsection}{Hill cipher}
+
+    The plaintext is dived into locks of length n, with each block represented
+    as a vector. The key is an inverteble \(n \times n\) matrix. The
+    ciphertext is obtained by \(C_{i} = MP_{i}\) where M is the key matrix and
+    \(P_{i}\) are the plaintext blocks.
+
+    The \(i^{th}\) character in the ciphertext depends on \(i^{th}\) row of
+    the key (\textbf{confusion}). \\
+    The \(i^{th}\) character in the ciphertext depends on the \(j^{th}\)
+    character in the plaintext if the \(M_{ij} \neq 0\) (\textbf{diffusion}).
+
+    Not very good against \textbf{known plaintext} attacks.
+
+  \end{subsection}
+
+\end{section}
+
+\newpage
+
+\begin{section}{Public Key Cryptography}
+
+  In a public key cryptosystems encipherigng and deciphering are done by
+  distinct keys D and E, s.t.\ computing D from E is computationaly not fusable.
+  \(k_{E}\) is send out to the public to encrypt the messages to the receiver
+  and \(k_{D}\) is private and used to decode.
+
+  \begin{subsection}{RSA}
+
+    \(k_{E} = (n, e)\) where \(n = pq\) with p and q prime and e is an
+    integer. \(k_{D} = d\) s.t.\ \(de \equiv 1 \pmod{\varphi(n)}\). The
+    message m is an integer modulo n and c is the code. \\
+    Encription: \[c \equiv m^{e} \pmod{n}\]
+    Decription: \[m \equiv c^{d} \pmod{n}\]
+
+    Typical \(e = 65537\) which is \(2^{16} + 1\). More generally, e has to be
+    chosen so \(\gcd(e, (p - 1)(q - 1)) = \gcd(e, \varphi(n)) = 1\). This is
+    best ensured by making e prime.
+
+    \begin{subsubsection}{Authentication}
+
+      RSA can also be used for message \textbf{authentication}. This is achived
+      by a \textbf{signature} \(s \equiv m^{d} \pmod{n}\). To verify the
+      signature, the recipiant can perform \(s^{e} \equiv m \pmod{n}\). This is as
+      hard to break as the usual RSA problem discussed above. This is not perfect
+      as an attacker can chose a signature first and then construct the message
+      based on it, producing a most likely nonsense but validaly signed message. \\
+      This can be fixed by introducing a \textbf{hash function} h so that
+      \(s = h(m){}^{d}\) (where the hash function is public). In that case the
+      recipiant checks if \(h(m) \equiv s^{e} \pmod{n}\). In this case to do the
+      same attack, the inverse of the \textbf{hash} has to be found, which is
+      defined to be a hard problem (the function is chosen so it is).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Security}
+
+      Security of RSA depends on how hard it is to find m given n and e. This
+      problem is equivelant to finding the modular \(e^{th}\) root of c. This
+      largely depends on the problem of factorising n into p and q qith only
+      the knowladge of n. \\
+      \textit{Whenether the converse is true is still an open problem (RSA
+        Problem)}.
+
+      It is no easier to find \(\varphi(n)\) than it is to factorise n, as well
+      as it is no easier to find d than it is to factorise n. This means that
+      breaking RSA is as hard as factorising n.
+
+      If either one of p, q or d are found, it is easy to break the cipher.
+
+      The primes p and q have to be secure against attacks. If they are too
+      small, an algorithm which simply tests all primes from lowest to highest
+      can factorise n very quickly (\textbf{trial division}). On the other hand
+      if p and q are too close \(|p - q| \leq n^{\frac{1}{4}}\),
+      \textbf{fermat's method} can be used to f ind them in a resonable time.
+
+      \textbf{Fermat's method}: \\
+      Set \(x = \lceil \sqrt{n} \rceil\) then check if \(x^{2} - n = y^{2}\)
+      for any integer y. If not increase x by 1 and check again. If it is,
+      it implies that \(x^{2} \equiv y^{2} \pmod{n} \Rightarrow x - y | p\)
+      (or q). It is important that \(x^{2} \not\equiv \pm y^{2} \pmod{n}\).
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Hash function}
+
+    Defined as a function that
+    \begin{itemize}
+      \item Efficient
+      \item Preimage-resistant: cannot quickly find m given \(h(m)\)
+            (hard to find inverse)
+      \item Collision-resistant: cannot quickly find m, m' s.t.\
+            \(h(m) = h(m')\)
+    \end{itemize}
+
+    sha256 is a commanly used hash function.
+
+  \end{subsection}
+
+  \begin{subsection}{Discrete Logarithms}
+
+    Recall that for a prime p \((F_{p}, \times)\) is a multiplicative group
+    (denoted as \(F_{p}^{\times}\)) generated by an element \(g \in F_{p}\),
+    for g a \textbf{primitive root} mod p. This also implies \(ord(g) = p - 1\)
+    mod p.
+
+    \textit{Whenether there are infinetly many ps s.t.\ 2 is a primitive root
+      mod p is an open question in maths, but generally it is considered true
+      and can be proven with the general version of the Reimann hypothesis.}
+
+    Take p prime and \(g \in F_{p}^{\times}\) a primitive root. If
+    \(x \in F_{p}^{\times}\), then the \textbf{dicrete logarithm} of x base g
+    is \(L \in \mathbb{Z}\) s.t.\ \(0 \leq L < p - 1\) and \(x \equiv g^{L}
+    \pmod{p}\). The function is denoted as \(L_{g}(x)\). \\
+    Some properties
+    \begin{itemize}
+      \item \(L_{g}(1) = 0\)
+      \item \(L_{g}(g) = 1\)
+      \item \(L_{g}(xy) \equiv L_{g}(x) + L_{g}(y) \pmod{p - 1}\)
+      \item \(L_{g}(x^{-1}) \equiv -L_{g}(x) \pmod{p - 1}\)
+      \item \(L_{g}(g^{a} \pmod{p}) = a \pmod{p - 1}\)
+      \item \(g^{L_{g}(x)} = x \pmod{p}\)
+    \end{itemize}
+
+    \textbf{Problem}
+    \textit{Discrete logarithm problem is given a (large) prime p, a primitive
+    root g mod p, and an element \(x \in F_{p}\) calculate \(L_{g}(x)\)}.
+
+  \end{subsection}
+
+  \begin{subsection}{Diffie-Hellman}
+
+    \(k_{E} = (p, g)\) where p is prime and g is a primitive root mod p. The
+    prime needs to be large. The private key is shared between to communicating
+    users, with \(k_{d} = g^{\alpha\beta} \pmod{p}\) with \(\alpha\) chosen by
+    user 1 and \(\beta\) by user 2. It is important that user 1 does not know
+    \(\beta\) only \(g^{\beta}\) and computes that knowing \(\alpha\)
+    (identical situation for user 2). To find the private key, both users send
+    \(g^{\alpha}\) and \(g^{\beta}\) over a public channel.
+
+    As the prime p and primitive root g are public, they can be taken from a
+    public database rather than be randomly generated like in RSA (beneficial
+    for performace reasons).
+
+    The private key is then used for some symetric cryptographic encoding. In
+    the real world, AES is usually used.
+
+    \begin{subsubsection}{Security}
+
+      To compute the private key, the attacker would need to solve the discrete
+      logarithm problem mod \(p - 1\).
+
+      The securinty of Diffie-Hellman is also dependent on the security of the
+      symetric encryption system used.
+
+      \textbf{Baby step, giant step}
+      algorithm can be used to find the discrete logarithm. The aim is to find
+      L s.t.\ \(g^{L} \equiv x \pmod{p}\).
+      First take \(N = \lceil \sqrt{p - 1} \rceil\) then make two lists
+      \begin{itemize}
+        \item \textbf{Baby step}: \(g^{j} \pmod{p}\) for \(j \in [0, N]\)
+        \item \textbf{Giant step}: \(xg^{-Nk} \pmod{p}\) for \(k \in [0, N]\)
+      \end{itemize}
+      Then a match in the two lists has to be found. It is only neccessary to
+      compute the entirety of the first list, then compute the second one until
+      the match is found. Once there is a match there is \(g^{j} \equiv
+      xg^{-Nk} \pmod{p}\) therefor \(g^{j + Nk} \equiv x \pmod{p}\) and
+      \(L = j + Nk\).
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Elgamal}
+
+    This system relies on the same math as Diffie-Hellman. The receiver chooses
+    a prime p, g primitive root mod p and \(k_{D} = \alpha\). Then \(k_{E} =
+    g^{\alpha}\). The sender chooses \(k \pmod{p - 1}\) and for a message m
+    sends \((x, y) = (g^{k}, mk_{E}^{k})\). The receiver decodes message as
+    \[m = yx^{-\alpha}.\] The random k implies that each message has many
+    different decriptions. This means that tehre is no way to verify wherether
+    m is correct if it is guessed. \\
+    The security of this system is dependent on the same problem as
+    Diffie-Hellman. \\
+    A good choice of prime would be p s.t.\ \(p = 2q + 1\) where q is also
+    prime.
+
+    \begin{subsubsection}{Signature}
+
+      For a public known \(p, g\) with p prime and g primitive root mod p, then
+      for \(\alpha \in (\mathbb{Z} / p){}^{x}\) then the person signing sends
+      \(y = g^{\alpha} \pmod{p}\). A valid signature for a message m a valid
+      signature is a pair \((r, s)\) s.t.\ \[y^{r}r^{s} = g^{m} \pmod{m}.\]
+      Each message has about p valid signatures out of about \(p^{2}\) possible
+      pairs. This means signatures are not unique. Finding a valid signature
+      for a message is belived to be a hard problem without knowledge of
+      \(\alpha\). This signature can be broken with solutions to the dicrete
+      logarithm. The signature is chosen by taking \[r \equiv g^{k} \pmod{p}\]
+      \[s \equiv k^{-1}(m - \alpha r) \pmod{p - 1}\] for a random
+      \(k \pmod{p - 2}\) and coprime to \(p - 1\). \\
+      \textit{It is important that the sender does not use the same k twice}.
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+\end{section}
+
+\begin{section}{Elliptic Curves}
+
+  \begin{subsection}{Introduction}
+
+    Take the curve \[y^{2} = x^{3} - 2.\] It only has two solution in integers,
+    namely \((3, \pm 5)\). But is has infinetly many solutions in the
+    rationals, which can be generated by
+    \[(\frac{x^{4} + 16x}{4y^{2}}, \frac{-x^{6} + 40x^{3} + 32}{8y^{3}})\]
+    where \((x, y)\) is already a valid solution. Any line joining \(P_{1},
+    P_{2}\) on the curve will also intersect it at a third point, unless it
+    is a tangent or it is vertical. This allows for a definision of an
+    operation \(P_{1} \# P_{2} = P_{3}\) with \(P_{3}\) being the third point
+    intersected by the line joining the other two. Its reflection in the
+    x-axis, denoted as \(P_{1} \oplus P_{2}\) forms an \textbf{abelian group}
+    with all the rational points on this curve. \textit{Identity is not exacly
+      on the curve, it is infinitely far along the y-axis, aslo have to take
+      care of the outliers later}.
+
+    An \textbf{elliptic curve} is an equation of the form
+    \[E(F): y^{2} = x^{3} + ax + b\] with \(a, b \in F\) a field and
+    \(\triangle_{E} = 4a^{3} + 27b^{2} \neq 0\). The non zero condition is to
+    ensure \textit{smoothness}, which will not be defined properly. For a
+    curve E over F, a point on E is either \((x, y) \in F^{2}\)
+    (\textbf{normal point}) or \textbf{point at infinity}, writen as
+    \(\mathcal{O}\). This point is inifinitely far along the y-axis in either
+    direction. \\
+    \textit{Generally E will denote \(E(\mathbb{Q})\)}.
+
+  \end{subsection}
+
+  \begin{subsection}{Algebraic Definision}
+
+    For E an elliptic curve over F and \(P = (x_{p}, y_{p}),
+    Q = (x_{q}, y_{q})\) point on E: (definision for \(\oplus\))
+    \begin{itemize}
+      \item \(P \oplus \mathcal{O} = \mathcal{O} \oplus P = P\)
+      \item If \(x_{p} = x_{q}\) and \(y_{p} = -y_{q}\) then
+            \(P \oplus Q = \mathcal{O}\)
+      \item If \(x_{p} \neq x_{q}\) \\
+            \(\lambda = \frac{y_{q} - y_{p}}{x_{q} - x_{p}}\) and
+            \(\mu = y_{p} - \lambda x_{p} = y_{q} - \lambda x_{q}\) \\
+            \(x_{r} = \lambda^{2} - x_{p} - x_{q}\) \\
+            \(y_{r} = \lambda x_{r} + \mu\) \\
+            \(P \oplus Q = R = (x_{r}, y_{r})\)
+      \item If \(x_{p} = x_{q}\) and \(y_{p} = y_{q} \neq 0\) \\
+            \(\lambda = \frac{3x^{2}_{p} - a}{2y_{p}}\) and
+            \(\mu = y_{p} - \lambda x_{p} = y_{q} - \lambda x_{q}\) \\
+            \(x_{r} = \lambda^{2} - x_{p} - x_{q} = \lambda^{2} - 2x_{p}\) \\
+            \(y_{r} = \lambda x_{r} + \mu\) \\
+            \(P \oplus Q = (x_{r}, -y_{r})\)
+    \end{itemize}
+
+    The F-set of points on E with \(\oplus\) forms an \textbf{abelian group} as
+    said above, with inverses \(P^{-1} = -P = (x_{p}, -y_{p})\). Powers are
+    dentoted as \([n]p = p \oplus p \oplus \cdot \oplus p\) n times.
+
+  \end{subsection}
+
+  \begin{subsection}{Torsion (Change title later maybe?)}
+
+    For G an \textbf{abelian group}, if an element \(g \in G\) is
+    \textbf{cyclic}, \([n]g = e\) for \(n \in \mathbb{N}\) it is called
+    \textbf{torsion} or more specifically \textbf{n-torsion} if n is specified.
+    \(G_{tors}\) denotes the entire \textbf{subgroup} of torsions
+    \(g_{tors} = \{g \in G | [n]g = e, \; n \in \mathbb{N}\}\). \(G[n]\)
+    denotes a similar \textbf{subgroup} with only n-torsions.
+
+    \textit{Non examinable but fun} \\
+    \(E(\mathbb{C})\) is \textbf{isomorphic} to \(\mathbb{C} / Q\) where
+    \(Q = {x + iy | x, y \in \mathbb{Z}}\). This makes this elliptic curve a
+    topological torus (coffe mug). More importantly
+    \[E(\mathbb{C})[n] \cong (\mathbb{C} \ Q)[n] = \{z \in \mathbb{C}
+      | nz \in G\} \cong (\mathbb{Z} / n){}^{2}.\]
 
   \end{subsection}
 

@@ -1,0 +1,233 @@
+\documentclass[12pt, letterpaper]{article}
+
+\usepackage{graphicx}
+\usepackage{parskip} % Disabling paragraph index as it does not fit maths
+\usepackage{hyperref} % Usable menu and references
+\usepackage{amssymb} % Used to show sets of sumbers, like the real numbers
+\usepackage{amsmath} % Used for collumn vectors
+
+\graphicspath{{images}}
+
+\title{Number Theory}
+\author{Arkadiusz Naks}
+\date{2023}
+
+\begin{document}
+
+\begin{titlepage}
+  \begin{center}
+    \makeatletter
+    \vspace*{1cm}
+    \Huge
+    \textbf{\@title}
+
+    \vspace{0.5cm}
+    \Large
+    Lecture notes from Number Theory at Durham University
+
+    \vspace{1.5cm}
+
+    \textbf{\@author}
+
+    % \includegraphics[scale=0.55]{.png}
+    \vfill
+
+    \vspace{0.8cm}
+
+    \small
+    Based on my understanding of lectures and notes of \\
+    \@date{}
+  \end{center}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\begin{section}{Important Definisions}
+
+  A place for short and important definisions \\
+
+  \textsc{Definision} (Diophantine equation) \textit{Polynomial equations with
+    integer coefficients}
+
+  \textsc{Definision} (Regular Prime) \textit{A prime p which does not difide
+    the order of the ideal class group of \(\mathbb{Q}(\xi_{p})\) with \(\xi_{p}\)
+    being the pth root of unity}
+
+\end{section}
+
+\begin{section}{Introduction}
+
+  Most classic example of a question solved through number theory is the famous
+  Fermat's Last Theorem (FLT) (actually a conjecture), which states that
+  \[x^{n} + y^{n} = z^{n}\] has no solutions in \(\mathbb{Z}\) excluding 0 when
+  \(n > 0\). The proof is very complex and therefor omited. One aim of varphis
+  course will be to solve \textbf{diophantine} equations with integer or
+  rational solutions.
+
+\end{section}
+
+\begin{section}{Divisibility}
+
+  \begin{subsection}{Euclidean Domains}
+
+    Every ED is a \textbf{principal ideal domain}. \\
+    An \textbf{euclidean domain} is a ring R which has a
+    \textbf{euclidean function} \(\varphi\). This function is defined
+    as \(\varphi: R \backslash{} \{0\} \to \mathbb{N}_{0}\) such that:
+    \begin{itemize}
+      \item \(\forall x, y \in R \backslash{} \{0\}\) \(\varphi(x) \leq \varphi(xy)\)
+      \item \(\forall x \in R, y \in R \backslash{} \{0\} \exists q, r\) s.t.
+            \(x = qy + r\) with \(\varphi(r) < \varphi(y)\)
+    \end{itemize}
+
+    Some examples of EDs are:
+    \begin{itemize}
+      \item \(\mathbb{Z}\) with \(\varphi: x \to |x|\)
+      \item \(F[x]\) where F is a field with \(varphi: f(x) \to \deg(f)\)
+      \item \(\mathbb{Z}[\sqrt{-2}]\), with \(\varphi: a + b\sqrt{2}
+            \to a^{2} + 2b^{3}\)
+    \end{itemize}
+
+  \end{subsection}
+
+\end{section}
+
+\begin{section}{Field Extensions}
+
+  \begin{subsection}{Basic Definision}
+
+    For fields F and L, if F is contained in L and they have the same operations,
+    F is called a \textbf{subfield} of L and L is a \textbf{field extention} of
+    F, denoted as \(L/F\). Every \textbf{field extension} \(L/F\) implies L is a
+    vectorspace over F, with usual vectorspace properties
+    \begin{itemize}
+      \item \(0 \in L\)
+      \item \(u, v \in L \to u + v \in L\)
+      \item \(a \in F\) and \(u \in L \to au \in L\)
+    \end{itemize}
+    (Unsure why this is useful as \(a \in F \to a \in L\) and a field is closed
+    under both addition and multiplication)
+
+    Each field extension \(L/F\) has a \textbf{degree} \([L : F]\) which s the
+    dimension \(\dim_{F}L\) and can be infinite. If the dimension is finite, \(L/F\)
+    is called a \textbf{finite field extension}.
+
+  \end{subsection}
+
+  \begin{subsection}{Algebraic Field Extensions}
+
+    For a field extension \(L/F\), any element \(\alpha\in L\) is called
+    \textbf{algebraic over F} if \(\exists f(x) \in F[x], f(x) \neq 0\) s.t.
+    \(f(\alpha) = 0\). If all elements of L are algebraic over F, \(L/F\) is
+    called an \textbf{algebraic extension} (alternitevly it is said that L is
+    algebraic over F). \\
+    \textit{Only a finite dimention field extension can be algebraic.} \\
+    In fact all \textbf{finite} field extensions are \textbf{algebraic}.
+
+    For \(\alpha \in L\) algebraic, its \textbf{minimal polynomial}
+    \(p_{\alpha}(x)\) (or more precisely \(p_{\alpha, F}(x)\) when the field is
+    not clear) is defined to be the monic polynomial of smallest degree s.t.\
+    \(\alpha\) is the root. This always exists as \(\alpha\) is algebraic. It is
+    also always unique. This polynomial is useful as its coefficients \(\in F\)
+    containe information about \(\alpha \in L\). The polynomial is also always
+    irreducable over F. \\
+    Morever if \(f(\alpha) = 0\), f is monic and irreducable, it is the
+    \textbf{minimal polynomial} of \(\alpha\). \\
+    \textit{The \textbf{degree} of \(\alpha\) is defined as the \textbf{degree}
+      of its minimal polynomial}.
+
+  \end{subsection}
+
+  \begin{subsection}{Generated Fields}
+
+    For a \textbf{field extension} \(L / F\) and \(\alpha \in L\) we define
+    \(F(\alpha) \subseteq L\) to be the smallest field extension of F which
+    contains \(\alpha\); \(F(\alpha) = K\) where K is a field, \(\alpha \in K\)
+    and \(F \subseteq K \subseteq L\) (K is the smalles subfield of L which
+    contains both F and \(\alpha\)). Note \(\alpha \notin F\). \(F(\alpha)\)
+    is called the \textbf{field generated by \(\alpha\) over F}. \\
+    More generally \(F(\alpha_{1}, \dots , \alpha_{n}) = F(\alpha_{1})
+    (\alpha_{2}) \dots F(\alpha_{n})\). \\
+    It is important to remember that generally \(F(\alpha) \neq F[\alpha]\) as
+    if \(\alpha\) is not \textbf{algebraic} (over F), \(\alpha^{-1} \notin
+    F[\alpha]\) and \(F[\alpha]\) is not a field. On the other hand, if
+    \(\alpha\) is \textbf{algebraic}, \(F[\alpha] = F(\alpha)\). In such case,
+    the degree of \(F(\alpha) / F\) is the same as the degree of \(\alpha\),
+    \([F(\alpha) : F]= \deg p_{\alpha, F}\). \\
+    If \(K / F\) and \(L / K\) are field extensions, s.t. \(F \subseteq K
+    \subseteq L\), then it is called a \textbf{tower} of fields and
+    \([L : F] = [L : K] \times [K : F]\) (if one side is infinite, so is the
+    other).
+
+  \end{subsection}
+
+  \begin{subsection}{Norm and Trace}
+
+    Let \(L / F\) finite field extension and \(n = [L : F]\). Then as L is a
+    vector space over F for any \(\alpha \in L\) there is a F-linear map
+    \[\hat \alpha: L \to L, \; x \mapsto \alpha x.\]
+    Then for a basis of L over F \((\beta_{i})_{i \in [1, n]}\) and a
+    \(n \times n\) matrix \(T_{\alpha} = T_{\alpha, L / F} \in M_{n}(F)\) is
+    defined to be \[\hat \alpha(\beta_{i}) = \alpha \beta_{i} =
+      t_{i1} \beta_{i} + \cdots + t_{in} \beta_{i}\] where \(t_{ij} \in F\) and
+    \(T_{\alpha} = (t_{ij})\). This means that
+    \[\alpha \begin{pmatrix} \beta_{1} \\ \vdots \\ \beta_{i} \end{pmatrix} =
+      T_{\alpha} \begin{pmatrix} \beta_{1} \\ \vdots \\ \beta_{i} \end{pmatrix}
+      ,\]
+    and therefore \(\alpha\) is an \textbf{eigenvalue} of the matrix
+    \(T_{\alpha}\).
+
+    The norm and trace of \(\alpha \in L\) are defined respecitevely as
+    \[N_{L / F}(\alpha) = \det(T_{\alpha}) \; and \; Tr_{L / F}(\alpha) =
+      Tr(T_{\alpha}).\]
+    Although \(T_{\alpha}\) depends on the choice of baises, norm and trace
+    does not.
+
+    (Trace of a matrix is the sum of its diagonal; for \(M_{nn} = (a_{ij})\)
+    \(Tr(M) = \sum^{n}_{i} a_{ii}\))
+
+    The map \(L \to M_{n}(F)\), \(\alpha \mapsto T_{\alpha}\) is an
+    \textbf{injective ring homomorphism}. For \(f(x) \in F[x]\)
+    \(T_{f(\alpha)} = f(T_{\alpha})\). \\
+    This map implies many properties for norm and trace:
+    \begin{itemize}
+      \item \(N_{L / F}(\alpha^{n} + \beta^{m}) = \det(T_{\alpha}^{n} +
+            T_{\beta}^{m})\)
+      \item \(N_{L / F}(\alpha) = 0 \iff \alpha = 0\)
+      \item \(N_{L / F}(\alpha \beta) = N_{L / F}(\alpha) N_{L / F}(\beta)\)
+      \item For \(a \in F\) \(N_{L / F} = a^{[L : F]}\) and
+            \(Tr_{L / F}(a) = [L : F] a\)
+      \item \(\forall a, b \in F\)
+            \[Tr_{L / F}(a \alpha + b \beta) = a Tr_{L / F}(\alpha) +
+            b Tr_{L / F}(\beta)\] meaning \(Tr_{L / F}\) is a F-linear map
+    \end{itemize}
+
+
+  \end{subsection}
+
+  \begin{subsection}{Characteristic Polynomials}
+
+    For \(A \in M_{n}(F)\) the characteristic polynomial of A, \(\chi_{A}(x) =
+    \det(xI - A) \in F[x]\). \(\chi_{A}(x)\) is monic of degree n. For \(c_{i}\)
+    coefficients of \(\chi_{A}(x)\), \(\det(A) = (-1){}^{n} c_{0}\) and
+    \(Tr(A) = -c_{n - 1}\). \\
+    For \(L / F\) size n, \(\alpha \in L\) we have \(T_{\alpha, L / F} \in
+    M_{n}(F)\) with \(\chi_{T_{\alpha}} = \chi_{\alpha, L / F} =
+    \chi_{\alpha}\) (same regardles of basis). This can be used to redefine
+    \textbf{norm} and \textbf{trace} as \[N_{L / F}(\alpha) = (-1){}^{n} c_{0}
+      \; and \; Tr_{L / F}(\alpha) = -c_{n - 1}.\] \\
+    For a field extension \(L / F\) and \(\alpha \in L\) s.t.\
+    \(L = F(\alpha)\), \(\chi_{\alpha}(x) = p_{\alpha}(x)\) with p the minimal
+    polynomial. More generally for any field extension \(L / F\), \(n =
+    [L : K]\)and \(d = [F(\alpha) : F]\) we have \(m = \frac{n}{d} =
+    [L : F(\alpha)]\) and \(\chi_{\alpha}(x) = p_{\alpha}(x){}^{m}\). In the
+    case above \(m = 1\). This yelds yet another definition of norm and trace,
+    namely for \(a_{i}\) coefficients of \(p_{A}(x)\), \(\det(A) = (-1){}^{n}
+    a_{0}^{m}\) and \(Tr(A) = ma_{n - 1}\) with the same m.
+
+  \end{subsection}
+
+\end{section}
+
+\end{document}
