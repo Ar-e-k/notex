@@ -9,6 +9,12 @@
 
 \graphicspath{{images}}
 
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\F}{\mathbb{F}}
+
 \title{Galois Theory}
 \author{Arkadiusz Naks}
 \date{2023}
@@ -48,21 +54,29 @@
 
   A place for short and important definisions
 
-  \textsc{Definision} (Solutiob by Radicals) \textit{A solution that can be
+  \textsc{Definision} (Solution by Radicals) \textit{A solution that can be
     expressed by a finite number of basic arithmeic operations a well as
     \(\sqrt[m]{x}\)}
+
+  \textsc{Definision} \textit{For a homomorphism \(\varphi: K \to K'\) and a
+    polynomial \(f(x) \in K[x]\) \(\varphi_{*} f(x)\) is the polynomial formed
+    by applying \(\varphi\) to \(f(x)\)}
+
+  \textsc{Definision} (Formal Derivative in \(K[x]\)) \textit{For \(f(x) \in
+    K[x]\), the derivative is defined as \(D(f) = \sum^{n}_{i = 1} ia_{i}
+    x^{i - 1} \in K[x]\)}
 
 \end{section}
 
 \begin{section}{Introduction}
 
-  The primary modivation of Galois Theory is to show that there is no general
+  The primary motivation of Galois Theory is to show that there is no general
   solution for polynomials of degree 5 or higher that can be \textbf{solved by
-  radicals}. It can also be used to find can a particular given equasion can be
-  \textbf{solved in radicals} as well as find the algorithm to find such
-  solution (which in practice can be extremely complicated).
+    radicals}. It can also be used to determine whether a particular given
+  equation can be \textbf{solved in radicals} as well as find the algorithm to
+  find such solution (which in practice can be extremely complicated).
 
-  \begin{subsection}{Cubics over \(\mathbb{C}\)}
+  \begin{subsection}{Cubics over \(\C\)}
 
     To find a general solution to an equation
     \(x^{3} + a_{2}x^{2} + a_{1}x + a_{0} = 0\) a substitution
@@ -85,16 +99,16 @@
     \(u + v, \omega u + \omega^{2} w, \omega^{2} u + \omega w\).
 
     The same formulas will give \textbf{solutions in radicals} in other fields
-    \(\mathbb{F}_{p}\) for p prime and \(p \geq 5\). They fail for \(p = 2, 3\)
+    \(\F_{p}\) for p prime and \(p \geq 5\). They fail for \(p = 2, 3\)
     as they involve divisibily by 2 and 3.
 
   \end{subsection}
 
-  \begin{subsection}{Quortic over \(\mathbb{C}\)}
+  \begin{subsection}{Quortic over \(\C\)}
 
     Similarly to a cubic, any given quortic can be changed to a
     \textbf{reduced} form \(t^{4} + pt^{2} + qt + r = 0\). To solve this, it is
-    manipulated to obtain a difference (or sum, identical over \(\mathbb{C}\))
+    manipulated to obtain a difference (or sum, identical over \(\C\))
     of two squares. This transforms the quortic into two quodritics, each
     containing two anwsers. This can be always achived by introducing a w term
     to get the following equation
@@ -115,7 +129,7 @@
     One good example of symetries in quodratic roots are complex roots comming
     in conjugate pairs. Another one is very similar, namely real roots come in
     conjugate pairs similar to complex ones if they are structured over
-    \(\mathbb{Q}[\sqrt[2]{n}]\) (with n the determinant). Both of these examples
+    \(\Q[\sqrt[2]{n}]\) (with n the determinant). Both of these examples
     can be deduced from the quodratic formula.
 
   \end{subsection}
@@ -126,13 +140,13 @@
 
   \begin{subsection}{Characteristic}
 
-    For a ring homomorphism \(x: \mathbb{Z} \to K\) with K a field and
+    For a ring homomorphism \(x: \Z \to K\) with K a field and
     \(x: n \to 1_{0} + 1_{1} + \cdots + 1_{n}\), the  \textbf{characteristic}
     of K (\(char(K)\)) is defined as the smalles \(n \geq 1\) s.t. \(x(n) = 0\)
     if such n exists, otherwise \(char(K) = 0\). \\
     \textit{The characteristic of a field is alsways 0 or prime}
 
-    Iff \(char(K) = 0\) then \(\mathbb{Q}\) is the \textbf{prime subfield} of
+    Iff \(char(K) = 0\) then \(\Q\) is the \textbf{prime subfield} of
     K. \\
     Iff \(char(K) = p\) then \(F_{p}\) is the \textbf{prime subfield} of K.
 
@@ -143,36 +157,36 @@
     For a field K, \(K[x]\) is a ring of polynomials over K,
     \[K[x] = \{a_{0} + a_{1}x + \cdots + a_{n}x_{n} | a_{i} \in K\}{}\]
 
-    \textit{This ring is very similar to \(\mathbb{Z}\)}. It is an integral
+    \textit{This ring is very similar to \(\Z\)}. It is an integral
     domain as well as an unique factorisation domain.
 
     \begin{subsubsection}{Irreducibility}
 
       \textbf{Rational Root Test}: for \(f(x) = a_{n}x^{n} + \cdots + a_{1}x
-      + a_{0}\) for all \(a_{i} \in \mathbb{Z}\), if \(f(x)\) has roots in
-      \(\frac{b}{c} \in \mathbb{Q}\) then \(b | a_{0}\) and \(c | a_{n}\).
+      + a_{0}\) for all \(a_{i} \in \Z\), if \(f(x)\) has roots in
+      \(\frac{b}{c} \in \Q\) then \(b | a_{0}\) and \(c | a_{n}\).
 
-      \textbf{Gauss's Lemma}: suppose \(f(x) \in \mathbb{Z}[x]\) factorises as
-      \(f(x) = g(x)h(x)\) where \(g(x), h(x) \in \mathbb{Q}[x]\) then \(\exists r
-      \in \mathbb{Q}\) s.t.\ \(rg(x), r^{-1}h(x) \in \mathbb{Z}[x]\). In other
-      words, if \(f(x)\) can be factorised in \(\mathbb{Q}\) it also has to be
-      factorised in \(\mathbb{Z}\).
+      \textbf{Gauss's Lemma}: suppose \(f(x) \in \Z[x]\) factorises as
+      \(f(x) = g(x)h(x)\) where \(g(x), h(x) \in \Q[x]\) then \(\exists r
+      \in \Q\) s.t.\ \(rg(x), r^{-1}h(x) \in \Z[x]\). In other
+      words, if \(f(x)\) can be factorised in \(\Q\) it also has to be
+      factorised in \(\Z\).
 
-      For a map \(\phi: \mathbb{Z} \to F_{p}[x]\), \(f(x) \to \bar{f}(x) =
+      For a map \(\phi: \Z \to F_{p}[x]\), \(f(x) \to \bar{f}(x) =
       f(x) \pmod{p}\), if \(\bar{f}(x)\) is irreducible in \(F_{p}[x]\), then
-      \(f(x)\) is irreducible in \(\mathbb{Q}[x]\). This is valid as long as
+      \(f(x)\) is irreducible in \(\Q[x]\). This is valid as long as
       p is prime and \(p \nmid a_{n}\). This only goes one way.
 
-      \textit{All of this will work if \(\mathbb{Z}\) is replaced with any ring
-        R as long as R is a UFD and \(\mathbb{Q}\) with field of fractions
+      \textit{All of this will work if \(\Z\) is replaced with any ring
+        R as long as R is a UFD and \(\Q\) with field of fractions
         \(K = Frac(R)\).}
 
-      \textbf{Eisteins' Criterion}: if \(f(x) = a_{n}x^{n} + \cdots a_{1}x +
-      a_{0} \in \mathbb{Z}[x]\) and prime p s.t./ \(p \nmid a_{n}\),
+      \textbf{Eisenstein Criterion}: if \(f(x) = a_{n}x^{n} + \cdots a_{1}x +
+      a_{0} \in \Z[x]\) and prime p s.t.\ \(p \nmid a_{n}\),
       \(p | a_{n - 1}, \dots p | a_{1}\) and \(p | a_{0}\) but \(p^{2} \nmid
-      a_{0}\) then \(f(x)\) is irreducible in \(\mathbb{Q}\).
+      a_{0}\) then \(f(x)\) is irreducible in \(\Q\).
 
-      \textit{To generalise Eisteins to more rings, p has to be prime in R.}
+      \textit{To generalise Eisenstein to more rings, p has to be prime in R.}
 
     \end{subsubsection}
 
@@ -183,7 +197,7 @@
     \textit{For a field extension \(L / K\) we generally use Roman letters for
       elements in K and Greek letters for elements in L}.
 
-    \textit{Note: Segment similar to Number Theory (slightly later in hte
+    \textit{Note: Segment similar to Number Theory (slightly later in the
       term)}.
 
     A \textbf{field extension}, denoted \(L / K\) is a field L containing a
@@ -200,19 +214,19 @@
 
     \begin{subsubsection}{Towers of Field Extensions}
 
-      In Galois Theory, towers \(K \subset M \subset L\) s.t.\ K and F are
+      In Galois Theory, towers \(K \subset M \subset L\) s.t.\ K and L are
       fixed and M varies in between are important. One example is \(K =
-      \mathbb{Q}\), \(L = \mathbb{Q}(\sqrt{2}, \sqrt{7})\) and M is either
-      \(\mathbb{Q}(\sqrt{2}), \mathbb{Q}(\sqrt{7}), \mathbb{Q}(\sqrt{14})\).
+      \Q\), \(L = \Q(\sqrt{2}, \sqrt{7})\) and M is either
+      \(\Q(\sqrt{2}), \Q(\sqrt{7}), \Q(\sqrt{14})\).
       This can be represented with a diagram
       \begin{center}
         \begin{tikzpicture}
 
-          \node (Q1) at (0,0) {\(\mathbb{Q}\)};
-          \node (Q2) at (2,2) {\(\mathbb{Q}(\sqrt{2})\)};
-          \node (Q3) at (0,4) {\(\mathbb{Q}(\sqrt{2}, \sqrt{7})\)};
-          \node (Q4) at (-2,2) {\(\mathbb{Q}(\sqrt{7})\)};
-          \node (Q5) at (0, 2) {\(\mathbb{Q}(\sqrt{14})\)};
+          \node (Q1) at (0,0) {\(\Q\)};
+          \node (Q2) at (2,2) {\(\Q(\sqrt{2})\)};
+          \node (Q3) at (0,4) {\(\Q(\sqrt{2}, \sqrt{7})\)};
+          \node (Q4) at (-2,2) {\(\Q(\sqrt{7})\)};
+          \node (Q5) at (0, 2) {\(\Q(\sqrt{14})\)};
 
           % To add text x:
           % node [pos=0.7, below,inner sep=0.25cm] {};
@@ -225,8 +239,8 @@
 
         \end{tikzpicture}
       \end{center}
-      \(\mathbb{Q}(\sqrt{2}, \sqrt{7}) / \mathbb{Q}\) is also a
-      \textbf{simple extension} as it can be writen as \(\mathbb{Q}()\).
+      \(\Q(\sqrt{2}, \sqrt{7}) / \Q\) is also a
+      \textbf{simple extension} as it can be writen as \(\Q()\).
 
     \end{subsubsection}
 
@@ -262,19 +276,20 @@
     polynomial:
     \begin{itemize}
       \item \(K_{m} = K[x] / (m(x))\) is a field extension of K
-      \item For a map \(\pi : K[x] \to K_{m}\) and \(\theta = \pi(x)\). Then
-            \(\theta\) has minimal polynomial \(m(x)\) and \(K_{m} =
-            K(\theta)\)
+      \item For a map \(\pi : K[x] \to K_{m}\) s.t.\ \(f(x) \mapsto f(\theta)\)
+            and \(\theta = \pi(x)\). Then \(\theta\) has minimal polynomial
+            \(m(x)\) and \(K_{m} = K(\theta)\)
     \end{itemize}
     This \(K_{m}\) field extension is the minimal field containg K and the root
-    of \(m(x)\).
+    of \(m(x)\), as well as n dimentional vector space over K, with \(n =
+    \deg m(x)\).
 
     For two field extensions \(L_{1} / K\) and \(L_{2} / K\) and \(\varphi:
     L_{1} \to L_{2}\) a field homomorphism, then \(\varphi\) is called a
     \textbf{K-homomorphism} if \(\forall a \in K \; \varphi(a) = a\). It can
     be said that \(\varphi\) \textbf{fixes} K. If it is an isomorphism of fields
-    then it is called \textbf{K-isomorphism}. (Also K-automorphism is its a
-    K-isomorphism and \(L_{1} = L_{2}\), s.t.\ complex conjugation)
+    then it is called \textbf{K-isomorphism}. (Also K-automorphism is a
+    K-isomorphism)
 
     Take \(K_{m} / K\) with \(\pi\) and \(\theta\) as above, then for \(L / K\)
     with \(\theta' \in L\) satisfying \(m(\theta') = 0\), \(K_{L}(\theta')\) is
@@ -290,11 +305,11 @@
 
   \begin{subsection}{Some Interesting Simple Extensions}
 
-    \(F_{9} \neq \mathbb{Z} / 9\) is defined as \(\mathbb{Z} / 3 (\theta)
+    \(F_{9} \neq \Z / 9\) is defined as \(\Z / 3 (\theta)
     = F_{3}(\theta) = F_{3} / (x^{2} - 2) = F_{9}\) where \(\theta^{2} = 2\).
     This is actually the same as \(F_{3}(i)\) with i as ususal.
 
-    Similarly \(F_{4} \neq \mathbb{Z} / 4\) is defined as
+    Similarly \(F_{4} \neq \Z / 4\) is defined as
     \(F_{4} = F_{2} / (x^{2} + x + 1) = F_{2}(\theta)\) for \(\theta^{2} =
     \theta + 1\).
 
@@ -314,15 +329,197 @@
     and is denoted as \([L : K]\). When \(\theta\) is algebraic over K,
     \([K(\theta) : K] = n\). If \([L : K] < \infty\), then it is finite and
     all elements of L are \textbf{algebraic} over K. This is called an
-    \textbf{algebraic extension}. If \(theta = t\) (\textbf{indeterminate}) or
+    \textbf{algebraic extension}. If \(\theta = t\) (\textbf{indeterminate}) or
     is \textbf{transcendental}, \([L : K] = \infty\). \\
     \textit{There are infinite field extensions with no transcendental
       elements, which cannot be generated by adjoining finitely many algebraic
       elements}.
 
     For a tower of extensions \(K \subset M \subset L\), \([L : K] =
-    [L : M] \times [M : K]\) and \([L : K] < \infty \Rightarrow [L : M], [M : K]
-    < \infty\)
+    [L : M] \times [M : K]\) and \([L : K] < \infty \Rightarrow [L : M],
+    [M : K] < \infty\). This also means that for a field K and \(\alpha,
+    \beta\) algebraic over K, \([K(\alpha, \beta) : K] \leq
+    [K(\alpha) : K] \times [K(\beta) : K]\).
+
+  \end{subsection}
+
+\end{section}
+
+\begin{section}{Galois Extensions}
+
+  \begin{subsection}{Nice Fields}
+
+    \begin{subsubsection}{Splitting Fields}
+
+      A \textbf{spliting field} of \(f(x) \in K[x]\) contains all roots of
+      \(f(x)\) and is \textbf{minimal}. For \(L / K\), L is the \textbf{spliting
+        field} if \(f(x) = c(x - \theta_{1}) \cdots (x - \theta_{n})\) with all
+      \(\theta_{i} \in L\) (for \(c \in K, \; c \neq 0\)). Every polynomial in K
+      has exacly one splitting field with \([L : K] \leq n!\) (with n the degree
+      of the polynomial). An isomorphism \(\varphi: K \to K'\) can be extended
+      to an isomorphism \(\sigma: L \to L'\) with L and L' begin spliting fields
+      of K and K' and polynomials \(f(x)\) and \(f'(x) = \varphi_{*}(f(x))\).
+      This is a property of a field extension for a single polynomial.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Normal Fields}
+
+      A \textbf{normal} extension \(L / K\) is s.t.\ for any \(f(x) \in K[x]\)
+      irrdecucable, it is \textbf{split} by L.
+      A much less strict condition is \(L / K\) extention is only
+      \textbf{finite} and \textbf{normal} iff L is \textbf{splitting} for one
+      \(f(x) \in K[x]\). This is a property of the entire field extension. \\
+      A \textbf{normal closure} N of \(L / K\) is defined as \(K \subset L
+      \subset N\) s.t.\ \(N / K\) \textbf{normal} and N is minimal. A finitie
+      field extension always has unique \textbf{closure}.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Seperable Fields}
+
+      An element \(\theta \in L\) is \textbf{seperable over} K if its minimal
+      polynomial has no repeated roots in its \textbf{spliting} field. If all
+      elements of L are \textbf{seperable} over K, the whole extension is
+      called \textbf{seperable}.
+
+      A finite extension \(L / K\) is \textbf{seperable} if:
+      \begin{itemize}
+        \item \(char(K) = 0\)
+        \item \(char(K) = p\) and \(K = K^{p}\), i.e.\ ever \(a \in K\)
+              can be writen as \(b^{p}\) with \(b \in K\)
+        \item \(char(K) = p\) and \(p \nmid [L : K]\)
+      \end{itemize}
+      If a field satisfies condition one or two, it is called \textbf{perfect}.
+
+      A simpler condition for the whole field to be \textbf{seperable} is for
+      its minimal polynomial has no repeated roots in its \textbf{spliting}
+      field. For a tower \(K \subset M \subset L\) \(K / L\) is \textbf{seperable}
+      iff both \(L / M\) and \(M / K\) are. Being seperable and finite also
+      implies being \textbf{simple}. \\
+
+      \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Automorphisms}
+
+    A set of K-automorphisms of \(L / K\) forms a group with composition,
+    denoted as \(Aut(L / K\)). For \(L = K(\theta)\) with \(\theta\) algebraic
+    and \(\deg(\theta) = n\), \(|Aut(L / K)| \leq n\). This changes to an
+    equality when \(p_{\theta}(x)\) has n distinct roots in L. This can be
+    generalised for any field extension \(L / K\); \[|Aut(L / K)| \leq [L : K]\]
+    with equality iff \(L / K\) is \textbf{normal} and \textbf{seperable}.
+
+  \end{subsection}
+
+  \begin{subsection}{Definision}
+
+    If a field extension \(L / K\) is both \textbf{normal} and
+    \textbf{seperable}, it is called a \textbf{Galois Extension}. Its
+    automorphisms group, or \textbf{Galois group}, is denoted as \(Gal(L / K)\).
+    This means that \(|Gal(L / K)| = [L : K]\).
+
+    For a field L and a group of automorphisms G, a \textbf{fixed field} of G
+    \(L^{G} = \{ \alpha \in L | \varphi(\alpha) = \alpha \; \forall \varphi \in
+    G\}\) is a subset of L which all the automorphisms fix. If G is finite,
+    \(L^{G} \subset L\) and furthermore \([L : L^{G}] = |G|\). This implies
+    that for a Galois extension \(L / K\), \(L^{Gal(L / K)} = K\). Also for \(H
+    \subset Gal(L / K)\), \(K \subset L^{H} \subset L\).
+
+    \begin{subsubsection}{Fundamental Theorem of Galois Theory}
+
+      For Galois extension \(L / K\), \[\mathcal{F} = \{ intermidiate \; fields
+        \; of \; L / K \} \; and \; \mathcal{G} = \{ subgroups \; of \; Gal(L / K)
+      \},\] \(\exists \Gamma : \mathcal{F} \to \mathcal{G}\) with \(M \mapsto
+      Gal(L / M)\). Importantly all \(L / M\) for \(M \in \mathcal{F}\) are
+      Galois extensions. Meanwhile \(M / K\) while not neccessarily Galois can
+      make \(Gal(M / K)\) a \textbf{quotient} of \(L / K\) under the right
+      conditions. There also exists \(\Phi: \mathcal{G} \to \mathcal{F}\)
+      maps \(H \mapsto L^{H}\). \\
+      This maps are \textbf{mutually inverse bijections} (\textbf{Galois
+        Correspondance}).
+
+      For all \(M \in \mathcal{F}, H \in \mathcal{G}\) all extensions \(L / M\) as
+      well as \(L / L^{H}\) are \textbf{Galois} with \(| Gal(L / M) | = [L : M]\)
+      and \(Gal(L / L^{H}) = H\).
+
+      For the second part of the tower \(K \subset M \subset L\), if it exists,
+      \(| Gal(M / K) | = [M : K] = \frac{[L : K]}{[L : M]} = \frac{| G |}{| H |
+      }\) with \(G = Gal(L / K)\) and \(H = Gal(L / M)\).
+      The following are equivelant
+      \begin{itemize}
+        \item \(M / K\) is \textbf{Galois}
+        \item \(\sigma(M) = M \; \forall \sigma \in G\)
+        \item H is a \textbf{normal subgroup} of G
+        \item \(Gal(M / K) \cong G / H\)
+      \end{itemize}
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+\end{section}
+
+\begin{section}{Cyclotomic Field Extensions}
+
+  For \(K \subset L\) Galois, \(n \geq 1\) and \(Gal(L / K) \cong \Z_{n}\),
+  then L is called a \textbf{cyclic} extension of K of degree n.
+
+  \begin{subsection}{Roots of Unity}
+
+    \(\zeta \in K^{\times}\) is the n-th primitive root of unity if \(\zeta^{n}
+    = 1\) and \(\zeta^{m} \neq 1 \; \forall 0 < m < n\). If \(char(K) = p\),
+    then K does not contain the p-th root of unity. For \(K = \C\),
+    \(\zeta_{n} = \cos(2 \pi / n) + i \sin(2 \pi / n) = e^{2 \pi / n}\).
+
+    \(\mu(K)\) denotes the group of all roots of unity in \(K^{\times}\).
+    As all finite subgroups of \(K^{\times}\) are cyclic, \(\mu(K)\) is cyclic.
+    Also any finite cyclic group of order n appears as a subgroup of
+    \(K^{times}\) iff K contains the n-th primitive root of unity. \(\mu(K)\)
+    is generated by \(\zeta\) where \(\zeta\) is the n-th primitive root of
+    unity and there are no primitive roots of unity in K of order bigger than
+    n.
+
+  \end{subsection}
+
+  \begin{subsection}{Definision}
+
+    For \(n \geq 1\) let \(\zeta_{n}\) denote the n-th primitive root of unit
+    in \(\C\), then the field extension \(\Q(\zeta_{n})\) of \(\Q\) is called
+    the n-th \textbf{cyclotomic} field extension. This are always Galois over
+    \(\Q\).
+
+    \(\Phi_{n}(x)\) denotes the minimal polynomial of \(\zeta_{n}\) over
+    \(\Q\). \([\Q(\zeta_{n}) : \Q] = \varphi(n)\) with \(\varphi\) the Euler
+    function (look ENT notes). \\
+    \(\Phi_{n}(x)\) can be defined by \(x^{n} - 1 = \prod_{i | n} \Phi_{i}\),
+    which can be rearanged to get \(\Phi_{n}(x)\). If \(n = p\) prime,
+    \(\Phi_{n}(x) = x^{p - 1} + \cdots + x + 1\). For \(n = p^{s}\),
+    \(\Phi_{n}(x) = \Phi_{p}(x^{p^{s - 1}})\).
+
+    \(Gal(\Q(\zeta_{n} / \Q)) \cong \Z^{\times}_{n}\). This means that for p
+    prime, \(Gal(\Q(\zeta_{p})) \cong \Z_{p - 1}\).
+
+    For an odd n, \(\mu(\Q(\zeta_{n}))\) is a cyclic group of order 2n and it
+    is generated by \(-\zeta_{n}\). For n even, \(\mu(\Q(\zeta_{n}))\) is of
+    order n and generated by \(\zeta_{n}\). \\
+    If \(\gcd(m, n) = 1\), \(\Q(\zeta_{m}, \zeta_{n}) = \Q(\zeta_{mn})\). More
+    generally for any \(m, n, M = lcm(m, n)\), \(\Q(\zeta_{m}, \zeta_{n}) =
+    \Q(\zeta_{M})\).
+
+    \begin{subsubsection}{Prime P}
+
+      In this section p is always prime and \(p > 2\).
+
+      \(\{\zeta_{p}, \dots , \zeta^{p - 1}_{p}\}\) is a good \(\Q\) baisis for
+      \(\Q(\zeta_{p})\) as it does not change under any group action in
+      \(Gal(\Q(\zeta_{p}) / \Q)\). \\
+      For \(x \in \Q(\zeta_{p})\) let \(X = \{g(x) | g \in G\}\)
+      (discounting the duplicates) \([\Q(x) : \Q] = | X | \). The minimal
+      polynomial for such x over \(\Q\) is \(f(t) = \prod_{i \in X} (t - i)\).
+
+    \end{subsubsection}
 
   \end{subsection}
 

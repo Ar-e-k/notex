@@ -5,8 +5,22 @@
 \usepackage{hyperref} % Usable menu and references
 \usepackage{amssymb} % Used to show sets of sumbers, like the real numbers
 \usepackage{amsmath} % Used for collumn vectors
+\usepackage{xargs} % Used for multiple deafult command values
 
 \graphicspath{{images}}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Ok}{\mathcal{O}}
+\newcommand{\p}{\mathfrak{p}}
+\newcommand{\id}[1]{\mathfrak{#1}}
+
+\newcommandx{\val}[1][1=\cdot]{| #1 |}
+\newcommandx{\pdc}[2][1=a, 2=k, 3=0]{p^{#2} (\sum^{\infty}_{i = #3} #1_{i} p^{i})}
 
 \title{Number Theory}
 \author{Arkadiusz Naks}
@@ -51,7 +65,7 @@
     integer coefficients}
 
   \textsc{Definision} (Regular Prime) \textit{A prime p which does not difide
-    the order of the ideal class group of \(\mathbb{Q}(\xi_{p})\) with \(\xi_{p}\)
+    the order of the ideal class group of \(\Q(\xi_{p})\) with \(\xi_{p}\)
     being the pth root of unity}
 
 \end{section}
@@ -60,7 +74,7 @@
 
   Most classic example of a question solved through number theory is the famous
   Fermat's Last Theorem (FLT) (actually a conjecture), which states that
-  \[x^{n} + y^{n} = z^{n}\] has no solutions in \(\mathbb{Z}\) excluding 0 when
+  \[x^{n} + y^{n} = z^{n}\] has no solutions in \(\Z\) excluding 0 when
   \(n > 0\). The proof is very complex and therefor omited. One aim of varphis
   course will be to solve \textbf{diophantine} equations with integer or
   rational solutions.
@@ -74,7 +88,7 @@
     Every ED is a \textbf{principal ideal domain}. \\
     An \textbf{euclidean domain} is a ring R which has a
     \textbf{euclidean function} \(\varphi\). This function is defined
-    as \(\varphi: R \backslash{} \{0\} \to \mathbb{N}_{0}\) such that:
+    as \(\varphi: R \backslash{} \{0\} \to \N_{0}\) such that:
     \begin{itemize}
       \item \(\forall x, y \in R \backslash{} \{0\}\) \(\varphi(x) \leq \varphi(xy)\)
       \item \(\forall x \in R, y \in R \backslash{} \{0\} \exists q, r\) s.t.
@@ -83,9 +97,9 @@
 
     Some examples of EDs are:
     \begin{itemize}
-      \item \(\mathbb{Z}\) with \(\varphi: x \to |x|\)
+      \item \(\Z\) with \(\varphi: x \to |x|\)
       \item \(F[x]\) where F is a field with \(varphi: f(x) \to \deg(f)\)
-      \item \(\mathbb{Z}[\sqrt{-2}]\), with \(\varphi: a + b\sqrt{2}
+      \item \(\Z[\sqrt{-2}]\), with \(\varphi: a + b\sqrt{2}
             \to a^{2} + 2b^{3}\)
     \end{itemize}
 
@@ -178,6 +192,11 @@
     and therefore \(\alpha\) is an \textbf{eigenvalue} of the matrix
     \(T_{\alpha}\).
 
+    For example for the quodratic case with \(\alpha = a + b \sqrt{d}\) and the
+    standard basis \(\beta = \{ 1, \sqrt{d} \}\) \[\alpha \beta =
+      \begin{pmatrix} a + b \sqrt{d} \\ a \sqrt{d} + bd \end{pmatrix}\] therefor
+    \[T_{\alpha} = \begin{pmatrix} a && b \\ bd && a \end{pmatrix}.\]
+
     The norm and trace of \(\alpha \in L\) are defined respecitevely as
     \[N_{L / F}(\alpha) = \det(T_{\alpha}) \; and \; Tr_{L / F}(\alpha) =
       Tr(T_{\alpha}).\]
@@ -196,7 +215,7 @@
             T_{\beta}^{m})\)
       \item \(N_{L / F}(\alpha) = 0 \iff \alpha = 0\)
       \item \(N_{L / F}(\alpha \beta) = N_{L / F}(\alpha) N_{L / F}(\beta)\)
-      \item For \(a \in F\) \(N_{L / F} = a^{[L : F]}\) and
+      \item For \(a \in F\) \(N_{L / F}(a) = a^{[L : F]}\) and
             \(Tr_{L / F}(a) = [L : F] a\)
       \item \(\forall a, b \in F\)
             \[Tr_{L / F}(a \alpha + b \beta) = a Tr_{L / F}(\alpha) +
@@ -208,10 +227,10 @@
 
   \begin{subsection}{Characteristic Polynomials}
 
-    For \(A \in M_{n}(F)\) the characteristic polynomial of A, \(\chi_{A}(x) =
-    \det(xI - A) \in F[x]\). \(\chi_{A}(x)\) is monic of degree n. For \(c_{i}\)
-    coefficients of \(\chi_{A}(x)\), \(\det(A) = (-1){}^{n} c_{0}\) and
-    \(Tr(A) = -c_{n - 1}\). \\
+    For \(A \in M_{n}(F)\), the characteristic polynomial of A is \(\chi_{A}(x)
+    = \det(xI - A) \in F[x]\). \(\chi_{A}(x)\) is monic of degree n. For
+    \(c_{i}\) coefficients of \(\chi_{A}(x)\), \(\det(A) = (-1){}^{n} c_{0}\)
+    and \(Tr(A) = -c_{n - 1}\). \\
     For \(L / F\) size n, \(\alpha \in L\) we have \(T_{\alpha, L / F} \in
     M_{n}(F)\) with \(\chi_{T_{\alpha}} = \chi_{\alpha, L / F} =
     \chi_{\alpha}\) (same regardles of basis). This can be used to redefine
@@ -220,11 +239,503 @@
     For a field extension \(L / F\) and \(\alpha \in L\) s.t.\
     \(L = F(\alpha)\), \(\chi_{\alpha}(x) = p_{\alpha}(x)\) with p the minimal
     polynomial. More generally for any field extension \(L / F\), \(n =
-    [L : K]\)and \(d = [F(\alpha) : F]\) we have \(m = \frac{n}{d} =
-    [L : F(\alpha)]\) and \(\chi_{\alpha}(x) = p_{\alpha}(x){}^{m}\). In the
-    case above \(m = 1\). This yelds yet another definition of norm and trace,
-    namely for \(a_{i}\) coefficients of \(p_{A}(x)\), \(\det(A) = (-1){}^{n}
-    a_{0}^{m}\) and \(Tr(A) = ma_{n - 1}\) with the same m.
+    [L : F]\) and \(d = [F(\alpha) : F]\) we have \(m = \frac{n}{d} =
+    [L : F(\alpha)]\) and \(\chi_{\alpha}(x) = p_{\alpha, L / F}(x){}^{m}\). In
+    the case above \(m = 1\). This yelds yet another definition of norm and
+    trace, namely for \(a_{i}\) coefficients of \(p_{A}(x)\), \(\det(A) =
+    (-1){}^{n} a_{0}^{m}\) and \(Tr(A) = -ma_{n - 1}\) with the same m.
+
+  \end{subsection}
+
+\end{section}
+
+\begin{section}{Algebraic Stuff}
+
+  \begin{subsection}{Number Fields}
+
+    If \(\alpha \in \C\) is \textbf{algebraic} over \(\Q\), it
+    is called an \textbf{algebraic number}. A field K s.t.\
+    \(\Q \subseteq K \subseteq \C\) and \([K : \Q] <
+    \infty\), is called an \textbf{algebraic number field} (or a number
+    field). Every number field K is a \textbf{simple extension}, \(K =
+    \Q(\theta)\) for some \(\theta \in K\). K finite implies K
+    algebraic implies all elements algebraic. \\
+    The set of all algebraic numbers is denoted as \(\bar{\Q}\) and is
+    a field. Also \([\bar{\Q} : \Q]\) is infinite. For any
+    \(\alpha \in \bar{\Q}\), the roots of \(p_{\alpha}(x)\) in
+    \(\C\) are called \textbf{conjugates} of \(\alpha\). \\
+    This leads to yet another definision of norm and trace, for K a number
+    field, \(\alpha \in K\) and \(\alpha_{1}, \dots , \alpha_{n}\) (\(\alpha =
+    \alpha_{i})\) conjugates of \(\alpha\), \(N_{K}(\alpha) = (\alpha_{1}
+    \cdots \alpha_{n}){} ^{[K : \Q(\alpha)]}\) and \(Tr_{K}(\alpha) =
+    [K : \Q(\alpha)](\alpha_{1} + \cdots + \alpha_{n})\).
+
+  \end{subsection}
+
+  \begin{subsection}{Integers}
+
+    An \textbf{algebraic number} \(\alpha \in \bar{\Q}\) is said to be
+    an \textbf{algebraic integer} if it is a root of a monic polynomial
+    \(f(x) \in \Z[x]\). The set of all such integers is denoted as
+    \(\bar{\Z}\). For K a number field, the set of all
+    \textbf{algebraic integers} inside K is called \(\Ok_{K}\) and
+    \(\alpha \in \Ok_{K}\) is called an \textbf{integer} in K. For
+    \(\alpha \in \bar{\Q}\), the following statments are equivelant.
+    \begin{itemize}
+      \item \(\alpha \in \bar{\Z}\)
+      \item \(p_{\alpha}(x) \in \Z\)
+      \item \(\Z[\alpha]\) is generated by \(a_{i} \alpha^{i}\)
+            for \(i \in [0, \deg p_{\alpha} - 1]\)
+      \item There exists a \textbf{non trivial finitely generated abelian}
+            group \((G, +)\), \(G \subset \C\) s.t.\ \(\alpha G
+            \subseteq G\), meaing \(\forall g \in G \; \alpha g \in G\) \\
+            (This group is typically but not always \(\Z[\alpha]\))
+    \end{itemize}
+    \(\bar{\Z}\) and for any number field K, \(\Ok_{K}\) are
+    rings. For \(\alpha \in \Ok_{K}^{x}\) iff \(N_{K}(\alpha) =
+    \pm 1\).
+
+    For \(\alpha \in \bar{\Z}\) norm and trace of \(\alpha\) in K is
+    in \(\Z\) for any K number field. \\
+    Similarly to \(\Q\), any number field K can be generated by its
+    integers by \(K = \{\frac{a}{m} \; | \; \alpha \in \Ok_{K}, m \in
+    \Z, m \neq 0\}\).
+
+  \end{subsection}
+
+  \begin{subsection}{Quadratic Fields}
+
+    \(d \in \Z\) is called \textbf{squarefree} if \(d \notin {0, 1}\)
+    and no such prime p s.t.\ \(p^{2} | d\). Then for \(K / \Q\) with
+    degree 2, \(K = \Q(\sqrt(d))\) for some \textbf{squarefree} d. Such
+    fields are called \textbf{quadratic fields}, or \textbf{real quodratic
+      fields} for \(d > 0\) and \textbf{imaginary quadratic fields} otherwise.
+
+    For integers of such fields, there are two cases
+    \[\Ok_{K} =
+      \begin{cases}
+        \Z[\frac{1 + \sqrt{d}}{2}] & d \equiv 1 \pmod{4} \\
+        \Z[\sqrt{d}] & d \not\equiv 1 \pmod{4}
+       \end{cases}
+     \]
+
+     From now on let \(K = \Q[\sqrt{d}]\), d not a square number,
+     \(S = \Z[\sqrt{d}]\) or \(S = \Ok_{d}\) and
+     \(\overline{a + b \sqrt{d}} = a - b \sqrt{d}\). \\
+     \begin{itemize}
+       \item \(d < -1 \Rightarrow \Z[\sqrt{d}]{}^{\times} =
+             \{ \pm 1 \}\)
+       \item \(d = -1 \Rightarrow \Ok_{d}^{\times} = \{ \pm 1, \pm
+             i \}\)
+       \item For \(d \equiv 1 \pmod{4}\) and \(d < -3\), we have
+             \(\Ok_{d}^{\times} = \{ \pm 1 \}\)
+       \item \(d = -3 \Rightarrow \Ok_{-3}^{\times} = \{ \pm 1, \pm
+             \omega, \pm \omega^{2} \}\) where \(\omega = \frac{1 +
+             \sqrt{-3}}{2}\)
+       \item \(d > 1 \Rightarrow \exists u \in \Ok_{d}^{\times}\) s.t.\
+             it is the smallest elements.
+       \item \(\Ok_{K}^{\times} = \langle -1, u \rangle =
+             \{ u^{r} | r \in \Z \}\)
+     \end{itemize}
+     u is called the \textbf{fundamental unit} of \(\Ok_{K}\).
+
+  \end{subsection}
+
+  \begin{subsection}{Real Quadratic Fields}
+
+    For \(d > 1\) non square
+    \begin{itemize}
+      \item If \(S = \Z[\sqrt{d}]\) and \(a, b > 0\) s.t.\ \(a + b
+            \sqrt{d} \in S\), it is \textbf{fundamental} if b is
+            \textbf{minimal}
+      \item If \(d \equiv 1 \pmod{4} \Rightarrow S =
+            \Z[\frac{1 + \sqrt{d}}{2}]\)
+            \begin{itemize}
+              \item For \(d > 5\) for \(s, t > t\) s.t.\ \(\frac{s + t
+                    \sqrt{d}}{2}\), it is \textbf{fundamental} if t is
+                    \textbf{minimal} (very similar to the
+                    \(\Z[\sqrt{d}]\) case)
+              \item For \(d = 5\), \(\frac{1 + \sqrt{5}}{2}\) is the
+                    \textbf{fundamental} in \(\Ok_{5}\)
+                    (this is useful because \(s, t = 1, 1\) as well as
+                    \(s, t = 3, 1\) have t minimal so there would be ambiguity
+                    in the above definision)
+            \end{itemize}
+    \end{itemize}
+
+    For any \(\alpha = a + b \sqrt{d} \in \Q(d)\) \(\alpha >
+    \sqrt{| N_{K}(\alpha) |} \iff a, b > 0\).
+
+    \end{subsection}
+
+  \begin{subsection}{Norm Equations}
+
+    \begin{subsubsection}{Pell's Equation}
+
+      \(x^{2} - dy^{2} = \pm 1\) where d not a square and \(x, y \in
+      \Z\) is the \textbf{Pell's equation}. The LHS is the norm of
+      \(x + y \sqrt{d}\), solving Pell's equation is the same as looking for
+      elements of norm 1 in \(\Z[d]\). For a general version of the
+      equation where RHS is any integer, solving it is equivelant to looking
+      for all elements of \(\Z[d]\) with the norm equal to the RHS.
+
+    \end{subsubsection}
+
+    The \textbf{Main theorem} can be used to find all solutions to such
+    equations. For d \textbf{squarefree} and u the fundamental unit of
+    \(\Z[d]\) the solutions are simply given by \[x = \pm
+      \frac{u^{r} + \overline{u} ^{r}}{2} \; and \; y = \pm \frac{u^{r} -
+        \overline{u}^{r}}{2 \sqrt{d}} \;\; \forall r \in \N.\] \\
+    If d is not \textbf{squarefree} \(\Rightarrow a^{2} | d\) s.t.\
+    \(\frac{d}{a^{2}}\) is \textbf{squarefree}, the solutions to x and
+    \(z = ay\) are the same.
+    (In that case u is taken to be the fundamental unit in \(\Z
+    [\sqrt{\frac{d}{a^{2}}}]\))
+    There is one other condition for \(z \in \Z[\sqrt{d}]\); namely
+    \(a|z\). This is not always the case. To find the fundamental unit in
+    \(\Z[\sqrt{d}]\) simply take the smallest power p of u s.t.\
+    \(u^{p} \in \Z[\sqrt{d}]\). Then x, y are given by \[x = \pm
+      \frac{u^{pr} + u^{-pr}}{2} \; and \; y = \pm \frac{u^{pr} - u^{-pr}}{a \times
+        2 \sqrt{\frac{d}{a^{2}}}} \;\; \forall r \in \N.\]
+
+  \end{subsection}
+
+\end{section}
+
+\begin{section}{Latticies}
+
+  \begin{subsection}{Discriminants}
+
+    The \textbf{discrimiant} of a number field is an integer that measures the
+    \textit{size} of that number field (in some sense).
+
+    \begin{subsubsection}{Basic Discriminant Definision}
+
+      For \(f(x) \in \C[x]\) a monic polynomial degree \(n > 0\) with roots
+      \(\theta_{1}, \dots , \theta_{n}\). The discrimiant of of \(f(x)\) is
+      \[disc(f) = \prod_{1 \leq i < j \leq n}
+        (\theta_{i} - \theta_{j}){}^{2}.\] (This is equal to 0 if \(f(x)\) has
+      repeated  roots.) \\
+      The discrimiant of the number field K s.t.\ \(\Ok_{K} = \Z[\theta]\) for
+      some \(\theta \in K\) is the descriminant of the minimal polynomial of
+      \(\theta\) over \(\Q\). It is denoted as \(\Delta_{K}\). \\
+      \textit{This is not always appliciable as sometimes such \(\theta\) does
+        not exist.}
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Discriminants of n-tuples}
+
+      The \textbf{descriminant} of an n-tuple \(\gamma = (\gamma_{1}, \dots ,
+      \gamma_{n}) \in K^{n}\) is \(\Delta_{K}(\gamma) := \det(Q(\gamma))\)
+      where \(Q(\gamma) = (Tr_{K}(\gamma_{i} \gamma_{j})
+      ){}_{1 \leq i < j \leq n}\), a n by n square symmetric matrix. \\
+      This is in \(\Q\) and if all \(\gamma_{i} \in \Ok_{K}\), it is in \(\Z\).
+      Also for some \(\delta = (\delta_{1}, \dots , \delta_{n})\) s.t.\
+      \(\delta = M \gamma\) for a matrix \(M \in M_{n}(\Q)\), then
+      \[\Delta_{K}(\delta) = \det(M){}^{2} \Delta_{K}(\gamma).\] This implies
+      that the discrimiant is invariant under any permutation on the tuple.
+
+
+      For a tuple \(\theta_{1}, \dots , \theta_{n} \in \C\), let
+      \[ D =
+        \begin{pmatrix}
+          1 && \theta_{1} && \cdots && \theta^{n - 1}_{1} \\
+          1 && \theta_{2} && \cdots && \theta^{n - 1}_{2} \\
+          \vdots && \vdots && \cdots && \vdots \\
+          1 && \theta_{n} && \cdots && \theta^{n - 1}_{n} \\
+        \end{pmatrix}
+      \]
+      Then \(\det(D) = (-1){}^{{n}\choose{2}} \prod_{1 \leq r < s \leq n}
+      (\theta_{r} - \theta_{s})\).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Discriminants of Number Fields}
+
+      For \(K = \Q(\theta)\) a number field with \(\theta_{1} \dots ,
+      \theta_{n}\) denoting the roots of \(p_{\theta}(x)\), \(R = \Ok_{K}\) and
+      \(\gamma = \{ 1, \theta, \dots , \theta^{n - 1}\}\). Then
+      \(\Delta_{K}(\gamma) = (-1){}^{{n}\choose{2}} N_{K}(p'_{\theta}
+      (\theta))\), where \(p'_{\theta}(x)\) is the derivative of
+      \(p_{\theta}(x)\). \\
+      If K is a quadratic field with \(\theta = \sqrt{d}\), d squarefree,
+      \(\Delta_{K}(\{ 1, \theta \}) = 4d\). Note that if \(d \equiv 1 \pmod{4}\)
+      \(\Delta_{K} \neq disc(p_{\alpha})\). This is because in that case
+      \(\{ 1, \theta \}\) does not generate R.
+
+      \(\Delta_{K}(\gamma) \neq 0 \iff \gamma\) is a \(\Q\)-baises of K.
+
+      Generally \(\Delta_{K}\) only depends on the A, not on its generating
+      basis. The discriminant of K is defined as \(\Delta_{K}(R) =
+      \Delta_{K}(\alpha)\) with \(\alpha\) a generating basis.
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Lattice Definision}
+
+    Let A be a subgroup of a \(\Q\)-vector space V s.t.\ A is generated by a
+    subset \(B \subseteq A\) which is a \(\Q\)-basis for V. Then A is called a
+    \textbf{full lattice} in V and B is a \textbf{generating basis} for A.
+
+    Every non-zero ideal \(I \subset R\) is a lattice in K.
+
+  \end{subsection}
+
+  \begin{subsection}{Basis}
+
+    A generating basis for R is called \textbf{integral} basis for K. An
+    integral basis needs to have \([K : \Q]\) elements. Such basis generates
+    K with coefficients in \(\Q\) and generates R with coefficients in \(\Z\).
+
+    For A, B full latitices in n dimentional V generated by \(\alpha, \beta\)
+    and \(B \subset A\), there exists \(M \in M_{n}(\Z)\) s.t.
+    \(\beta = M \alpha\) and
+    \begin{itemize}
+      \item \(| A / B | = | \det(M) |\)
+      \item \(\Delta_{K}(\beta) = | A / B |^{2} \Delta_{K}(\alpha)
+            \label{BAS}\)
+    \end{itemize}
+
+  \end{subsection}
+
+  \begin{subsection}{Comparing Latticies}
+
+    For \(S \subseteq R\) a full lattice in \(K = \Q(\theta)\) with generating
+    basis \(\gamma = \{ \gamma_{1}, \dots , \gamma_{n}\}\) (for S). Let p be a
+    prime s.t.\ p divides \(| R / S |\) then
+    \begin{itemize}
+      \item \(p^{2} | \Delta_{K}(S)\) (follows from~\ref{BAS})
+      \item \(\exists \alpha = m_{1} \gamma_{1} + \cdots + m_{n} \gamma_{n}
+            \in S\) with \(m_{i} \in \Z\) such that \(\frac{\alpha}{p} \in R\)
+            and \(\notin S\). Also \(p = 2 \Rightarrow 0 \leq m_{i} \leq 1\)
+            and otherwise \(0 \leq | m_{i} | < \frac{p}{2}\). (Note: \(\alpha
+            \neq 0\))
+    \end{itemize}
+    This can be used to show that \(S = R\) as if no such p can exist they have
+    to equall. Morever \(S = \Z(\theta)\) can be used to check if
+    \(\Ok = \Z[\theta]\).
+
+  \end{subsection}
+
+\end{section}
+
+\begin{section}{Rings of Integers}
+
+  From now on \(R = \Ok_{K}\) for some number field K.
+
+  \begin{subsection}{Basic Group Structure}
+
+    As unique factorisation of elements in R ofter fails, exploring
+    factorisation of prime ideals of R is a good idea as it is always unique.
+
+    \begin{subsubsection}{Operation}
+
+      The product of two ideals I, J of R is defined as
+      \[IJ = \{ \sum^{k}_{i = i} x_{i}y_{i} | k \in \N, x_{i} \in I,
+        y_{i} \in J \}.\] This is still an ideal of R. Note that \(IJ \subseteq
+      I\), meaning the product decreases the size of the ideal. Divisibility
+      \(I | J\) can be defined as \(\exists S\) s.t.\ \(J = IS\). As if S
+      exists (meaning I divides J), \(J = IS \subseteq I\), meaning that
+      \textit{to divide is to contain}. The reverse is also true;
+      \textit{to contain is to divide}.
+
+      This operation is commutative and associative. Morever for generators
+      \(I = (a_{1}, \dots , a_{m})\) and \(J = (b_{1}, \dots , b_{n})\) then
+      \(IJ = (a_{i}b_{j} | 1 \leq i \leq m, 1 \leq j \leq n)\).
+
+      The ideal R behaves like the identity.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Primes}
+
+      Let \(\p\) be a prime ideal in R. Then \[\p \supseteq IJ \iff
+        \p \supseteq I \;\; or \;\; \p \supseteq J.\]
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Inverses}
+
+      A fractional ideal of R is a subset of K of the form \[\lambda I =
+        \{ \lambda a | a \in I\},\] where I is a non zero ideal of R and
+      \(\lambda \in K^{\times}\). \(\lambda R\) is called \textbf{principal
+        fractional ideal}. The set of all fractional ideals of R is denoted
+      as \(\mathcal{I}(R)\) and the set of \textbf{principal} ones is
+      \(\mathcal{P}(R)\).
+
+      Every ideal is a fractional ideal (by taking \(\lambda = 1\)) but the
+      way may not hold as \(\lambda I\) can be not in R. But for every
+      fractional ideal \(\exists x \in R\) s.t.\ \(x \lambda I \subseteq R\).
+
+      The same operation as defined for normal ideals holds fractional ideals.
+
+      A fractional ideal \(\id{a}\) is called \textbf{invertible} if \(\exists
+      \id{b}\) s.t.\ \(\id{a} \id{b} = R\). Then \(\id{b} = \id{a}^{-1}\). \\
+      \textbf{Ever fractional ideal is \emph{invertible}.}
+
+      Therefor \(\mathcal{I}(R)\) is an abelian group.
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+\end{section}
+
+\newpage
+
+\begin{section}{P-adic Numbers (Extra Reading)}
+
+  \begin{subsection}{Motivation}
+
+    The main motivation is solving \(x^{2} \equiv a \pmod{p^{n}}\) for an odd
+    prime p and a coprime to p. A solution \(x \in \Z\) exists for \(n = 1\) iff
+    \((\frac{a}{p}) = 1\). In that case take \(b^{2}_{0} \equiv a \pmod{p}\).
+    The claim is that this implies solutions exists \(\forall n \in \N\). \\
+    Asssuming a solution x exists for \(n \geq 1\), then x is coprime to p, so
+    \(x_{1} \equiv \frac{1}{2} (x + \frac{a}{x}) \pmod{p^{2n}}\) also exists
+    (This is the standard \textbf{Newton-Raphson iterative method}). Then \\
+    \(x_{1} - x \equiv 0 \pmod{p^{n}}\), and \(x^{2}_{1} - a \equiv 0
+    \pmod{p^{2n}}\).
+
+    This prcedure can be used to get \(x_{0}, x_{1}, \dots , x_{n}\) s.t.\
+    \(x_{k} \equiv a^{2} \pmod{p^{2^{k}}}\) and \(x_{k + 1} \equiv x_{k}
+    \pmod{p^{2^{k}}}\). \\
+    These xs can be writen in base p s.t.\
+    \[x_{0} = b_{0}\] \[x_{1} = b_{0} + b_{1} p\]
+    \[x_{2} = b_{0} + b_{1} p + b_{2} p^{2} + b_{3} p^{3}\]
+    and so on, all \(\pmod{p^{2^{k}}}\). In general
+    \[x_{k} = \sum^{2^{k}}_{i = 0} b_{i}p^{i} \pmod{p^{2^{k}}}.\]
+    From this it follows that \(x_{\infty} = \pdc[b]\)
+    is a root of \(x^{2} \equiv a \pmod{p^{\infty}}\) in a field \(\Q_{p}\) of
+    padic numbers.
+
+  \end{subsection}
+
+  \begin{subsection}{Valuations}
+
+    A valuation \(\val\) on a field \(\F\) is a map \(\F \mapsto \R^{+}\)
+    satisfying for each \(x, y \in \F\)
+    \begin{align*}
+      \val[x] = 0 \iff x = 0 \tag{ZERo} \label{ZER} \\
+      \val[xy] = \val[x] \cdot \val[y] \tag{HOMomorphism} \label{HOM} \\
+      \val[x + y] \leq \val[x] + \val[y] \tag{TRIangle} \label{TRI}
+    \end{align*}
+    If it also satisfies \[\val[x + y] \leq \max(\val[x], \val[y]) \label{MAX}
+      \tag{MAXimum},\] it is called a \textbf{nonarchimedean} valuation.
+    Otherwise it is called \textbf{archimedean}. If~\ref{MAX} holds,~\ref{TRI}
+    certainly holds.
+
+    For any field \(\F\) and any \(n, m \in \N\) where \(\N\) is defined as a
+    sum of copies of the identity in \(\F\), \(\val[n] = \val[-n]\) and
+    \(\frac{\val[m]}{\val[n]} = \val[\frac{m}{n}]\).
+
+    \begin{subsubsection}{Nonarchimedean Valuations}
+
+      For a \textbf{nonarchimedean} valuation and \(x, y \in \F\) s.t.\ \(x
+      \neq y\), \(\val[ x + y] = \max(x, y)\). Similarly for \(\val[ x_{1} +
+      \cdots + x_{n}] \leq \max(\val[x_{1} , \dots , x_{n}])\) with equality if the
+      maximum is unique. This also implies that for \(n \in \N\), \(\val[n] \leq
+      1\). \\
+      For \(| \cdot |\) a \textbf{nonarchimedean} valuation, so is \(\val
+      ^{\alpha}\) for any \(0 < \alpha \in \R\).
+
+      If \(\val\) is \textbf{nonarchimedean} valuation on \(\Q\) with some
+      \(\val[n] < 1\) for some \(n \in \N\), then there is a prime p s.t.\
+      \(\forall n \in \N\) if \(\val[n] < 1 \iff p | n\).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{P-adic Valuations}
+
+      There is a nonarchimedean valuation corresponding to each prime p. Define
+      \(\val_{p}\) by \(\val[0]{}_{p} = 0\) and \(\val[\frac{p^{k}n}{m}] =
+      p^{-k}\) for n, m coprime to p. This impiles that \(\val[n]{}_{p} = 1\)
+      if n is coprime to p as well as \(\val[p]{}_{p} = \frac{1}{p}\). This is
+      called a p-adic valuation on \(\Q\). \textit{Note: the choice of
+        \(p^{-k}\) is not important as we can take any \(\alpha\) to make this
+        equal to any number in range \((0, 1)\).}
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Defining the Field}
+
+    \begin{subsubsection}{Reals (Revision)}
+
+      \textit{Recal from Real Analysis}. The real numbers \(\R\) are defined by
+      equivlancy classes of \textbf{Cauchy sequences}. A sequence \((a_{n}) =
+      a_{1}, a_{2}, \dots , a_{n} , \dots\) for all \(a_{n} \in \Q\) is Cauchy
+      iff for each \(\epsilon > 0 \; \exists N > 0\) s.t.\ \(\val[a_{n} -
+      a_{m}] < \epsilon \; \forall n, m > N\). Then two sequences \((a_{n}),
+      (b_{n})\) are equivelant if the sequence \(a_{1}, b_{1}, \dots , a_{n}
+      b_{n}, \dots\) is also Cauchy. This is for \(\val\) being defined as
+      absolute value.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{\(\Q_{p}\)}
+
+      A field of p-adic numbers \(\Q_{p}\) as a completion of \(\Q\) replacing
+      the absolute value with \(\val_{p}\) and obtain p-Cauchy sequences this
+      way.
+
+      Any rational number \(\frac{m}{n}\) s.t.\ \(\val[\frac{m}{n}]{}_{p} = 1\)
+      can be approximated arbitrarily closely by a positive integer. Formally
+      for any \(k \in \N \; \exists N \in \N\) s.t.\ \(\val[\frac{m}{n} - N]{}
+      _{p} \leq p^{-k}\). This essentially removes the need for fractoins and
+      decimal points to express \(\Q\). This result can be easily extended to
+      fractions not coprime to p. \\
+      This positive integer N can be writen in base p, \[p^{k}N = p^{k}
+        (a_{0} + a_{1} p + \cdots + a_{r} p^{r})\] where all \(a_{i}\) are
+      integers mod p (assume \(a_{0} \neq 0\)).
+
+      \(\Q_{p}\) is then defined to be the set o all equivelance classes of
+      p-Cauchy sequences. Every such class can be represented as N above with
+      r at \(\infty\); namely \(\pdc\). Then we define addition and
+      multiplication as (...)
+
+      Under these operation \(\Q_{p}\) is an infinite, uncountable field of
+      characteristic 0 (similarly to \(\R\)). The p-adic integers are defined
+      as \(a \in \Z_{p} \iff \val[a]{}_{p} \leq 1\) (so if \(a \in \Z\),
+      \(a \in \Z_{p}\)). \(\Z_{p}\) is a ring.
+      \textit{Add units when confirmed}.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Basic Operations}
+
+      For this section \(a = \pdc\).
+
+      \textbf{Negation}: \\
+      \(-a = p^{k}((p - a_{0}) + \pdc[-1 - a_{0}][k][1])\)
+
+      \textbf{Reciprocals}: \\
+      \(a^{-1} = \pdc[a'][-k]\) where \(a'_{i}s\) can be found by computing
+      \(N = a_{0} + \cdots , a_{i} p^{i}\), then calculating \(p^{i + 1} > N'
+      \in \N\) s.t.\ \(NN' \equiv 1 \pmod{p^{i + 1}}\). Then writing N' in base
+      p gives \(a'_{i}s\).
+
+      \textbf{Addition}: \\
+      For \(b = \pdc[b][m]\) and \(m = k\), \(a + b = p^{k}((a_{0} + b_{0}) +
+      \cdots + (a_{i} + b_{i})p^{i} + \cdots)\) (all terms modulo p). If \(k >
+      m\) shift \(b_{i}s\) to \(b_{i + k - m}\) and add 0s to the front of the
+      sequence.
+
+      \textbf{Multiplication}: \\
+      \(a * b = p^{k + m}(a_{0}b_{0} + (a_{1}b_{0} + a_{0}b_{1})p + \cdots +
+      (\sum^{i}_{j = 0} a_{j} b_{i - j})p^{i})\) (all terms modulo p).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Representation}
+
+      Some complex stuff
+
+    \end{subsubsection}
 
   \end{subsection}
 

@@ -1,0 +1,209 @@
+\documentclass[12pt, letterpaper]{article}
+
+\usepackage{graphicx}
+\usepackage{parskip} % Disabling paragraph index as it does not fit maths
+\usepackage{hyperref} % Usable menu and references
+\usepackage{amssymb} % Used to show sets of sumbers, like the real numbers
+
+\begin{document}
+
+\begin{section}{Data Structures}
+
+  \begin{subsection}{Hashing Introduction}
+
+    \begin{subsubsection}{Premis}
+
+      These support three basic operations:
+      \begin{itemize}
+        \item \textbf{Lookup(x)}: returns true if x is in the set
+        \item \textbf{Insert(x)}: adds item x to current set if not present
+        \item \textbf{Delete(x)}: removes x from current set if present
+      \end{itemize}
+
+      A trivial solution is a \textbf{linked list}, but it operates in linear
+      time to the current set size (on average). \\
+      A \textbf{balanced search tree} is a bit better (logarithmic time).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Basic Definision}
+
+      A class of probabilistic data structures. Performance bounds will often
+      not hold in the worst case, but will on average and most of the time.
+      This is called the \textbf{expected} runtime. \\
+      It is often possible to show that it is extremely unlikely to deviate
+      from expeced values. \\
+      This can achive \textbf{constant expected} time per operation.
+
+      \textbf{Space usage} will be bounded in terms of n (\(O(n)\)).
+
+      A \textbf{hash function} takes an item as input and returns a
+      semi-random value from a set \(\{ 1, \dots , r \}\).
+
+      Some assumptions:
+      \begin{itemize}
+        \item All stored items have the same size
+        \item Any two items can be  compared in constant time.
+        \item There exist functions \(h_{1}, h_{2}\) s.t.\ any function value
+              \(h_{i}(x)\) is equal to a value in the set \(\{ 1, \dots , r
+              \}\) with probabilistic of \(\frac{1}{r}\) (only possible if the
+              func is ranom)
+        \item Function values are probabilistically independet of each other
+              (one function value says nothing about other funcion values)
+        \item Hash functions can be computed in constant time
+        \item There is a fixed upper bound n on the number of items in the set
+      \end{itemize}
+
+      The main idea of this data structure is to let the hash function to
+      decide where to store the items.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Universal Hashing}
+
+      Making hashing functions completely random and independet is not really
+      \textbf{feasible} in practice. A family of hash functions H from U to
+      \(V = \{ 0, \dots , n - 1 \}\). This family if called
+      \textbf{k-universal} if \(\forall x_{1}, \dots , x_{k} \in U\) and a
+      random \(h \in H\)
+      \[p(h(x_{1}) = \cdots = h(x_{k})) \leq \frac{1}{n^{k - 1}}.\]
+      This is equivelant to saying all the hash functions in the family are as
+      good as random and independent for up to k elements. \\
+      Similarly a family can be \textbf{strongly k-universal} if \(\forall
+      y_{1}, \dots , y_{k} \in V\)
+      \[p(h(x_{1}) = y_{1}, \dots , h(x_{k}) = y_{k}) \leq \frac{1}{n^{k}}.\]
+
+      The difference is for universal functoins only questions about
+      \textbf{collisions} are likely while the \textbf{strong} ones can be used
+      for probability where things will land. Clearly \textbf{strong
+        universality} implies \textbf{universality}.
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Cuckoo Hashing}
+
+    \begin{subsubsection}{Motivation}
+
+      Collisions are likely; namly for items \(x \neq y\) it can occur that
+      \(h_{1}(x) = h_{2}(y)\). This can be fixed by storing a linked list at
+      each position, and then storing all elements such that \(h_{1}(x) = a\)
+      in the linked list at a. Doubly linked list is better for convenience
+      and call each slot a bucket. \\
+      This means that the time for an operation is bounded by some constant
+      times the number of items in the bucket.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Cuckoo Hashing Definision}
+
+      This aims to guarantee not only the \textbf{expected} time but also the
+      \textbf{worst-case} constant lookups. \\
+      Two basic approaches would be to make a huge table (ok?) and use a hash
+      function with no collisions (called \textbf{perfect}). This can be very
+      complicated, expecially for insertions.
+
+      The more complicated (or simpler?) way to do it; \\
+      Instead of storing x at position \(h_{1}(x)\), it can be stored at either
+      \(h_{1}(x)\) or \(h_{2}(x)\). Then allow at most one element to be stored
+      throw out the current in each position. When both of those are occupied
+      the following procedure should be implemented: \\
+      Throw out current occupent y of position \(a = h_{1}(x)\) and place x
+      there. Try to place y in \(h_{1}(y)\) and \(h_{2}(y)\). If both are
+      occupied, otherwise repeat the same procedure for y replacing the value
+      that is not x. This procedure repeats until a valid position is found or
+      it takes too long. \textit{If it takes too long, both hash functions are
+        changed and the whole datastructure should be reworked (should not be
+        common).} \\
+      Too long is commonly defined as more than n attempts, where n is the
+      number of items that can be stored. This is because after n steps it is
+      certain the algorithm is stuck in a loop.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Performance}
+
+      This can be represented as a graph with new x forming a path through all
+      the data it replaces. The rehashing only needs to be done if the graph
+      cycles.
+
+      The expected time for insertion is constant, and worst case only occures
+      when rehashing. Other two operations always run in constant time.
+
+      The table size needs to be \(r \geq 2cn\) with \(c > 1\) a constant. This
+      puts the probability of a cycle in an undirected cuckoo graph of lenght
+      l which is the shortest path from any two nodes on it at is most
+      \(\frac{c^{-\l}}{r}\).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Stashes}
+
+      A possible upgrade to Cuckoo hashing is adding a constant size
+      \textbf{stash} where elements are stored before a \textbf{rehashing} is
+      done (rehash only when that stash is full). This very simple idea can
+      decrease the probability of rehashing from \(O(\frac{1}{n})\) to
+      \(O(\frac{1}{n^{s + 1}})\) where s is the size of the stash.
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Bloom Filter}
+
+    \begin{subsubsection}{Overview}
+
+      Does not actually store any elements, it \textit{bookkeeps} them.
+      A standard bloom filter can
+      \begin{itemize}
+        \item Make elements known (similar to insertion but not really)
+        \item Cannot delete (can cannot delete...)
+        \item Anwsers lookup queries just yes/no
+      \end{itemize}
+
+      However as it is a probabilistic datastructure the problem with it is the
+      possibility of \textbf{false-positives}, meaning a lookups can sometimes
+      anwser yes  while they should anwser no.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Definision}
+
+      For an array \(S = \{ s_{1}, \dots , s_{n} \}\) with \(s_{i} \in U\) and
+      \(m << U\), a bloom filter is
+      \begin{itemize}
+        \item An array A of n bits, with \(n \approx m\)
+        \item k hash functions \(h_{1}, \dots , h_{k}\), with each ranging
+              between 1 and \(n - 1\).
+      \end{itemize}
+      Then for each \(s \in S\), \(A[h_{i}(s)]\) is set to 1. To check if x is
+      in S, check all location \(A[h_{i}(x)]\) and if they are all set to 1,
+      return true. \\
+      However when \(x \notin S\), all the bits corresponding to
+      \(A[h_{i}(x)]\) can be set to 1 all the other elements acciendtally. This
+      may result in the \textbf{bloom flter} saying yes for that x when it
+      should have been a no. This is called a \textbf{false-positive}. \\
+      The user can be sure a no anwser is correct but there is the chance a yes
+      is not correct.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{False Positives}
+
+      For a table of size n with m elements hashed and k hash functions, the
+      probability \(p_{0}\) of a bit being equal to 0 is \(p_{0} = (1 -
+      \frac{1}{n}){}^{km} \approx \exp(-\frac{km}{n})\). Then the probability
+      of a \textbf{false-positive} \(p_{f} = (1 - p_{0}){}^{k}\). As \(p_{0}\)
+      wants to minimise k and \(p_{f}\) wants to maximise k, an optimal value
+      can be fund, and it is \(k = \ln(2) \frac{n}{m}\). As k has to be an
+      integer take the floor and the ceiling and work with whatever gets lower
+      \(p_{f}\).
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+\end{section}
+
+\end{document}

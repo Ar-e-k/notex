@@ -1,0 +1,302 @@
+\documentclass[12pt, letterpaper]{article}
+
+\usepackage{graphicx}
+\usepackage{parskip} % Disabling paragraph index as it does not fit maths
+\usepackage{hyperref} % Usable menu and references
+\usepackage{amssymb} % Used to show sets of numbers, like the real numbers
+\usepackage{amsmath} % Used of matrix absolute value (vmatrix)
+\usepackage{xargs} % Used for multiple deafult command values
+
+\graphicspath{{images}}
+
+\newcommand{\x}{\textbf{x}}
+\newcommand{\norm}{\hat{\textbf{n}}}
+\newcommand{\R}{\mathbb{R}}
+\newcommandx{\scal}[2][1=f, 2=\x]{#1 (#2)}
+\newcommandx{\vecs}[2][1=f, 2=\x]{\textbf{#1} (#2)}
+
+\newcommand{\pder}[2]{\frac{\partial{} #1}{\partial{} #2}}
+\newcommand{\der}[2]{\frac{d #1}{d #2}}
+
+\title{Analysis in Many Variables}
+\author{Arkadiusz Naks}
+\date{2023}
+
+\begin{document}
+
+\begin{titlepage}
+  \begin{center}
+    \makeatletter
+    \vspace*{1cm}
+    \Huge
+    \textbf{\@title}
+
+    \vspace{0.5cm}
+    \Large
+    Lecture notes from AiMV at Durham University
+
+    \vspace{1.5cm}
+
+    \textbf{\@author}
+
+    % \includegraphics[scale=0.55]{.png}
+    \vfill
+
+    \vspace{0.8cm}
+
+    \small
+    Based on my understanding of lectures and notes of \\
+    \@date{}
+  \end{center}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\begin{section}{Important Definisions}
+
+  \textsc{Definision} (Curve) \textit{A funcion \(\R \Rightarrow \R^{3}\)}
+
+  \textsc{Definision} (Surface) \textit{A funcion \(\R^{2} \Rightarrow \R^{3}\)
+  }
+
+  \textsc{Definision} (Scalar Field) \textit{A funcion \(\R^{n} \Rightarrow \R
+    \)}
+
+  \textsc{Definision} (Vector Field) \textit{A funcion \(\R^{n} \Rightarrow
+    \R^{2}\)}
+
+\end{section}
+
+\begin{section}{Scaler Fields}
+
+  For all this section let \(\scal = f(x, y, z)\).
+
+  \begin{subsection}{Visualisation}
+
+    A scalar field \(f(x, y)\)  in \(\R^{2}\) can be visualised by taking a
+    constant height z, meaning drawing all points \((x, y)\) s.t.\ \(f(x, y)
+    = z\). These are called \textbf{contours} of f. Similarly a scalar field in
+    \(\R^{3}\) can be visualised as an \textbf{isosurfaces}, and
+    computing those is a non trivial computation problem.
+
+  \end{subsection}
+
+  \begin{subsection}{Differentiation}
+
+    Partial derivatives of f a n dimentional scalar field are encoded in its
+    \textbf{gradient} vector which has the form \(\nabla f =
+    (\pder{f}{x_{1}}, \dots , \pder{f}{x_{n}}){}^{T}\). To find the rate of
+    change in a general direction with a unit vector \(\norm\) take the scalar
+    product \(\norm \cdot \nabla f\). This is called a
+    \textbf{directional derivative} of f. This is equivelant to \(| \nabla f |
+    \cos(\theta)\), with \(\theta\) being the angle between \(\nabla f\) and
+    \(\norm\).
+
+    \(\nabla f\) is always orthogonal to the contours or isosurfaces in 2d and
+    3d, or equivelants in higher dimentions.
+
+  \end{subsection}
+
+  \begin{subsection}{Curves}
+
+    A curve C is a 1d subsection of \(\R^{3}\), usually described by a
+    \textbf{parametrisation} \(\x(t) = (x(t), y(t), z(t))\) where \(t \in
+    [a, b]\). The same curve can have different parametrisations going at
+    different velocities. If a curve does not cross itself, it is called
+    \textbf{simple} and if \(\x(a) = \textbf{x}(b)\) it is called
+    \textbf{closed}.
+
+    If the path is \textit{sufficiently smooth}, the parametrisation derivative
+    can be definied similarly to the regular one. It is also called a
+    \textbf{tangent curve}. If this derivative is non-zero everywhere, the
+    parametrisation is called \textbf{regular}. For two different
+    parametrisations \(\x_{1}(t_{1})\) and \(\textbf{x}_{2}(t_{2})\),
+    then \(\der{\x_{1}}{t_{1}} = \der{\x_{2}}{t_{2}} \der{t_{2}}{t_{1}}\).
+    There is a special parametrisation \(\x(s)\) called the \textbf{arclength}
+    with \(\der{\x}{s} = 1 \; \forall s\) in the domain.
+
+  \end{subsection}
+
+  \begin{subsection}{Surfaces}
+
+    There are 3 main ways to descrive a surface
+    \begin{itemize}
+      \item As a graph \(z = h(x, y)\) (\textbf{Explicit})
+      \item As a level set of some scalar field \(\scal = 0\)
+            (\textbf{Implicit})
+      \item As \(\x(u, v) = (x(u, v), y(u, v), z(u, v))\)
+            (\textbf{Parametricly})
+    \end{itemize}
+
+    At any point where the surface is \textit{sufficiently smooth}, a
+    \textbf{unit normal} vector \(\norm \in \R^{3}\) is \textbf{orthogonal} to
+    the surface. For an implicit surface \(\norm = \pm
+    \frac{\nabla f}{| \nabla f |}\). For the explicit case, set \(\scal =
+    h(x, y) - z\) and proceede same as for the implicit. \\
+    For the parametric case \(\x(u, v)\), \[\norm = \frac{\pder{\x}{u} \times
+        \pder{\x}{v}}{ | \pder{\x}{u} \times \pder{\x}{v} | }.\]
+    This \(\norm\) depends on the ordering of u and v.
+
+    A surface is called \textbf{smooth} if the \(\norm\) varies continously
+    over the surface and \textbf{piecewise smooth} if it can be divided into
+    finitely many \textbf{smooth} portions. It is \textbf{orientable} if the
+    unit normal is consistant (a non orientable example is a Mobius strip).
+    A surface can be \textbf{open} or \textbf{closed} depending if it can or
+    cannot be bounded by the curve. For an open surface S, the boundry is
+    denoted as \(\partial S\).
+
+  \end{subsection}
+
+  \begin{subsection}{Integrals}
+
+    \begin{subsubsection}{Line Integrals}
+
+      For C a regular arc of simple parametrisation \(\x(s) =
+      \x\) with \(s \in [0, l]\), a \textbf{line integral} of \(f\) along
+      C is \[\int_{C} \scal ds = \int^{l}_{0} f(x(s), y(s), z(s)) ds.\] This can
+      be calculated for any other parametrisation \(\x(t)\) with
+      \(t \in [a, b]\) as \(\int_{C} \scal = \int^{b}_{a} \scal
+      | \der{\x}{t} | dt\). The result does not depend on the
+      parametrisation. If a curve C is composed of multiple arcs, then the
+      integral is the sum of them all. For a closed arc, the integral is denoted
+      \(\oint\).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Surface Integrals}
+
+      For \(\scal\) a scalar field and \(\x(u, v)\) a parametrisation for a
+      surface S, a surface integral is defined as \[\int_{S} \scal dS =
+        \int_{U} \x(u, v) | \pder{\x}{u} \times \pder{\x}{v} | dudv\]
+      where U is the region of \(u, v\).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Volume Integrals}
+
+      For \(\scal\) a scalar field and \(V \subset \R^{3}\) a volume integral
+      is defined as \[\int_{V} \scal dV = \int_{x} \int_{y} \int_{z} \scal
+        dzdydx.\]
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+\end{section}
+
+% Add index notation later
+
+\begin{section}{Vector Fields}
+
+  A vector field in 3D is \(\vecs = (f(x), f(y), f(z)){}^{T}\).
+
+  \begin{subsection}{Integrals}
+
+    \begin{subsubsection}{Line Integrals}
+
+      For \(\vecs\) a vector field and C an arc of a simple curve with
+      parametrisation \(\x = \x(t)\) and \(t \in [0, l]\)
+      \[\int_{C} \vecs d \x = \int_{C} \vecs \der{\x}{t} dt.\]
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Conservative}
+
+      \(\vecs\) is called \textbf{conservative} if \(\vecs = \nabla \scal[g]\)
+      for \(\scal[g]\) a scalar field called a \textbf{potential}. Then for a
+      curve C between \(\x = \textbf{a}\) and \(\x = \textbf{b}\) the
+      \textbf{line integral} of the vector field \(vecs\) can be calculated byy
+      \[\int_{C} \vecs d \x = \int_{C} \nabla \scal[g] d \x = g(\textbf{a} -
+        g(\textbf{b})).\]
+      This implies that any curve between the same two points have same line
+      integral. This is true only for \textbf{conservative} vecotr fields.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Circulation}
+
+      For a \textbf{closed} curve C, the line integral of \(\vecs\) is written
+      \(\oint_{C} \vecs d \x\) and is called the \textbf{circulation} of
+      \(vecs\) around C. If possible, C is traversed anticlockwise. Any
+      circulation on a \textbf{conservative} vector field is 0. \\
+      Otherwise for \(A \subset \R^{2}\) a bounded region with \(\partial A =
+      C\) is piecewise smooth in the xy-plane, then if C is traversed with A on
+      the left
+      \[\oint_{C} \vecs d \x = \int_{A} (\pder{f_{2}}{x} - \pder{f_{1}}{y})
+        dA\]
+      where \(f_{1}, f_{2}\) are the first two components of the vector field.
+
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Surface Integrals}
+
+      For S an \textbf{orientable} surface, \textbf{flux} of \(\vecs\) is
+      defined as the surface integral \[\int_{S} \vecs d \textbf{S} =
+        \int_{S} \vecs \norm dS.\] This is equivelant to saying
+      \(d \textbf{S} = \norm dS\). The sign of the integral depends on the
+      chosen \(\norm\). \\
+      If the surface is closed, the integral is ofter writen as \(\oint\) and
+      the convention is for \(\norm\) to point outwards.
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Curl}
+
+    The \textbf{curl} of \(\vecs\) is a vector field \(\nabla \times \vecs\)
+    whose component in the \(norm\) direction is \[(\nabla \times \vecs) \norm{}
+      = \lim_{| A \to{} 0|} \frac{1}{| A |} \oint_{C} \vecs d \x\] where C is
+    in the plane normal to \(\norm\) and \(| A |\) is its area. This is
+    calculated right handed relative to the direction of \(\norm\).
+    \[\nabla \times \vecs = \begin{vmatrix}
+                                e_{1} & e_{2} & e_{3} \\
+                                \pder{}{x} & \pder{}{y} & \pder{}{z} \\
+                                f_{1} & f_{2} & f_{3} \end{vmatrix}\]
+    where \(e_{1}, e_{2}, e_{3}\) are unit vectors in the base 3 directoins.
+
+    For vector fields \(\vecs, \vecs[g]\) and a scalar field \(\scal[h]\), as
+    well as scalars \(a, b\)
+    \begin{itemize}
+      \item \(\nabla \times (a \vecs + b \vecs[g]) =
+            a \nabla \times \vecs + b \nabla \times \vecs[g]\)
+      \item \(\nabla \times (\scal[h] \vecs) =
+            (\nabla \scal[h]) \times \vecs + \scal[h] (\nabla \times \vecs)\)
+      \item \(\nabla (\nabla \scal[h]) = \textbf{0}\)
+    \end{itemize}
+
+  \end{subsection}
+
+  \begin{subsection}{Divergance}
+
+    \textbf{Divergance} of \(\vecs\) is a scalar field \[\scal[g] =
+      \nabla \cdot \vecs = \lim_{| V | \to 0} \frac{1}{| V |} \oint_{S} \vecs d
+      \textbf{S}\] where \textbf{S} is a closed surface enclosing the volume V.
+    \\
+    This represents \textbf{flux} per unit volume away from a given point.
+
+    \(\nabla \cdot \vecs = \pder{f_{1}}{x} + \pder{f_{2}}{y} + \pder{f_{3}}{z}\)
+
+    When \(\nabla \cdot \vecs > 0\), the point is a source (vector arrows go
+    away) while for \(\nabla \cdot \vecs < 0\) it is a sink (vector arrows go
+    towards it). Lastly for \(\nabla \cdot \vecs = 0\), there is no pattern.
+
+    For vector fields \(\vecs, \vecs[g]\) and a scalar field \(\scal[h]\), as
+    well as scalars \(a, b\)
+    \begin{itemize}
+      \item \(\nabla \cdot (a \vecs + b \vecs[g]) =
+            a \nabla \cdot \vecs + b \nabla \cdot \vecs[g]\)
+      \item \(\nabla \cdot (\scal[h] \vecs) =
+            (\nabla \scal[h]) \cdot \vecs + \scal[h] (\nabla \cdot \vecs)\)
+      \item \(\nabla \cdot (\nabla \times \vecs) = \textbf{0}\)
+    \end{itemize}
+
+    These are very similar to the properties of curl.
+
+  \end{subsection}
+
+\end{section}
+
+\end{document}

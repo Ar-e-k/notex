@@ -1,0 +1,197 @@
+\documentclass[12pt, letterpaper]{article}
+
+\usepackage{graphicx}
+\usepackage{parskip} % Disabling paragraph index as it does not fit maths
+\usepackage{hyperref} % Usable menu and references
+\usepackage{amssymb} % Used to show sets of sumbers, like the real numbers
+\usepackage{mathrsfs} % Used for curly L and M
+
+\newcommand{\Ll}{\mathscr{L}}
+\newcommand{\Ls}{\(\Ll\)}
+
+\newcommand{\p}{\textbf{P}}
+\newcommand{\n}{\textbf{NP}}
+
+\begin{document}
+
+\begin{section}{Introduction}
+
+  \begin{subsection}{Decision Problems}
+
+    The standard definision of a decision problem is a problem that aims to
+    anwser a yes/no question. Any decision problem can be identified with a
+    language \(\sum\), with the question begin is a given string \(x \in
+    \sum\). \\
+    Decision problems can be classified as \textbf{decidable} and
+    \textbf{undecidable}.
+
+  \end{subsection}
+
+  \begin{subsection}{Turing Machines}
+
+    A k-tape Turing machine is a 5-touple \(\rangle Q, \sum, \delta, q_{0}, F
+    \langle\), where
+    \begin{itemize}
+      \item Q is the finite set of states
+      \item \(\sum\) is the finite alphabet
+      \item \(\delta\) is the transition function
+      \item \(q_{0} \in Q\) is the initial state
+      \item \(F \subset Q\) is the set of finial states
+    \end{itemize}
+
+    Each tape consists a sequence of symbols for the langage \(lceil = \sum
+    \cup \{ \triangle \}\) where \(\triangle\) is the blank symbol. \\
+    The transition function is \(\delta : (Q / F) \times \lceil^{k} \to
+    Q \times \lceil^{k} \times \{ L, S, R \}{}^{k}\) where L, S, K represent
+    movement of each head over each tape.
+
+    Time complexity of a turing machine T is a function (\(Time_{T}\)) s.t.\
+    \(Time_{T}(x)\) is the number of steps T takes before terminating on input
+    x. If \(T(x)\) does not halt, \(Time_{T}(x)\) is undefined.
+
+    \begin{subsubsection}{Non Deterministic TMs}
+
+      For NT a non deterministic Turing machine, then \(NT(x)\) is a tree of
+      configurations which can be entered on an input x, and NT accepts x if at
+      least one branch of the tree accepts x. Time complexity for such machine,
+      denoted \(NTime_{NT}(x)\) is the number of steps in the longest branch of
+      \(NT(x)\). If not all branches of \(NT(x)\) halt, NTime is undefined.
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+\end{section}
+
+\begin{section}{Time Complexity}
+
+  \begin{subsection}{Definision}
+
+    For any language \Ls, it is said that \Ls{} is decidable in time
+    \(O(f(x))\) if there exists a TM T which decides \Ls{} s.t.\
+    \(Time_{T}(x) \leq cf(| x |)\) for all \(| x | > n_{0}\) where \(| x |\)
+    denotes the lengh of x and c and \(n_{0}\) are numerical constants.
+
+  \end{subsection}
+
+  \begin{subsection}{Parameterized Problems}
+
+    A parameterized problem is a problem with an input I that has distinguished
+    k, called \textbf{parameter}. A \textbf{fixed-parameter tracable} (FTP) if
+    it can be solved in \(f(k) n^{c}\), where c is a constant and \(f(k)\) is
+    any function depending only on k.
+
+    \begin{subsubsection}{Kernalization}
+
+      This is a \textbf{polynomial-time} procedure that transforms \((I, k)\)
+      to \((I', k')\) where \(k' \leq k\) and \(|I'| \leq f(k)\) for some
+      function f. A problem having a \textbf{kernalizatoin} is equivelant to
+      that problem begin FTP.
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Complexity Classes}
+
+    The time complexity class \(TIME[f]\) is the class of all languages with
+    the time complexity \(O(f(x))\) (sometimes called DTIME for deterministic
+    time). Some examples classes within decidable languages class are
+    \[O(n) \subset O(n \log n) \subset O(n^{2}) \subset O(2^{n}).\]
+
+    \begin{subsubsection}{P Class}
+
+      The \p class is defined as \[\p = \cup_{k \geq 0} TIME[n^{k}].\] This
+      class contains all languages which can be decided in a time bound by a
+      finite polynomial. This class is \textbf{robust};
+      meaning it does not depend on the computational model or the encoding.
+      The best way to show a problem is in \p is to find the algorithm.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{NP Class}
+
+      NP class can be defined similarly to the \p class, namely \[\n =
+        \cup_{k \geq 0} NTIME[n^{k}].\] This makes the \n class the same thing
+      the \p class is to Turing machines, just to non deterministic TMs.
+
+      An alternative way to define \n class is a group of languages for which
+      it can be verified that \(x \in \Ll\) given x in polynomial time. The
+      class \p is a subset of \n.
+
+      For \textbf{NP-completness}, a language \Ls{} needs all other languages
+      in \n reduce to it via polynomial reduction. The first problem proven to
+      be \textbf{NP-complete} is \textbf{satisfiability}.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{FTP Class}
+
+      This is the class of all FTP problems. \(\p \subset FTP\). For a problem
+      to be in FTP, any instance of this problem with fixed k must be in \p.
+      This is a good way to prove problems are not in FTP. \\
+      Similarly to \p, FTP is also \textbf{robust}.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{W[1] Class}
+
+      Short Acceptance is a problem that takes a non-deterministic TM M, an
+      input string x and a paramater k and checks is there a computation on M
+      s.t.\ x accepts after at most k steps.
+
+      This is a class of all problems which can be parameter reduced to Short
+      Acceptance. This means Short Acceptance is \textbf{W[1]-complete}. \\
+      \(FTP \subset W[1]\) \\
+      As it is generally belived that \(W[1] \neq FTP\), if a problem is
+      \textbf{W[1]-hard}, it is most likely not in FTP.
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Reducibility}
+
+    \begin{subsubsection}{Polynomial-Time}
+
+      A language \(\Ll_{1}\) is \textbf{polynomially reducable} to \(\Ll_{2}\),
+      denoted \(\Ll_{1} \leq \Ll_{2}\), if a polynomial time function \(f(x)\)
+      exists s.t.\ \(x \in \Ll_{1} \iff f(x) \in \Ll_{2}\). If \(\Ll_{1} \leq
+      \Ll_{2}\) and \(\Ll_{2} \in \p\) \(\Rightarrow \Ll_{1} \in \p\).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Parameterized}
+
+      A parameterized reduction exists from X to Y if \(\exists \phi\) s.t.\
+      \begin{itemize}
+        \item \(\phi(I)\) is YES instance of Y iff I is a YES instance of X
+        \item \(\phi(I)\) can be computed in time \(f(k)| I |^{c}\)
+        \item If k' is a parameter of \(\phi(I)\), \(k' \leq g(k)\) for some
+              function g
+
+      \end{itemize}
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Completeness}
+
+    A language \Ls{} is \textbf{complete} in its complexity class if it is the
+    hardest problem in that class. This means every other problem in this class
+    can be reduced to \Ls{} using a sufficient reduction algorithm. \Ls{} has
+    to be in the class it is complete in.
+
+    \begin{subsubsection}{Hardness}
+
+      If a language is as hard as any other problem in a class but it is not in
+      that class.
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+\end{section}
+
+\end{document}

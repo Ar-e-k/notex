@@ -1,0 +1,209 @@
+\documentclass[12pt, letterpaper]{article}
+
+\usepackage{graphicx}
+\usepackage{parskip} % Disabling paragraph index as it does not fit maths
+\usepackage{hyperref} % Usable menu and references
+\usepackage{amssymb} % Used to show sets of sumbers, like the real numbers
+
+\begin{document}
+
+\begin{section}{Introduction}
+
+  A game models a situation where tow or more players have to take some
+  decisions that will influence their welfare. The \textbf{payoff} of each
+  player can depend on decisions of all players not just their own. \\
+  A game describes a strategic interaction that inclueds constraints on the
+  actions the players can take as well as their interests, but not the specific
+  actions. A \textbf{solution} is a systematic description of the outcomes that
+  may emerge in a family of games.
+
+  There are four basic groups of games
+  \begin{itemize}
+    \item Strategic games
+    \item Extensive games with perfect information
+    \item Extensive games without perfect information
+    \item Coalition games
+  \end{itemize}
+  In the first three of these, the sets of possible actions of individual
+  players are \textbf{primitive} (non cooperative). In coalition games, the
+  sets of possible joint actions of groups of players are \textbf{primitives}.
+
+  A \textbf{strategic} game model, each player chooses the plan of actoins once
+  and for all, with all decisions being made simultaneously. When choosing the
+  plan, players are not informed of others decisions. \\
+  On the other hand in \textbf{extensive} game models, each player can consider
+  their actoins at each decision.
+
+  Perfect and imperfect information games are very much self expanotrary
+  (however that is spelled).
+
+  In game theory, players are assumed to be
+  \begin{itemize}
+    \item \textbf{Rational}: decisions are consistent to achive well defined
+          objectives
+    \item \textbf{Intelligent}: all informed about how the game operates,
+          can make any inferences, takes into account the same rulles for other
+          players
+  \end{itemize}
+
+  \begin{subsection}{Strategic Games}
+
+    \begin{subsubsection}{Formal Definision}
+
+      A \textbf{strategic game} is defined by
+      \begin{itemize}
+        \item A set of players N
+        \item A set of sets of actons \(\{S_{i} | \forall i \in N\}\), S
+        \item A set of \textbf{payoff functions} \(\{u_{i} | \forall i \in
+              N\}\) where each \(u_{i}: S_{i} \to \mathbb{R}\), U
+      \end{itemize}
+
+      This is usually denoted as \(\lceil = \langle N,
+      (S_{i}){}_{\forall i \in N}, (u_{i}){}_{\forall i \in N} \rangle\).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Symetric Games}
+
+      A strategic game is \textbf{symetric} if
+      \begin{itemize}
+        \item Each player has the same set of actions; \\
+              for any \(i, j \in N\), \(s_{i}, s_{j} \in S\) \(s_{i} = s_{j}\)
+        \item All players have the same outcomome function; \\
+              for any \(i, j \in N\), \(u_{i}, u_{j} \in U\) \(u_{i} = u_{j}\)
+      \end{itemize}
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Strategies}
+
+      A \textbf{mixed strategy} \(p_{i}\) for a player \(i \in N\) is a
+      probability disctribution over the set of actions; \(p_{i} : S_{i} \to
+      [0, 1]\) s.t.\ \(\sum_{s_{i} \in S_{i}} p_{i}(s_{i}) = 1\). The set of
+      strategies for a player is denoted by \(\triangle (S_{i})\). \\
+      A \textbf{pure} strategy is a strategy s.t.\ for one \(s_{i} \in S_{i}\);
+      \(p_{i}(s_{i}) = 1\) (the player is certain to pick one action).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Profiles}
+
+      An \textbf{action profile} \(\textbf{s} \in S\) is a touple containing a
+      single action (\textbf{pure strategy}) out of each set \(S_{i}\) (one
+      action per player).
+
+      A \textbf{strategy profile} is a touple containing one \textbf{mixed
+        strategy} per player, denoted \(\textbf{p}_{i} \in \triangle(S_{i})\).
+      \\
+      Let \(\times\) denoted all possible \textbf{strategy profiles}
+      \(\{ \triangle(S_{i}) | \forall i \in N \}\).
+
+      \(\textbf{p}_{-i}\) (same for s) will denote a stategy profile with
+      player i remomved and \((\textbf{p}_{-i}, p_{i})\) will denote a touple
+      with the stategy for player i replaced with a different strategy.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Expected Payoffs}
+
+      Given a \textbf{strategy profile} \(\textbf{p} = p_{i \forall i \in N}\),
+      the \textbf{expected payoff} of a player \(i \in N\) is the expected
+      value of their payoff funcion. This can be calculated by
+      \[u_{i}(\textbf{p}) =
+        \sum_{s_{1}}( \cdots (\sum_{s_{n}}(
+        \prod^{n}_{j=1} p_{j}(s_{j}) u_{i}((s_{1}, \dots , s_{n}))))).\]
+      This essentially calculates the probability of each event times the
+      payoff of that event for the given player. \\
+      Alternative slide says \[u_{i}(\textbf{p}) = \sum_{s_{i} \in S_{i}}
+        p_{i}(s_{i}) u_{i}((\textbf{p}_{-1}), s_{i}).\]
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Best Response}
+
+      For a player i, their best response is, given a partial strategy
+      \(\textbf{p}_{-i}\), is a strategy s.t.\ \(u_{i}((\textbf{p}_{-i}, s))\)
+      is maximised.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Support}
+
+      The \textbf{support} of a stategy \(p_{i}\) of a player i is the subset
+      of actoins of i where \(p_{i}\) poses strictly positive probability.
+      \(Support(p_{i}) = \{ s_{i} \in S_{i} | p_{i}(s_{i}) > 0\}\).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Domination}
+
+      A strategy \(p_{i}\) \textbf{Strict Dominates} an action \(s_{i}\) if it
+      is better than that action no matter what the other players choose.
+      Formaly \(u_{i}((\textbf{s}_{-i}, p_{i})) >
+      u_{i}((\textbf{s}_{-i}, s_{i}))\) for all \(\textbf{s} \in \times\).
+      Any Nash equilibria has 0 probability for any \textbf{strictly dominated}
+      action.
+
+      A \textbf{Weakly dominated} strategy is the same except for the
+      possibility equality.
+
+      \textbf{Dominated} strategies do not need to exist. \\ Every finite game
+      Nash equilibria in which no strategy is \textbf{Weakly} dominated.
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Nash Equilibrium}
+
+    In a Nash equilibrium each player chooses the best avaliable action given
+    the choices of other players. This makes a Nash equilibrium is a
+    combination of actions for all player, s.t.\ no player can increase their
+    payoff by changing the action.
+
+    \begin{subsubsection}{Pure Equilibrium}
+
+      This is an action profile \textbf{s} s.t.\ it is a Nash equilibrium; any
+      player i cannot choose a different action \(s_{i}' \notin \textbf{s}\)
+      s.t.\ \(u_{i}(s_{i} \in \textbf{s}, \textbf{s} / \{s_{i}\}) <
+      u_{i}(s_{i}', \textbf{s} / \{s_{i}\})\)
+
+      Not every strategic game has a pure Nash equilibrium. A game can also
+      have multiple Nash equilibria.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Mixed Equilibrium}
+
+      This is a generalisation of pure Nash equilibrium s.t.\ each player
+      chooses a \textbf{mixed strategy} rather than a \textbf{pure strategy}.
+      Formaly a \textbf{mixed strategy} is a strategy profile \textbf{p} s.t.\
+      no single player can change their strategy profile which would result in
+      a higher payoff.
+
+      In a \textbf{symetric} game, a if for each player i, the strategy is the
+      same, the resultant Nash equilibrium is called \textbf{symetric}.
+
+      Every strategic game with finite number of players and finite action sets
+      possesses at least one mixed Nash equilibrium. Although this is true, the
+      problem of computing them for some games is PPAD-complete (hard??), even
+      for some involving only two players. \\
+      A symetric game always has at least one symetric equilibrium. \\
+      Many games with infinte also possess Nash equilibria.
+
+      A stategy \textbf{p} is a Nash equilibria iff for all players i and all
+      \(s_{i} \in S_{i}\), \(s_{i} \in Support(p_{i}) \Rightarrow s_{i} \in
+      \arg \max_{s_{j} \in S_{i}}((\textbf{p}_{-i}, s_{j}))\). This is
+      equivelant to saying that it is only a Nash equilibria if for each player
+      all their actions with non zero probability result in the same outcome.
+      \\
+      Another equivelant notion is that in a Nash equilibrium, each player
+      plays the best response.
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+\end{section}
+
+\end{document}

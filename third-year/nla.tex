@@ -3,7 +3,8 @@
 \usepackage{graphicx}
 \usepackage{parskip} % Disabling paragraph index as it does not fit maths
 \usepackage{hyperref} % Usable menu and references
-\usepackage{amssymb} % Used to show sets of sumbers, like the real numbers
+\usepackage{amssymb} % Used to show sets of numbers, like the real numbers
+\usepackage{gensymb} % Used for the degrees symbol
 
 \graphicspath{{images}}
 
@@ -195,6 +196,329 @@
       \item Parameter tuning (can be done with a different or even the same
             natural algorithm, infinite recursion)
     \end{itemize}
+
+  \end{subsection}
+
+\end{section}
+
+\newpage
+
+\begin{section}{Programmable Matter}
+
+  \begin{subsection}{Introduction}
+
+    Any substance that can change its physical properties in a programmable
+    fashion. This will mainly include DNA assembly and cell evolution as well
+    as robotic.
+
+    \begin{subsubsection}{Biological (DNA)}
+
+      They are passive
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Robotic}
+
+      They are active
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Applications}
+
+      Smart materials
+      Autonomous monitoring repair
+      Non-invasive surgary
+      Shape shifteing materials / robots
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \newpage
+
+  \begin{subsection}{DNA}
+
+    DNA consists of \textbf{strands} build out of 4 simple building blocks
+    A, G, C and T. When two strands bond into a \textbf{double} strand, \\ A
+    must bind with T, \\ G must bind with C. \\ These are \textbf{week bonds}.
+    The general process of single strands bonding is called
+    \textbf{hybridization}. Each strand has a \textbf{head} and \textbf{end}.
+    The bond is not always from head to tail for both strands and the left
+    overs are called \textbf{free bases}. Double strands with
+    \textbf{free bases} are said to have \textbf{sticky ends}.
+
+    DNA computing baises on manipulating a set of strands.
+    Some possible operatoions
+    \begin{itemize}
+      \item \textbf{Denaturaion (melting)} by heating a \textbf{double strand}
+            of DNA it is possible to seperate it into two
+            \textbf{single strands}
+      \item \textbf{Annealing (renaturation)} cooling a set of
+            \textbf{single strands} allows \textbf{complementary strands} to
+            bind together, possibly leaving \textbf{sticky ends}
+      \item \textbf{Polymerase extension} being essentially a method to attach
+            a shorter strand of DNA, \textbf{primer}, to a longer one
+            \textbf{template} and completing the rest s.t.\ no
+            \textbf{sticky ends} are left on the \textbf{double strand}
+      \item \textbf{Exonuclease degradation} for removing part of a
+            \textbf{single strand} of a \textbf{double strand} of DNA
+      \item \textbf{Endonuclease degradation} to cut off \textbf{double strand}
+            of DNA. This operation can leave \textbf{sticky ends}
+      \item \textbf{Ligation} can be used to join fragments of
+            \textbf{double stranded} DNA with \textbf{sticky ends}
+            A \textbf{nick} remains at the linking point
+      \item \textbf{Amplification} is a technique used in \textbf{PCR} for
+            multiplying a preexisting \textbf{double strand}
+      \item \textbf{Gel electrophoresis} can be used to seperate DNA strands of
+            different lengths
+      \item \textbf{Filtering (affinity purification)} is used to extract only
+            a specific \textbf{double stranded} DNA from a solution S.
+    \end{itemize}
+
+    \textit{Different operations require different amounts of time which
+      cannot be avoided.}
+
+    An \textbf{oligonucleotide (oligo)} is a short single strand DNA
+    synthesised in the laboratory.
+
+  \end{subsection}
+
+  \newpage
+
+  \begin{subsection}{Self Assembly}
+
+    This is a \textbf{bottom-up} process by which molecular components
+    automatically self assembly into a large complex structures. (As opposed to
+    traditional \textbf{top-down} lithographic approach used to fabricate
+    integrated ciruits).
+
+    \begin{subsubsection}{Tile Assembly System}
+
+      A \textbf{tile assembly system (TAS)} is \(\mathcal{T} = (T, \sigma,
+      \tau)\) where
+      \begin{itemize}
+        \item T is a finite set of Wang tile types
+        \item \(\sigma\) is a \textbf{seed assembly}
+        \item \(\tau \in \mathbb{N}\) is the \textbf{temperature}
+      \end{itemize}
+
+      Each tile \(t \in T\) has four edges e with colours \(col_{t}(e)\). Each
+      colour has a \textbf{binding strength} \(str(c) \in \mathbb{N}_{0}\). A
+      tile t placed adjacent to tile t' so that the edges \(e_{t}, e_{t'}\)
+      then the \textbf{bond strength} of the shared edge is
+      \begin{itemize}
+        \item 0 if \(col_{t}(e_{t}) \neq col_{t'}(e_{t'})\)
+        \item \(str(col_{t}(e_{t}))\) if \(col_{t}(e_{t}) = col_{t'}(e_{t'})\)
+      \end{itemize}
+      A tile can \textbf{bind} to the current assembly iff the \textbf{sum of
+        the bond strengths} of the edges bordering the assembly is at least
+      \(\tau\).
+      Any resultant configuration \(\alpha\) can be described as a
+      \textbf{partial function} \(\alpha: \mathbb{Z}^{2} \to T\) s.t.\
+      \(\alpha(x, y) = \) the tile type in that position.
+
+      The \textbf{binding graph} \(B_{\alpha}\) of \(\alpha\) is defined as
+      \begin{itemize}
+        \item The verex set is \(dom(\alpha)\)
+        \item The edge set is \(\{ (p, q): p, q \in dom(\alpha) \}\)
+        \item An edge \((p, q)\) has weight equal to the bond strength of the
+              shared edge between the two tiles
+      \end{itemize}
+      The \textbf{configuration} \(\alpha\) is a \textbf{\(\tau\)-stable
+        assembly} within \(\mathcal{T}\) if the \textbf{minimum} weight cut of
+      \(B_{\alpha}\) has weight at least \(\tau\).
+
+      For \(\alpha\) a \(\tau\)-stable assembly within \(\mathcal{T}\) and let
+      \(\beta\) be a potential assembly extending \(\alpha\) by one tile. Then
+      \(\beta\) being a \(\tau\)-stable system and the new tile binding to
+      \(\alpha\) with the sum bond strengths at least \(\tau\) are equivelant.
+
+      The \textbf{shape} \(S_{\alpha}\) of an assembly \(\alpha\) is
+      \(dom(\alpha) = \{ p: \alpha(p) \neq 0 \}\). The \textbf{frontier}
+      \(\delta \alpha\) are the points \(p \in \mathbb{Z}^{2} \ S_{\alpha}\)
+      for which it is possible to attach a tile. Attaching a new tile t at
+      point t is denoted as \(\alpha + (p \mapsto t)\). \\
+      An \textbf{assembly sequence \(\alpha\)} is a finite or infinite sequence
+      or \(\tau\)-stable assemblies \(\alpha_{0}, \alpha_{1}, \dots\) so that
+      each \(\alpha_{i + 1}\) is a result of attaching one tile to
+      \(\alpha_{i}\). The \textbf{result \(res(\alpha)\)} of the
+      \textbf{assembly sequence \(\alpha\)} is the \textbf{unique} limiting
+      assembly.
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \newpage
+
+  \begin{subsection}{Membrane Computing}
+
+    Regions are defined in a tree structure with \textbf{membranes} in betwen.
+    The outer membrane around the root region is called \textbf{skin}.
+    Each region n contains a set of \textbf{objects} \(O_{n}\) and its own set
+    of \textbf{rules} \(R_{n}\). Each rule \(r \in R_{n}\) is a map \(r: O_{n}
+    \mapsto O_{m}\) for m any region(s), taking one or more object to other
+    objects. \\
+    All objects which do not have their quonity modified by the rule are called
+    \textbf{catalysts}. \\
+    Rules are called \textbf{cooperative} if they have at least 2 objects on
+    the left hand side, otherwise they are \textbf{non-cooperative}.
+
+    An example rule is \(a^{2}b^{3}c \to ab^{3}cd^{2}\), in which bs and c are
+    \textbf{catalysts}. For \(O_{n} = \{ a^{3}, b^{3}, c^{3}, d \}\) this rule
+    could fire resulting in the \textbf{object} set changing to \(O_{n} =
+    \{ a^{2}, b^{3}, c^{3}, d^{3} \}\). This is an example of a
+    \textbf{cooperative} rule. An example of \textbf{non-cooperative} rule
+    would be \(a \to a^{2}b\).
+
+    Rules inside a region must be applied in \textbf{maximum parallelism},
+    meaning all rules that can fire simultaneously must fire at the same time.
+    If multiple maximal subsets of rules can fire at the same time, one is
+    chosen to fire \textbf{non-deterministically} (at random). Rules can have
+    \textbf{priority} over each other, denoted \(r_{1} > r_{2}\), in which case
+    \(r_{2}\) cannot be performed if \(r_{1}\) can instead.
+
+    The regions can also exchange objects through rules. Postfixes
+    \textbf{here}, \textbf{\(in_{i}\)} and \textbf{out} can be used inside
+    rules to determine such movements. \textbf{here} is usually omied, out
+    means the result is added to the object set of the parent region and
+    \(in_{j}\) moves the object to the child region labeled j. \textit{If a
+      region has no child named j, the rule cannot fire}. If \textbf{out} is
+    used in the root region, the outed objects are results of the
+    computation.
+
+    \textbf{Membranes} between regions can be disolved by rules. A \(\delta\)
+    at the end of a rule means the \textbf{membrane} should be disolved. For a
+    region n with parent m and children i, j, k when its membrane gets
+    disolved, \(O_{n}\) joins \(O_{m}\), \(R_{n}\) gets removed together with
+    region n and i, j, k become children of m. Multiple \textbf{membranes} can
+    be disolved simultaneously. If such rule is applied to the root region,
+    the \textbf{skin} remains untuched.
+
+    \begin{subsubsection}{Formal P System}
+
+      A formal \textbf{P system} \(\Pi\) definision:
+      \begin{itemize}
+        \item O is the set of objects
+        \item \(\mu\) is the membrane structure consisting of
+              \(1, 2, \dots , m\)
+        \item \(\omega_{1}, \omega_{2}, \dots , \omega_{m}\) are the sets of
+              objects in each region
+        \item \(R_{1}, R_{2}, \dots , R_{m}\) are finite sets of region
+              \textbf{evolution rules}
+              \begin{itemize}
+                \item Each rule if of the form \(u \to v\) or \(u \to v
+                      \delta\) with \(u \in O^{+}\) and \(v \in
+                      (O \times Tar)*\) where \(Tar = \{ here, in_{j}, out \}\)
+              \end{itemize}
+      \end{itemize}
+
+      A \textbf{configuration} of \(\Pi\) is an m-touple of sets of objects
+      detailing objects in each existing reagion. Meanwhile a
+      \textbf{computation} of \(\Pi\) is a sequence of \textbf{configurations}
+      \(C_{0} \Rightarrow C_{1} \Rightarrow \dots \Rightarrow C_{s}\) where
+      \(C_{0}\) is the \textbf{initial configuration} and \(C_{s}\) the final
+      result. The \textbf{computation halts} when no rules can be applied.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Active Membranes}
+
+      Regions now have charges which can be modified and/or referenced by the
+      rules.
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \newpage
+
+  \begin{subsection}{Robots}
+
+    Robots are represented as dots on an infinite two dimentional grid, with at
+    most one node/robot per grid cell. Individual robots can move from cell to
+    cell under sctrictly defined rule sets, different for each model. A shape S
+    is a configuration of grid nodes with \(| S | =\) number of nodes. Each
+    grid cell is said to be coloured similarly to a chess board, s.t.\ it is
+    not adjecant to the same colour. \\
+    S is called \textbf{connected} if the shape-graph formed from nodes by
+    including two nodes when they are \textbf{adjacent} is connected. S can
+    also be \textbf{compact} if it has no holes. \\
+    A shape \(S_{1}\) can be transformed into \(S_{2}\), writen \(S_{1}
+    \Rightarrow S_{2}\), if \(S_{2}\) can be obtained by applyting a finite
+    sequence of legal movements to \(S_{1}\). This means that these shapes are
+    \textbf{equivalent} under the given ruleset. \\
+    Two shapes are said to be \textbf{colour-consistent} if they have the same
+    amounts of nodes of each colour.
+
+    \textbf{Perimeter} of a shape S is the minimal set of grid cells needed to
+    enclose S. The \textbf{external surface} of S is a set of nodes
+    \textbf{adjecant} to the \textbf{perimeter}. The perimeter is called
+    \textbf{jagged} if there are never two consecutive horizonal or vertical
+    moves made while circling the shape. This is equivelant to the
+    \textbf{external surface} having nodes of only one colour. \\
+    An \textit{inside surface} is the oposite of the external one; essentially
+    the set of all connected grid cells adjacent to a shape inside one hole
+    \textbf{non compact} shape. This can be used to define the perimeter of
+    holes by treating them as shapes with \textbf{external surfaces} =
+    \textit{internal surfaces}.
+
+    \begin{subsubsection}{Rotations}
+
+      Any node can only rotate \(90 \degree\) around another \textbf{adjacent}
+      cell. This can only be done if the \textbf{destination} as well as the
+      \textbf{transit} cells are empty.
+
+      If two shapes are \textbf{not colour-consistent}, they cannot be
+      transformed into eachother. This is a consequence of a limitation of
+      rotations, namely they cannot change the colour of a node.
+
+      If a shape is \textbf{compact, connected} and its perimeter is
+      \textbf{jagged}, no rotations can be applied to it. Morether if it is not
+      compact or connected but the perimeter of each hole inside each connected
+      subshape is \textbf{jagged} the situation is identical (the first
+      scenario is just a specific case of the second rule). \\
+      If this it not true, the shape can be transformed into any other
+      \textbf{colour-consistent} shape in a polynomial time. \\
+      This can be achived by breaking a \textbf{2-line} away from the shape and
+      then using it to move individual nodes to the desiered positions.
+
+      This rotations can apparently be recorded but the notation is wierd af.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Sliding}
+
+      This ruleset includes the rotation operation from the rotation ruleset,
+      although some restrictions are introduced. It also introduces a new
+      \textbf{sliding} operation which allowes the nodes to move left, right,
+      up or down if the right conditions are met, namely both the current as
+      well as the next node positions have another node adjacent to it. The
+      reasoning behind this condition also extends to rotations, creating a
+      rule that no move can \textbf{disconnect} the shape.
+
+      These two rules allow for a any node from the \textbf{external surface}
+      of a shape S to walk around the entire perimeter of S.
+
+      For every \textbf{connected} shape \(| S | \geq 3\) \(\exists R \subset
+      S\) s.t.\ if \(S \backslash r\) is still \textbf{connected} \(\forall r
+      \in R\) and \(| R | \geq 2\). If such r is on the \textbf{external
+        surface} it can walk the whole cell-perimeter of \(S \backslash r\).
+      This implies that any two shapes S and P can be transformed into a line
+      and then into each other iff \(| S | = | P |\). This can be achived in
+      \(\theta(| S |^{2})\). \\
+      This time bound can be imporved into \(O(| S |)\) by using
+      \textbf{parallelism} for this ruleset.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Parallel Moves}
+
+      This is not a new ruleset but it can be used accross different rulesets.
+      The requirement for a list of moves to be allowed to be executed
+      simultaneously is that each move is legal both pre and post moves.
+
+    \end{subsubsection}
 
   \end{subsection}
 
