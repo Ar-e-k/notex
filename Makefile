@@ -6,6 +6,7 @@
 
 add:
 	git add ./*/*.tex
+	git add ./*/*/*.tex
 	git add ./*/images
 	git add Makefile
 	git add README.md
