@@ -4,8 +4,12 @@
 \usepackage{parskip} % Disabling paragraph index as it does not fit maths
 \usepackage{hyperref} % Usable menu and references
 \usepackage{amssymb} % Used to show sets of sumbers, like the real numbers
+\usepackage{amsmath} % Used for cases
 
 \graphicspath{{images}}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\F}{\mathbb{F}}
 
 \title{Cryptography and Codes}
 \author{Arkadiusz Naks}
@@ -230,7 +234,7 @@
       Set \(x = \lceil \sqrt{n} \rceil\) then check if \(x^{2} - n = y^{2}\)
       for any integer y. If not increase x by 1 and check again. If it is,
       it implies that \(x^{2} \equiv y^{2} \pmod{n} \Rightarrow x - y | p\)
-      (or q). It is important that \(x^{2} \not\equiv \pm y^{2} \pmod{n}\).
+      (or q). It is important that \(x \not\equiv \pm y \pmod{n}\).
 
     \end{subsubsection}
 
@@ -328,15 +332,15 @@
       \textbf{Index Calculus}
       algorithm is another way to solve the discrete logarithm problem. Firstly
       find multiple (at least B)  B-smooth number (specify B) which are
-      poewrs of g mod p, \(g^{i} * a \equiv b \pmod{p}\) with \(i \in
+      powers of g mod p, \(g^{i} \times a \equiv b \pmod{p}\) with \(i \in
       \mathbb{N}\) and a, b smooth, \(a = 2^{a_{1}} 3^{a_{2}} \dots\) and
       \(b = 2^{b_{1}} 3^{b_{2}} \dots\). Then taking the discrete logarithm,
-      \(i + a_{1} L_{g}(2) + a_{2} L_{g}(3) \dots \equiv b_{1} L_{g}(2) +
-      b_{2} L_{g}(3) \pmod{p - 1}\). This can be used to determine \(L_{g}(2),
-      L_{g}(3) \dots\). Then given x, calculate \(xg^{i}\) until it is smooth,
-      then taking discrete logarithm \(L_{g}(x) + i \equiv c_{1} L_{g}(2) +
-      c_{2} L_{g}(3) \dots \pmod{p - 1}\) where both \(c_{i}s\) and
-      \(L_{g}(q)\) are known.
+      \(i + a_{1} L_{g}(2) + a_{2} L_{g}(3) + \cdots \equiv b_{1} L_{g}(2) +
+      b_{2} L_{g}(3) + \cdots \pmod{p - 1}\). This can be used to determine
+      \(L_{g}(2), L_{g}(3) \dots\). Then given x, calculate \(xg^{i}\) until it
+      is smooth, then taking discrete logarithm
+      \(L_{g}(x) + i \equiv c_{1} L_{g}(2) + c_{2} L_{g}(3) + \cdots \pmod{p - 1}\)
+      where both \(c_{i}s\) and \(L_{g}(q)\) are known.
 
     \end{subsubsection}
 
@@ -349,7 +353,7 @@
     g^{\alpha}\). The sender chooses \(k \pmod{p - 1}\) and for a message m
     sends \((x, y) = (g^{k}, mk_{E}^{k})\). The receiver decodes message as
     \[m = yx^{-\alpha}.\] The random k implies that each message has many
-    different decriptions. This means that tehre is no way to verify wherether
+    different decriptions. This means that there is no way to verify wherether
     m is correct if it is guessed. \\
     The security of this system is dependent on the same problem as
     Diffie-Hellman. \\
@@ -738,7 +742,7 @@
     neccessary to consider the codewords. For any \(x \in A^{n}\)
     \[| S(x, t) | = \sum^{t}_{k = 0} {{n}\choose{k}} (q - 1){}^{k}.\]
     The size of S can then be compared to the size of the alphabet, and the
-    code and be perfect if \(| S | | | A^{n} |\).
+    code and be perfect if \(| S | \times | C | = | A^{n} |\).
 
     \newpage
 
@@ -755,13 +759,15 @@
 
 \end{section}
 
-\begin{Linear Codes}
+\begin{section}{Linear Codes}
 
   \begin{subsection}{Codes as Subspaces}
 
     From now on, assume A is a finite field. Then a word is a vector \(w \in
     A^{n}\). The code C has to be a \textbf{subspace} of \(A^{n}\). A size of a
-    vector space \(| \F^{n}_{q} | = q^{n}\). \\
+    vector space \(| \F^{n}_{q} | = q^{n}\). Because of this a linear code that
+    is \((n, M, d)_{q}\) is always \((n, q^{k}, d)_{q}\) where \(k \leq n\).
+    This causes a different notation for linear codes \([n, k, d]_{q}\). \\
     A \textbf{linear code} is subspace of \(\F^{n}_{q}\) for some finite field
     \(\F_{q}\) and non negative integer n. \(\textbf{0}\) is a part of every
     subspace.
@@ -775,8 +781,304 @@
 
     \begin{subsubsection}{Weight}
 
-      For a vector \textbf{x}, its weight, \(w(\textbf(x))\) is definded as
+      For a vector \textbf{x}, its weight, \(w(\textbf{x})\) is definded as
       the number of non-zero elements in \textbf{x}. Also for \textbf{hamming}
       distance, \(d(\textbf{x}, \textbf{y}) = w(\textbf{x} - \textbf{y})\).
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Codes as Images}
+
+    \begin{subsubsection}{Generators}
+
+      For a linear code \(C \subset \F^{n}_{q}\), a matrix G and \(f(\textbf{x})
+      = \textbf{x} G\), then G is a \textbf{generator matrix} for C if \(C =
+      img(f)\) and G has linearly independent rows. \\
+      This matrix can be found by elementary row opperations to the matrix of
+      spans of C, then deleting all the zero rows.
+
+      The dimention of C is defined as the number of rows in G and the redudency
+      or the minimum distance is the minimum weight of the columns of G.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Encoding and Decoding}
+
+      For a linear code \(C \subset \F^{n}_{q}\) with a generator G,
+      a message \(\textbf{x} \in \F^{k}_{q}\) is encoded as \(\textbf{c} =
+      \textbf{x} G\) with \(\textbf{c} \in C\).
+
+      The receiver gets \(\textbf{y} \in \F^{n}_{q}\) and transform it to
+      \textbf{c'} which is nearest to \textbf{y}. Then if the generator is in
+      RREF it is simple to find \textbf{x'}. If G is not in RREF, transfoirm it
+      while applying the same operations to \textbf{y}.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Equivalence}
+
+      Two codes \(C_{1}, C_{2}\) of block length n are \textbf{equivalent} if
+      one can be transformed into the other by permuting the positoins and
+      permuting the sumbols. They have the same \((n, M, d)\) parameters. \\
+      They are \textbf{monomially equivalent} if they are linear and the
+      symbol permutations are only multiplications by \(\lambda \in
+      \F^{\times}_{q}\). \\
+      If the codes can be obtained from each other using only position
+      permutations, they are called \textbf{permutation equivalent}.
+
+      \(P \in M_{n, n}(\F_{q})\) is a \textbf{permuatation} matrix if it has a
+      single 1 in each row and column with 0s everywhere else. Then for
+      generators \(G_{1}, G_{2}\) \(G_{1} = G_{2} P \iff C_{1}\) is permutation
+      equivalent to \(C_{2}\). \\
+      A matrix is called \textbf{monomial} if it is same as permutation with
+      arbitrary numbers rather than 1s. Any \textbf{monomial} matrix can be
+      writen as \(M = DP\) where P is a permutation matrix and D is a diagonal
+      matrix.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Standard Form}
+
+      If a generator matrix is of the form \((I_{k} | A)\) for some
+      \(A \in M_{k, n - k}\) it is said to be in \textbf{standard form}. \\
+      Any linear code is permutation equivalent to a code with a generator
+      matrix in standard form.
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Codes as Kernels}
+
+    \begin{subsubsection}{Dual Codes}
+
+      For a code \(C \subset \F^{n}_{q}\), its \textbf{dual} is defined as
+      \(C^{\bot} \subset \F^{n}_{q}\) with \(v \in C^{\bot} \iff v \cdot C
+      = 0\). If C is generated by G, \(v \in C^{\bot} \iff vG^{t} = 0\). \\
+      If \(dim(C) = k\) then \(dim(C^{\bot}) = n - k\). \\
+      Clearly \((C^{\bot})^{\bot} = C\).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Generating Dual}
+
+      If G is in standard form \(G = (I_{k} | A)\), then \(H =
+      (-A^{t} | I_{n - k})\). If the matrix is not in standard form then \(GP =
+      [I_{k} | A]\) and \(H = [-A^{t} | I_{n - k}] P^{t}\).
+
+      There is an easier algorithm to find H without finding \(P^{t}\). Define L
+      as a set of all row indexes of rows with only 1s in them and M as a list
+      of indexes of all the other rows. Then define \(\textbf{v}_{i} =
+      \{v_{j} | 1 \leq j \leq n\}\) for all \(i \in M\) s.t.\ \[v_{j} =
+      \begin{cases}
+        1 & j = i \\
+        0 & j \in M; j \neq i\\
+        -G_{i, index(L, j)} & j \in L
+      \end{cases}\]
+      Where \(index(A, x)\) is the position of an element x in a set A.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Check Matrices}
+
+      For a code \(C \subseteq \F^{n}_{q}\) a linear code then tere exists
+      \(H \in M_{n - k, n}(\F_{q})\) s.t.\ \[C = \{ v | vH^{t} = 0\},\] and H is
+      called the \textbf{check matrix} of C. This H is the generator for
+      \(C^{\bot}\)
+
+      This can also be used to calculate the minimum distance of C. Then if
+      there are d \textbf{linearly dependent} columns in H, \(\exists v \in C\)
+      s.t.\ \(0 < w(v) \leq d\). Also the minimum number of linearly dependent
+      columns is equal to \(w(C)\).
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+\end{section}
+
+\begin{section}{Cyclic Codes}
+
+  \begin{subsection}{Finite Fields}
+
+    For \(f(x) \in \F_{q}[x]\) \textbf{irreducible}, \(\F_{q}[x] / (f(x))\) is
+    a field. If \(f(x) = \lambda g(x)\) for \(0 \neq \lambda \in \F_{q}\),
+    \(\F_{q}[x] / (f(x)) = \F_{q}[x] / (g(x))\). This implies only monic
+    polynomials can be considered. \\
+    An element \(\alpha\) in a finite field is called \textbf{primitive} if its
+    powers generate
+    \(\F^{\times}_{q} = \{\alpha^{i} | i \in \{0, \dots , q - 2\}\}\). Every
+    finite field has at least one primitive element. If x is primitive in
+    \(\F_{q}[x] / (f(x))\), \(f(x)\) is called a \textbf{primitive polynomial}
+    over \(\F_{q}\). Such polynomial exists for all \(\F_{p}\) of every integer
+    degree.
+
+  \end{subsection}
+
+  \begin{subsection}{Definision}
+
+    A code C is \textbf{cyclic} if it is \textbf{linear} and
+    \((a_{0}, \dots , a_{n - 1}) \in C \iff (a_{n - 1}, a_{0}, \dots ,
+    a_{n - 2}) \in C\).
+
+    \begin{subsubsection}{In Rings}
+
+      Let \(\textbf{R}_{n}\) denote the \textbf{ring}
+      \(\F_{q}[x] / (x^{n} - 1)\) when q is clear. Then clearly
+      \(a(x) = a_{0} + \cdots + a_{n - 1} x^{n - 1} \in \textbf{R}_{n}\)
+      corresponds to
+      \(\textbf{a} = (a_{0}, \dots , a_{n - 1}) \in \F^{n}_{q}\). Multiplying
+      \(a(x)\) by x corresponds to a cyclic shift of a to \((a_{n - 1}, \dots ,
+      a_{n - 2})\).
+
+      A code \(C \subseteq \textbf{R}_{n}\) is cyclic iff:
+      \begin{itemize}
+        \item \(a(x), b(x) \in C \Rightarrow a(x) + b(x) \in C\) (linearity?)
+        \item \(a(x) \in C\) and
+              \(r(x) \in \textbf{R}_{n} \Rightarrow r(x)a(x) \in C\)
+              (consequence of linearity?)
+      \end{itemize}
+
+      This is equivelant to saying C is \textbf{cyclic} if it is an
+      \textbf{principal ideal} of \(\textbf{R}_{n}\).
+
+      Any code C is cyclic iff it is generated by some \(f(x)\). In fact,
+      \(f(x)\) can always be found s.t.\ it is monic and a factor of
+      \(x^{n} - 1\). This polynomial is the lowest degree \(f(x) \in C\).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Check Polynomial}
+
+      For a code \(C = \langle g(x) \rangle \subset R_{n}\), the check
+      polynomial \(h(x)\) is defined such that \(g(x)h(x) = (x^{n} - 1)\). For a
+      \([n, k]\) code the check polynomial is of degree k. \\
+      \(\forall c \in C\); \(c(x) h(x) = 0\).
+
+      \(\langle g(x) \rangle = \langle \bar{g}(x) \rangle\).
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Matricies}
+
+    \begin{subsubsection}{Generator and Check Matrix}
+
+      For a cyclic code C generated by \(g(x) = g_{0} + \cdots + g_{r}x^{r}\),
+      \(dim(C) = n - r\). Its generator matrix is \[G =
+        \begin{pmatrix}
+          g_{0} & g_{1} & \cdots & g_{r} & 0 & \cdots \\
+          0 & g_{0} & g_{1} & \cdots & g_{r} & 0 \\
+          0 & \ddots & \ddots & & \ddots & 0 \\
+          0 & \cdots & g_{0} & g_{1} & \cdots & g_{r}
+        \end{pmatrix}
+      \]
+      where the size of the matrix is \(n \times r\).
+
+      The check matrix H is defined in the same way in relation to
+      \(\bar{h}(x)\) where \(\bar{h}(x) = x^{k}h(x^{-k}) =
+      h_{0}x^{k} + \cdots + h_{k}\). If this is made monic it is the generator
+      for \(C^{\bot}\).
+
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+\end{section}
+
+\begin{section}{Good Codes}
+
+  \begin{subsection}{Reed-Solomon Codes}
+
+    Define \(\textbf{P}_{k}\) as a vector space \(\F_{q}[z]_{k}\), where the
+    degree of all polynomials is smaller than k. Then for \(q \geq n \geq k
+    \geq 0\) and two vectos \(\textbf{a}, \textbf{b} \in \F^{n}_{q}\) with all
+    \(a_{j}\) distinct and all \(b_{j}\) non zero, a Reed-Solomon code
+    \(RS_{k}(\textbf{a, b})\) is defined as the image of a linear map
+    \(\varphi_{\textbf{a, b}}: \textbf{P}_{k} \mapsto \F^{n}_{q}\) s.t.
+    \[\varphi(f(z)) = (b_{1} f(a_{1}), \dots , b_{n} f(a_{n})).\]
+
+    Such code is \([n, k, n - k + 1]\), meaning it is linear and \textbf{MDS}.
+
+    For any \(\textbf{a, b, c}\) \(RS_{k}(\textbf{a, b})\) is monomially
+    equivalent to \(RS_{k}(\textbf{a, c})\).
+
+    \begin{subsubsection}{Generation}
+
+      For a code \(RS_{k}(\textbf{a, b})\), \[G =
+        \begin{pmatrix}
+          -- \varphi(1) -- \\
+          -- \varphi(z) -- \\
+          \vdots \\
+          -- \varphi(z^{k - 1})
+        \end{pmatrix}
+      \]
+      which is a n by k matrix. This means that if \(G_{k}\) is a generator
+      matrix for \(RS_{k}\), \(RS_{k + 1}\) has a generator matrix \[G_{k} =
+        \begin{bmatrix}
+          G_{k} \\
+          -- \varphi(z^{k}) --
+        \end{bmatrix}.
+      \]
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Cyclicness}
+
+      This cod is cyclic for certain values of \textbf{a, b}. For a primitive
+      \(n^{th}\) root of unity \(\\alpha \in \F_{q}\) and an integer m, let
+      \[\mathbf{\alpha}^{(m)} = ((\alpha^{0})^{m}, \dots , (\alpha^{n - 1})^{m}).\]
+      Then for \(0 \leq k \leq n\) \(RS_{k}(\mathbf{\alpha}^{(1)},
+      \mathbf{\alpha}^{(m)})\) is cyclic.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Dual}
+
+      For a code \(C = RS_{k}(\textbf{a, b})\), \(C^{\bot}\) is also RS, and
+      \(C^{\bot} = RS_{n - k}(\textbf{a, c})\). This \(\textbf{c}\) can be found
+      as a \(1 \times n\) check matrix for \(RS_{n - 1}(\textbf{a, b})\).
+
+      The easiest way to get find the check polynoimial is to find
+      \(\textbf{c}\) and construct \(H = RS_{n - k}(\textbf{a, c})\).
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Hamming Codes}
+
+    \begin{subsubsection}{Binary}
+
+      For \(r \geq 2\), \(n = 2^{r} - 1\) and \(H \in M_{r, n}(\F_{2})\) with
+      columns being all non zero vectors in \(\F^{r}_{2}\). Then the binary
+      Hamming code of redundancy r, denoted as \(Ham_{2}(r)\), is defined as a
+      linear code with  H as its check matrix. Columns of H are essentially
+      \(1, 2, \dots , n\) in binary. Any other permutation of the columns is
+      valid so \(Ham_{2}(r)\) is not exacly unique. \\
+      \(Ham_{2}(r)\) is perfect \([2^{r} - 1, 2^{r} - r - 1, 3]\) code.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{More than Binary}
+
+      For \(q > 2\), let \(\textbf{v}\) be one of \(q^{r} - 1\) non zero vectors
+      in \(\F^{r}_{q}\) and consider the set \(L_{\textbf{v}} =
+      \{ \lambda \textbf{v} | \lambda \in \F^{\times}_{q} \}\). Then
+      \(\textbf{w} \in L_{\textbf{v}} \iff \textbf{w} = \textbf{v}\) and if
+      \(\textbf{v} \neq \textbf{w}\) then \(L_{\textbf{v}} \cap L_{\textbf{w}}
+      = \emptyset\). To construct H compute all \(\frac{q^{r} - 1}{q - 1}\)
+      \(L_{\textbf{v}}s\) and then take any single vector from each column. \\
+      Such codes are \([n, n - r, 3]\) (same as for binary).
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+\end{section}
 
 \end{document}

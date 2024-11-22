@@ -80,6 +80,11 @@
 
     \end{subsubsection}
 
+    \begin{subsubsection}{Perfect Hashing}
+
+
+    \end{subsubsection}
+
   \end{subsection}
 
   \begin{subsection}{Cuckoo Hashing}
@@ -199,6 +204,157 @@
       can be fund, and it is \(k = \ln(2) \frac{n}{m}\). As k has to be an
       integer take the floor and the ceiling and work with whatever gets lower
       \(p_{f}\).
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Skip Lists}
+
+    \begin{subsubsection}{Overview}
+
+      Essencially a \textbf{sorted linked list} with some \textbf{random
+        shortcuts}.
+
+      For a normal single linked list, \textbf{search} is \(\Theta(n)\) worst
+      case. To improve on this, create a \textbf{second-level} shortcut list by
+      \textit{elevating} every number with probability of \(\frac{1}{2}\). This
+      results in the second list having rougly half the size. \\
+      All elements of the second level point to the same elements in the
+      original list. \\
+      This can be continued adding layers on top of layers until the list is
+      empty.
+
+      Each list starts with \(-\infty\) and ends with \(\infty\).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Searching}
+
+      To find the element x, start at the highest level list. While the number
+      checked is smaller than x, move to the next pointer. If the next one is x,
+      it has been found. If it is bigger, move back one and move down one level
+      of lists and repeat. If x is not in the bottom layer, it is not in the
+      list.
+
+      This runs in \(O(\log(n))\) with high probability (can run in \(O(n)\) but
+      very unlikey).
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Treaps}
+
+    \begin{subsubsection}{Overview}
+
+      The combination between heaps and binary search trees. Each element in a
+      treap has a \textbf{unique search key} and \textbf{priority}. \\
+      Since its a heap, the node v with the highest priority is the root. Also
+      since  it is a binary serach tree, any node u with \(key(u) < key(v)\)
+      must be on the \textbf{left} subtree (and bigger on the \textbf{right}).
+      Every subtree is a \textbf{treap} so this pattern continues and completely
+      determines the structure of the entire treap.
+
+      This can be alternatively achived by insering nodes into an empty BST in
+      the order of their priority.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Operations}
+
+      \textbf{Search} \\
+      To find x, start at root, compare x to it and if they not equall go left
+      or right accordingly. Then take the subtree left as the treap and repeat.
+
+      \textbf{Insert} \\
+      Start with inserting  x at the bottom of the tree (in the right BTS
+      possiton). Perform left/right rotations (constant time) until it is a
+      valid heap.
+
+      The time to insert x is roughly twice the time to perform an unsuccessful
+      search for x, as well as being proportional to the depth of x (before
+      rotations).
+
+      \textbf{Delete} \\
+      To delete x, perform rotations to the side of the higher priority until x
+      becomes a leaf, simply then remove it. (This takes the same amount of time
+      as iinserting x??)
+
+      \textbf{Split} \\
+      Splitting a treap along x (pivot) s.t./ two new treaps are formed with all
+      higher/lower keys than x. This can be done by inserting a new node z with
+      \(key(z) = x\) and \(priority(z) = -\infty\) (as high priority as
+      possible), then simply take the two subtreaps.
+
+      \textbf{Merge} \\
+      This is simply a reverse of \textbf{splitting}, and the two treaps have to
+      obay \(\max(key(T_{<})) < \min(key(T_{>}))\), Then take a dummy node in
+      between the two values above as root with Ts as subtreaps, and remove it
+      via \textbf{delete} operation.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Time}
+
+      A \textbf{successful} search for v \(key(v) = k\) takes \(O(depth(v))\).
+      Meanwhile for an \textbf{unsuccessful} search it takes
+      \(O(\max(depth(v^{+}), depth(v^{-})))\) where \(v^{+}\) is the smallest
+      node with \(key(v^{+}) > k\) (same for \(v^{-}\)).
+
+      Depth of a node in a treap is \(\theta(n)\) in the worst case \textit{not
+        good}.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Randomisation}
+
+      ??
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+\end{section}
+
+\begin{section}{Algorithms}
+
+  \begin{subsection}{PRAMs}
+
+    \begin{subsubsection}{Introduction}
+
+      Bunch of \textbf{synchronous} processors (with little local memory) and
+      shared memory. Each step, each processor can access a memory cell in
+      constant time (read/write) or perform some local computations.
+
+      There are three main models of PRAMs:
+      \begin{itemize}
+        \item \textbf{EREW} (exclusive read, exclusive write)
+        \item \textbf{CREW} (concurrent read, exclusive write)
+        \item \textbf{EREW} (concurrent read, concurrent write)
+      \end{itemize}
+
+      \textbf{Exclusive}: used once per step \\
+      \textbf{Concurrent}: used multiple times per step \\
+      There are some problems with concurrent wirte, mostly with priority
+
+      \textit{Note: This models are theoretical with no success in real world
+        implimentations on larger scale}
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Running Time}
+
+      It is clear that almost any non trivial tasks can be speed up using
+      multiple processors. There is a need to think about the efficiety with of
+      the number of processors required. For the input of size n, let \(T(n)\)
+      donte the running time and \(W(n)\) the total number of operations.
+      This introduces two different notations for assesing parallel algorithms.
+      \begin{itemize}
+        \item \(W(n)\)
+        \item \(T(n) \times p\) where p is the largest number of
+              processors used at the same time
+      \end{itemize}
 
     \end{subsubsection}
 

@@ -1,0 +1,470 @@
+\documentclass[12pt, letterpaper]{article}
+
+\usepackage{graphicx}
+\usepackage{parskip} % Disabling paragraph index as it does not fit maths
+\usepackage{hyperref} % Usable menu and references
+\usepackage{amssymb} % Used to show sets of sumbers, like the real numbers
+\usepackage{amsmath} % Used for column vectors
+\usepackage{xargs} % Used for multiple deafult command values
+
+\graphicspath{{images}}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\title{Project Prereading}
+\author{Arkadiusz Naks}
+\date{2024}
+
+\begin{document}
+
+\tableofcontents
+\newpage
+
+\begin{section}{Representations}
+
+  \begin{subsection}{Definision}
+
+    For a field F and a group G, a \textbf{representation} of G over F is a pair
+    \((\pi, V)\) where V is a vector space over F and \(\pi: G \to GL(V)\) a
+    group homomorphism. It can also be said that \(\pi\) is a representation of
+    G on V. The \textbf{dimension} of \((\pi, V)\) is the dimension of V but is
+    often denoted as \(dim \; \pi\). \\
+    This can be also thought about as the group G acting on the set V by
+    \(g \cdot \textbf{v} := \pi(g) \textbf{v}\). As \(\pi\) is linear, the
+    action is also linear. This can be reversly used to define a representation
+    of G through an action of G on V.
+
+    For a n dimentional representation, a basis can be chosen for V which
+    \textit{identifies} V with \(F^{n}\). Then any invertibl linear map is the
+    same thing as a \(n \times n\) matrix. Therefor any representation is
+    just a homomorphism \(G \to GL_{n}(F)\). One dimensional representation of G
+    is \(G \to F^{\times}\).
+
+  \end{subsection}
+
+  \begin{subsection}{Common Representations}
+
+      Every group G has a trivial representation on every V where \(\pi\) sends
+      everything in G to the identity.
+
+      If the group G is cyclic of order n and generator g, the representation is
+      completerly determined by V and \(\pi(g)\).
+
+      Many representations of groups arise from geometry for groups such as
+      \(\pi(r)\) mapping to a rotation matrix by \(\frac{2 \pi}{n}\) and
+      \(\pi(s)\) mapping to a invertion of the second coordinate of \(v \in V\)
+      for \(D_{n}\).
+
+      Representations can also come from actions of groups on sets. For example,
+      \((\pi, F^{n})\) of \(S_{n}\) s.t.\ \(\pi(\sigma)
+      (\sum^{n} x_{i} \textbf{e}_{i}) = \sum^{n} x_{i} \textbf{e}_{\sigma(i)}\).
+      Importantly for a column vector representation \[\pi(\sigma)
+        \begin{pmatrix} x_{1} \\ \vdots \\ x_{n} \end{pmatrix} =
+        \begin{pmatrix} x_{\sigma^{-1}(1)} \\ \vdots \\ x_{\sigma^{-1}(n)}
+        \end{pmatrix}.
+      \]
+      More generally for a field F and a set X, define a free vecotr space
+      \(F(X)\) by all formal sums \(\sum_{x \in X} z_{x} x\) where
+      \(z_{x} \in F\) is non-zero for finitely many x. Then For a group acting
+      on X, the \textbf{permutation representation} \((\pi, F(X))\) is defined
+      as \[\pi(g)(\sum z_{x} x) := \sum z_{x} (g \cdot x) =
+        \sum z_{g^{-1} \cdot x} x.\]
+
+  \end{subsection}
+
+  \begin{subsection}{Classification}
+
+    \begin{subsubsection}{Homomorphism}
+
+      For \((\rho, V)\) and \((\pi, W)\) representations of G, a G-homomorphism
+      \(\phi: V \to W\) s.t.\
+      \(\phi(\rho(g) \textbf{v}) = \pi(g) \phi(\textbf{v})\). \\
+      Then \(Hom_{G}(V, W)\) is the vector space of all G-homomorphisms from V
+      to W. These can also be called \textbf{intertwiners}. The inverse of every
+      G isomorphism is also in the vector space. The collection of all
+      representations isomorphic to \((\pi, V)\) are called its
+      \textbf{isomorphic class}.
+
+      For \(\phi \in Hom_{G}(V, W)\), \((\pi, ker(\phi))\) and
+      \((\rho, im(\phi))\) are subrepresentations of V and W respctively.
+
+      \begin{itemize}
+        \item \(Hom_{G}(U \oplus V, W) \cong
+              Hom_{G}(U, W) \oplus Hom_{G}(V, W)\)
+        \item \(Hom_{G}(W, U \oplus V) \cong
+              Hom_{G}(W, U) \oplus Hom_{G}(W, V)\)
+      \end{itemize}
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Subrepresentations}
+
+      For a representation \((\pi, V)\), a \textbf{subrepresentation} is
+      \((\pi_{|W}, W)\) where \(W \subset V\) and \(\pi_{|W}\) is just \(\pi\) but
+      only on W. The subset has to be closed; \(\pi(g) \textbf{w} \in W\). \\
+      As one dimensional vector spaces do not have non-trivial subspaces, one
+      dimensional representations have no subrepresentations.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Irreducibility}
+
+      If a non-zero representation has no non-trivial subrepresentations, it is
+      called \textbf{irreducible}.
+
+      The goal of representation theory is to classify all irreducable
+      representations for any group G. This is achived by a list with L
+      \begin{itemize}
+        \item Any irreducable representation of G is isomorphic to some entry in
+              L
+        \item All entries in L are non isomorphic to each other
+      \end{itemize}
+
+      For a group G, any irreducable representation \(\pi\) has
+      \(dim \; \pi \leq |G|\), meaining its finite dimentional.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Schur's Lemma}
+
+      If \((\pi, V)\) is irreducible complex representation of
+      G, \[Hom_{G}(V) = \C I = \{cI | c \in \C\} (methinks).\] This means that
+      for two irreducible representations \((\pi, V)\) and \((\rho, W)\) of
+      G, \[dim Hom_{G}(V, W) =
+        \begin{cases}
+          1 & (\pi, V) \cong (\rho, W) \\
+          0 & otherwise.
+        \end{cases}\]
+
+      This implies that every finite-dimensional irreduceble complex
+      representation of any \textbf{abelian} group G is \textbf{one
+        dimensional}. A homomorphism \(\chi: G \to \C^{\times}\) is often called
+      a \textbf{character} (this notation will clash later in the course so call
+      it \textbf{character\(_{hom}\)}). For any abelian G, let \(\hat{G}\)
+      denote the character\(_{hom}\) group or the \textbf{dual group}. This
+      group is isomorphic to the original group.
+
+      In fact every center Z of a group G has some \textbf{central
+        character\(_{hom}\)} \(\chi: Z \to \C^{\times}\) s.t.\
+      \(\pi(z) \textbf{v} = \chi(z) \textbf{v}\).
+
+      A tighter upper bound can be imposed on the size of irreducable
+      representations of G, namely for any abelian subgroup A of G
+      \(dim V \leq [G : A]\).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Operations}
+
+      A representation \((\pi, V)\) is \textbf{reducable} or
+      \textbf{decomposable} if it has two non trivial subrepresentations
+      \((\pi, U)\) and \((\pi, W)\) s.t.\ \(V = U \oplus W\). This means
+      \((\pi, V) \cong (\pi, U) \oplus (\pi, W)\). A representation can be not
+      reducible nor irreducible. However this is only possible for infinite
+      groups. Any representation \((\pi, V)\) of a \textbf{finite} group that
+      has a subrepresentation \((\pi, W)\), also has a subrepresentation
+      \((\pi, W')\) s.t.\ \((\pi, V) = (\pi, W) \oplus (\pi, W')\). \\
+      In fact all \textbf{unitary} representations are reducable with
+      \(W' = W^{\bot}\); for
+      \(W^{\bot} = \{v \in V | \langle v, w \rangle = 0\}\). If W is a
+      subrepresentation, so is \(W^{\bot}\).
+
+      A representation \((\pi, V)\) with V a vector space is \textbf{unitary}
+      if \[\langle \pi(g) \textbf{v}, \pi(g) \textbf{u} \rangle =
+        \langle \textbf{v}, \textbf{u} \rangle.\] This is equivelant to
+      \(\langle \pi(g) \textbf{v}, \textbf{u} \rangle =
+      \langle \textbf{v}, \pi(g){}^{*} \textbf{u} \rangle\) where
+      \(\pi(g){}^{*} = \pi(g){}^{-1}\). The inner product is called
+      \textbf{G-invariant}. Every representation has a \textbf{G-invariant}
+      inner product.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Decomposition}
+
+      Any representation \[(\pi, V) =
+        (\pi, W_{1}) \oplus \cdots \oplus (\pi, W_{m})\] where all \(W_{i}\) are
+      irreducable. Morever, the number of each isomorphism class of
+      \((\pi, W_{n})\) appears is unique and independent of the exact choice of
+      decomposition. In fact each isomorphism class \((\rho, U)\) appears
+      \(dim(Hom_{G}(V, U))\) times.
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{The Group Algebra}
+
+    For a finite group G, denfine the free vector space \(\C(G)\) as all formal
+    sums \(\sum_{g \in G} z_{g} g\) where \(z_{g} \in \C\). Define vector
+    multiplication as \[(\sum z_{g} g)(\sum w_{h} h) := \sum z_{g}w_{h} gh =
+      \sum_{g}(\sum_{h} z_{gh^{-1}} w_{h}) g.\] The vector space together with
+    this multiplication is called the \textbf{group algebra} \(\C[G]\) of G.
+    This multiplication can also be executed by simple multiplication similar to
+    regular integers.
+
+    An \textbf{algebra} is a vector space V over a field F with a multiplication
+    \(V \times V \to V\) s.t.\
+    \begin{itemize}
+      \item \(\textbf{v} (\textbf{u} + \textbf{w}) =
+            \textbf{vu}\ + \textbf{vw}\)
+      \item \((\textbf{u} + \textbf{w}) \textbf{v}=
+            \textbf{uv}\ + \textbf{wv}\)
+      \item \((\alpha \textbf{v})(\beta \textbf{u}) =
+            (\alpha \beta) \textbf{vu}\)
+    \end{itemize}
+
+    G is the basis of \(\C[G]\) (formally \(1g \; \forall g \in G\)) so
+    \(dim \C[G] = |G|\). For any representation \((\pi, V)\)
+    \(Hom_{G}(\C[G], V) \cong V\). \\
+    For \(Irr(g)\) a set of non-isomorphic irreducable representation
+    \((\pi, W_{\pi})\)
+    \[(\lambda, \C[G]) = \bigoplus_{\pi \in Irr(G)} (\pi, W_{\pi}){}^{dim \pi}.\]
+    This implies that \(\sum_{\pi \in Irr(G)} dim(\pi){}^{2} = |G|\). This is
+    very useful to check have all irreducable representations been found and
+    verify that they are non-isomorphic.
+
+  \end{subsection}
+
+\end{section}
+
+\begin{section}{Characters}
+
+  Note: \emph{These are different from the characters mentioned earlier} \\
+  In this section G is finite and V is finite-dimensional over \(\C\).
+
+  \begin{subsection}{Definision}
+
+    For \((\pi, V)\) a representation of G, \(\chi_{\pi}: G \to \C\) is defined
+    as \[\chi_{\pi}(g) = tr(\pi(g)).\] \emph{Trace of a matrix is equall to the
+      sume of its eigenvalues} \\
+    Isomorphic representations have the same characters and characters
+    completely determin representations.
+
+    Some properites of character
+    \begin{itemize}
+      \item \(\chi_{\pi}(gh) \neq \chi_{\pi}(g) \chi_{\pi}(h)\)
+      \item \(\chi_{\pi}(e) = dim V\)
+      \item \(\chi_{\pi}(gh) = \chi_{\pi}(hg)\)
+      \item \(\chi_{\pi \oplus \rho} = \chi_{\pi} + \chi_{\rho}\)
+      \item \(\chi_{\pi}(g^{-1}) = \bar{\chi_{\pi}(g)}\)
+    \end{itemize}
+
+    \begin{subsubsection}{Common Examples}
+
+      If the representation is one dimentioal, it is its own character.
+
+      For the permutation representation of \(S_{n}\), \[\chi_{\pi}(\sigma) =
+        |\{j \in \{1, \dots, n\} | \sigma(j) = j\}|.\]
+
+      For the regular representation \[\chi_{\pi}(g) =
+        \begin{cases}
+          |G| & g = e \\
+                 0
+        \end{cases}
+      \]
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Irreducibles}
+
+    The character of a representation is constant for all elements of any
+    \textbf{conjugacy class} of G. Also every character can be writen as an
+    integral combination of irreducibles.
+
+    The information about irreducible characters of G is often expressed as a
+    table where the top row is a list of all conjugacy classes, the second is
+    the size of each class and the following are all characters corresponding to
+    the particular irreducable representation. \\
+    The character part of tat table is always square, meaning the number of
+    irreducible representations is equal to the number of conjugacy classes.
+
+  \end{subsection}
+
+  \begin{subsection}{Class Function}
+
+    A class function \(G \to \C\) is a function that is constant on conjugacy
+    classes. The set of all such functions of G is denoted \(CF(G)\). In that,
+    this set is a vector space with dimension equal to the number of conjugacy
+    classes. The inner product is defined as \[\langle f_{1}, f_{2} \rangle_{G}
+      := \frac{1}{|G|} \sum f_{1}(g) \bar{f_{2}(g)} = \frac{1}{|G|}
+      \sum_{\mathcal{C} \in conj(G)} |\mathcal{C}| f_{1}(\mathcal{C})
+      \bar{f_{2}(\mathcal{C})}\] where \(cong(G)\) denotes the set of all
+    conjugacy classes of G. \\
+    \(\{\chi_{\rho}\}{}_{\rho \in irr(G)}\) is an
+    orthogonal basis of \(CF(G)\) with respect to the inner product.
+
+    Let \([\mathcal{C}] \in \C^{|irr(G)|}\) be the column of the character
+    table corresponding to \(\mathcal{C}\).
+    Then \[[\mathcal{C}] \cdot [\mathcal{D}] =
+      \begin{cases}
+        \frac{|G|}{|\mathcal{C}|} & \mathcal{C} = \mathcal{D} \\
+        0
+      \end{cases}\]
+
+  \end{subsection}
+
+  \begin{subsection}{Orhtogonality}
+
+    For reps \((\pi, V)\) and \((\rho, W)\), define
+    \((C^{\rho}_{\pi}, Hom(V, W))\) as another representation of G
+    s.t.\ \[c^{\rho}_{\pi}(g)(T) := \rho(g)T\pi(g^{-1}).\]
+
+    \(Hom_{G}(V, W) = \{T \in Hom(V, W) | c^{\rho}_{\pi}(g)T = T,
+    \forall g \in G\}\) where \(Hom(V, W)\) are vector space homomorphisms and
+    \(Hom_{G}(V, W)\) are representation homomorphisms.
+    Also \[\chi_{c^{\rho}_{\pi}} = \chi_{\rho} \bar{\chi_{\pi}}.\]
+
+    Define \(V^{G}\) to be the set of fixed points of the representation
+    \((\pi, V)\). Then the subrepresentation \((\pi, V^{G}) = (Id, V^{G})\).
+    Then \(dim(V^{G}) = \frac{1}{|G|} \sum \chi_{\pi}(g)\).
+
+    \[\langle \chi_{\rho}, \chi_{\pi} \rangle = dim Hom_{G}(V, W).\]
+
+    As mentioned above, two reps are isomorphic iff they have the same
+    character. Also a rep \((\pi, V)\) is irred iff \[||\chi_{\pi}||^{2}_{G} =
+    \langle \chi_{\pi}, \chi_{\pi} \rangle_{G} = 1.\]
+
+  \end{subsection}
+
+  \begin{subsection}{Universal Projections}
+
+    \(\frac{1}{|G|} \sum \pi(g)\) acts on V as the \textbf{orthogonal
+      projection} onto \(V^{G}\).
+
+    The space of \(\C\) valued functions on G is isomorphic to \(\C[G]\), with a
+    possible isomorphism \(f \to \frac{1}{|G|} \sum \bar{f(g)} g\). Then
+    define \[\pi(f) := \frac{1}{|G|} \sum \bar{f(g)} \pi(g).\] if
+    \(f \in CF(G)\) then \(\pi(f) \in Hom_{G}(V)\). \\
+    For an irreducible rep \((\rho, W)\), \(\rho(f) = \frac{1}{dim(W)}
+    \langle \chi_{\rho}, f \rangle_{G} I\).
+
+    For two irreducible reps, \[\pi(\chi_{\rho}) =
+      \begin{cases}
+        \frac{1}{dim(V)} I & (\pi, V) \cong (\rho, W) \\
+        0
+      \end{cases}\]
+
+    The subrep \(\pi, V_{\rho}\) is called the \(\rho\)-isotopic coponent of
+    \(\pi\). For \((\pi, V) = \bigoplus (\pi, W_{i})\) an irred decomposition, for
+    each
+    \(\rho \in Irr(G)\) \[(\pi, V_{\rho}) =
+      \bigoplus_{i, \; \pi|_{W_{i}} \cong \rho} (\pi, W_{i}).\]
+    Then \(\rho\)-isotopic projector is the \(dim(\rho) \pi(\chi_{\rho})\) and
+    it is the projection onto \(V_{\rho}\). Both of these are independent of the
+    choice of decomposition.
+
+    \end{subsection}
+
+\end{section}
+
+\begin{section}{Constructing Representations}
+
+  \begin{subsection}{Linear Algebra}
+
+    \begin{subsubsection}{Dual Representation}
+
+      Given a vecotr space \(V\), its dual is the vector space consisting of all
+      linear functions \(V \to \C\), \(V^{*} = Hom(V, \C)\). Define
+      \((\pi^{*}, V^{*})\) of G as \[[\pi^{*}(g) \lambda](v) :=
+        \lambda (\pi(g^{-1})v)\] for an existing representation \((\pi, V)\).
+      Then \(\chi_{\pi^{*}} = \bar{\chi_{\pi}}\).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Quotient Representation}
+
+      For a representation \((\pi, V)\) and a subrepresentation
+      \((\pi|_{W}, W)\), \((\hat{\pi}, \frac{V}{W})\) is also a representation
+      of G with \(\hat{\pi}(g)(v) := \pi(g)v\) modulo W. It is critical that
+      \(\pi(g)W = W\) (W is a subrepresentation). \\
+      If \((\pi, V) = (\pi, W), \oplus (\pi, W')\) then
+      \((\hat{\pi}, \frac{V}{W}) \cong (\pi, W')\). This means
+      \(\chi_{\hat{\pi}} = \chi_{\pi} - \chi_{\pi|_{W}}\).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Tensor Product}
+
+      Define two representations \((\pi, V)\) and \((\rho, W)\). Firstly
+      consider the permutation representation of G on \(\C(V \times W)\). Denote
+      it as \(\pi \otimes \rho\). Each \(a \in \C(V \times W)\) is of the
+      form \[\sum_{v, w \in V \times W} z_{v, w} (v, w)\] for
+      \(z_{v, w} \in \C\) with all but finitely many of them non zero. Note that
+      this is a infinite dimensional vector space. Then define the action
+      as \[[\pi \otimes \rho](g) = \sum z_{(v, w)} (\pi(g)v, \rho(g)w).\]
+
+      This vector space is not good for a representation as
+      \((v_{1} + v_{2}, w) \neq (v_{1}, w) + (v_{2}, w)\). To fix this define a
+      subset \[U = span\{(\alpha v_{1} + \beta v_{2}, \lambda w_{1} + \mu w_{2})
+        - \alpha \lambda (v_{1}, w_{1}) - \alpha \mu (v_{1}, w_{2}) - \beta
+        \lambda (v_{2}, w_{1}) - \beta \mu (v_{2}, w_{2})\}.\] Then define
+      \[(\pi \otimes \rho, V \otimes W) := (\pi \otimes \rho, \C(V, W) / U).\]
+      (\((\pi \otimes \rho, U)\) is also a representation).
+
+      \(\{v_{i} \otimes w_{j} \}\) for all \(v_{i}\) and \(w_{j}\) in the basis
+      of V and W is a basis of \(V \otimes W\). This means \(dim(V \otimes W) =
+      dim(V)dim(W)\). An example is \(\C^{n} \times \C^{m} \cong \C^{mn}\). An
+      element of the form \(v \otimes w\) is called a \textbf{pure tensor}.
+      \(\chi_{\pi \otimes rho} = \chi_{\pi} \chi_{rho}\). This means
+      \((c^{\rho}_{\pi}, Hom(V, W)) \cong (\rho, W) \times (\pi^{*}, V^{*})\).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Symmetric Product}
+
+      Take \(U_{1} = span \{v \otimes w - w \otimes v\} \subseteq V \otimes V\)
+      and \(Sym^{2}(V) := (V \otimes V) / U_{1}\). The resulting vector space is
+      called the (second) \textbf{symmetric} product of V. This makes \(v_{1}
+      \otimes v_{2} = v_{2} \otimes v_{1}\). Then elements can be expressed as
+      \(v_{1}v_{2}\). \(dim(Sym^{2}(V)) = \frac{n(n + 1)}{2}\).
+
+      \(\chi_{Sym^{2}(\pi)}(g) = \frac{1}{2} (\chi_{\pi}(g){}^{2} +
+      \chi_{\pi}(g^{2}))\)
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Alternating Product}
+
+      Similarly to the symetric case, define \(U_{2} = span \{v_{1} \otimes
+      v_{2} + v_{2} \otimes v_{1}\}\). Then
+      \(\bigwedge^{2} V = V \otimes V / U_{2}\) is the (second)
+      \textbf{alternating} product of V enforcing
+      \(v_{1} \otimes v_{2} = -v_{2} \otimes v_{1}\).
+      \(dim(\bigwedge^{2}(V)) = \frac{n(n - 1)}{2}\).
+
+      \(\chi_{\pi \wedge \pi}(g) = \frac{1}{2} (\chi_{\pi}(g){}^{2} -
+      \chi_{\pi}(g^{2}))\)
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Symmetric and Alternating Decomposition}
+
+      \[(\pi \otimes \pi, V \otimes V) = (Sym^{2}(\pi), Sym^{2}(V)) \oplus
+        (\pi \wedge \pi, \bigwedge^{2}(V)).\]
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Group Theory}
+
+    \begin{subsubsection}{Inflation}
+
+      For N a normal subgoup of G s.t.\ \(g_{1} \cdot g_{2} = g_{1}g_{2}\)
+      \(\forall g \in \tilda{G} = G / N\). Then the \textbf{inflation} of
+      \(\pi\) to G is denoted \((\tilda{\pi}, V)\) and defined as
+      \(\tilda{\pi}(g) := \pi(gN)\). This is also called the \textbf{lift} of
+      \(\tilda{G}\) to \(G\).
+
+      A rep \(\pi\) of G may be expressed as the inflation of a rep of
+      \(\tilda{G}\) iff \(N \subseteq \ker(\pi)\).
+
+\end{section}
+
+\end{document}

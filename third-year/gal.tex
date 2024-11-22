@@ -4,6 +4,7 @@
 \usepackage{parskip} % Disabling paragraph index as it does not fit maths
 \usepackage{hyperref} % Usable menu and references
 \usepackage{amssymb} % Used to show sets of sumbers, like the real numbers
+\usepackage{amsmath} % Used for collumn vectors
 \usepackage{tikz} % Used for field diagrams
 % Code sourced from https://tex.stackexchange.com/questions/513118/diagram-of-field-theory
 
@@ -14,6 +15,7 @@
 \newcommand{\Q}{\mathbb{Q}}
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\F}{\mathbb{F}}
+\newcommand{\N}{\mathbb{N}}
 
 \title{Galois Theory}
 \author{Arkadiusz Naks}
@@ -87,10 +89,10 @@
     called a \textbf{reduced} or \textbf{depressed} cubic. Next step is to do a
     substituton of \(p = -3uv\) and \(q = -(u^{3} + v^{3})\). This u and v also
     give a solution \(u + v\) to the \textbf{reduced} cubic. Starting from a
-    quodriatic with roots \(u^{3}, v^{2}\), namely
+    quodriatic with roots \(u^{3}, v^{3}\), namely
     \((y - u^{3})(y - v^{3}) = 0\) it can be proceesed through the quodratic
     formula
-    that \[u^{3}, v^{3} = -\frac{q}{2} \pm \sqrt{\frac{q^{2}}{4}} - \frac{p^{3}}{27}\],
+    that \[u^{3}, v^{3} = -\frac{q}{2} \pm \sqrt{\frac{q^{2}}{4}} - \frac{p^{3}}{27}.\]
     which helps optain a solution to the original equation by optaining the
     solutions in t, \(t = u + v\) and substituting back to x. The other two
     solutions can be obtained by multiplying either u or v by
@@ -144,7 +146,7 @@
     \(x: n \to 1_{0} + 1_{1} + \cdots + 1_{n}\), the  \textbf{characteristic}
     of K (\(char(K)\)) is defined as the smalles \(n \geq 1\) s.t. \(x(n) = 0\)
     if such n exists, otherwise \(char(K) = 0\). \\
-    \textit{The characteristic of a field is alsways 0 or prime}
+    \textit{The characteristic of a field is always 0 or prime}
 
     Iff \(char(K) = 0\) then \(\Q\) is the \textbf{prime subfield} of
     K. \\
@@ -394,7 +396,7 @@
 
       A simpler condition for the whole field to be \textbf{seperable} is for
       its minimal polynomial has no repeated roots in its \textbf{spliting}
-      field. For a tower \(K \subset M \subset L\) \(K / L\) is \textbf{seperable}
+      field. For a tower \(K \subset M \subset L\) \(L / K\) is \textbf{seperable}
       iff both \(L / M\) and \(M / K\) are. Being seperable and finite also
       implies being \textbf{simple}. \\
 
@@ -515,9 +517,317 @@
       \(\{\zeta_{p}, \dots , \zeta^{p - 1}_{p}\}\) is a good \(\Q\) baisis for
       \(\Q(\zeta_{p})\) as it does not change under any group action in
       \(Gal(\Q(\zeta_{p}) / \Q)\). \\
+    \end{subsubsection}
+
+  \end{subsection}
+
+\end{section}
+
+\begin{section}{Cyclic Field Extensions}
+
+  \begin{subsection}{Primitive Roots}
+
+    In a filed K, \(\zeta \in K^{\times}\) is the n-th primitive root of unity
+    if \(\zeta^{n} = 1\) but for all \(0 < m < n\) \(\zeta^{m} \neq 1\). For
+    any k \(\zeta^{k} = \zeta^{k \pmod{n}}\). \\
+    For any n, \(\zeta_{n}\) represents the n-th primitive root.
+
+    The subgroup of K, denoted \(\mu(K)\) of all primitive roots of unity is
+    cyclic, normal and finite.
+
+    \begin{subsubsection}{Minimal Polynomial}
+
+      \(x^{n} - 1 = \prod_{n_{1} | n} \phi_{n_{1}}(x)\) where \(\phi_{m}\) is
+      the minimal polynomial of \(\zeta_{m}\). This implies that the degree of
+      \(\phi_{m} = \varphi(m)\) with \(\varphi\) the Euler function. \\
+      If m is prime, \(\phi_{m}(x) = x^{m - 1} + \cdots + x + 1\) and if
+      \(m = p^{s}\) with p prime \(\phi_{m}(x) = \phi_{p}(x^{p^{s - 1}})\).
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Cyclotomic Definision}
+
+    The field extension \(\Q(\zeta_{n} / \Q)\) is  the n-th \textbf{cyclotomic}
+    field extenstion. These are always \textbf{Galois}.
+
+    \begin{subsubsection}{Galois Group}
+
+      \(Gal(\Q(\zeta_{n}) / \Q) = G \cong \Z^{\times}_{n}\), being the group of
+      numbers mod n with respect to multiplication. If \(n = p\) prime, G is
+      \textbf{cyclic} of order \(p - 1\). \\
+      G can still be cyclic for not prime n.
+
+      The best basis for \(\Q(\zeta_{p})\) is
+      \((\zeta_{p}, \zeta^{2}_{p}, \dots , \zeta^{p - 1}_{p})\).
+
       For \(x \in \Q(\zeta_{p})\) let \(X = \{g(x) | g \in G\}\)
       (discounting the duplicates) \([\Q(x) : \Q] = | X | \). The minimal
       polynomial for such x over \(\Q\) is \(f(t) = \prod_{i \in X} (t - i)\).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Subfields}
+
+      Any subfield of \(\Q(\zeta_{n})\) is automatically \textbf{Galois} over
+      \(\Q\). \\
+      For any divisor d of \(p - 1\), \(\Q(\zeta_{p})\) contains exacly one
+      subfield of that degree. There are no subfields of degree m s.t.
+      \(m \nmid p\). The quodratic subfield (\(p \neq 2\)) is of the form
+      \(\Q(\sqrt{m})\) where m is p if \(p \equiv 1 \pmod{4}\), otherwise
+      \(m = -p\). \\
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Degree 2}
+
+    For any field K and \(L / K\) Galois, \(G = \Z_{2} = \{e, \tau\}\) where
+    \(\tau^{2} = e\). Furthermore if \(char K \neq 2\) then any \textbf{cyclic}
+    Galois extension is of the form \(L = K(\sqrt{a})\) where
+    \(a \in K^{\times}\) and squarefree. If \(K(\sqrt{a_{1}}) =
+    K(\sqrt{a_{2}})\), \(a_{1} \equiv a_{2} \pmod{s}\) for some
+    \(s \in K^{\times}\) (squares in K). \\
+    If \(a_{1}, \dots , a_{n}\) independent mod any prime, \(K(\sqrt{a_{1}},
+    \dots , \sqrt{a_{n}})\) is of degree \(2^{n}\) with galosi group
+    \(G \cong \Z^{n}_{2}\). The Galois group is only of that form if L is of
+    that form.
+
+  \end{subsection}
+
+  \begin{subsection}{Degree n}
+
+    If K contains a primitive n-th root of unity \(\zeta_{n}\) and
+    \(\exists a \in K^{\times}\) s.t.\ \(a\) is not \(\alpha^{d}\) for d one of the
+    divisors of n, then \(L = K(\sqrt[n]{a})\) is \textbf{cyclic} extension  of
+    degree n and \(f(x) = x^{n} - a\), \(f(x) \in K[x]\) is
+    \textbf{irreducible}. \\
+    This also holds the other way, if \(L / K\) is cyclic degree n and K
+    containt \(\zeta_{n}\), then \(\exists a \in K^{\times}\) with \(L =
+    K(\sqrt[n]{a})\).
+
+  \end{subsection}
+
+  \begin{subsection}{Lagrange Resolvant}
+
+    Let \(K(\sqrt[n]{a}) = K(\theta) = L / K\) be galois cyclic of degree n, and
+    \(\tau \in Gal(L / K) = G\) s.t.\ \(\langle \tau \rangle = G\). Then for any
+    \(b_{0} \in L\) with \(\tau(b_{0}) = b_{1}\) and so on
+    (\(\tau(b_{i}) = b_{(i + 1) \pmod{n}}\)),
+    \[\theta_{b_{0}} = b_{0} + \zeta^{-1}_{n} b_{1} + \cdots +
+      \zeta^{-(n - 1)}_{n} b_{n - 1}\] is called the \textbf{Lagrange resolvent}
+    for \(b_{0}\).
+
+    Note that \(\tau(\theta) = \theta \zeta'\) for \(\zeta'\) some root of unity
+    and \(\tau(\theta_{b_{0}}) = \theta_{b_{0}} \zeta_{n}\).
+
+    There always exists \(b_{0}\) s.t.\ \(\theta_{b_{0}} \neq 0\).
+
+  \end{subsection}
+
+\end{section}
+
+\begin{section}{Finite Fields}
+
+  \begin{subsection}{Introduction}
+
+    For K a finite field, then there exists some prime p, s.t.\
+    \(\F_{p} \subset K\), meaning K has a characteristic of p. This emans that
+    for \(1 \in K\), \(p \times 1 = 0 \in K\). The number of elements in such
+    field is \(| K | = p^{n}\) for some \(n \in \N\). \\
+    For any \(n \in \N\), there exists K s.t.\ \(| K | = p^{n}\).
+
+    Any two finite fields K, L are isomorphic iff \(| K | = | L |\). These are
+    usually denoted as \(\F_{q = p^{n}}\).
+
+    \begin{subsubsection}{Galois}
+
+      \(\F_{q}\) is always Galois over \(\F_{p}\) with the Galois group G
+      isomorphic to \(\Z_{n}\). \\
+      This is because it is splitting for \(x^{q} - x\).
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Irreducable}
+
+    Let \(Irr_{\F_{p}}(N)\) be the set of all monic irreduciable polynomials in
+    \(\F_{p}[x]\) of degree N. Then for \(q = p^{N}\) \[N | Irr_{\F_{p}}(N) |
+      = | \{ \alpha \in \F_{q} | \F_{p}(\alpha) = \F_{q}\} |.\] Essentially the
+    number of irreduciable polynomials is related to the number of elements
+    which can be adjoined to \(\F_{p}\) to make a field of the degree of the
+    polynomial. \\
+    \(\F(\alpha) \neq \F_{q} \iff \F(\alpha) \subsetneq \F_{q}\).
+
+  \end{subsection}
+
+\end{section}
+
+\begin{section}{General Polynomials}
+
+  \begin{subsection}{Symmetric Funtions}
+
+    \begin{subsubsection}{Setup}
+
+      For K a field of characteristic 0 (or p, where p coprime to \(n!\)), let
+      \(L = K(x_{1}, \dots , x_{n})\) be a field of rational function in n
+      \textbf{independent} variables (with \(K = L^{S_{n}}\)). Then if \(L / K\)
+      is Galois, \(Gal(L / K) = S_{n}\), where for \(\tau =
+      \begin{pmatrix}
+        1 && 2 && \dots && n \\
+        m_{1} && m_{2} && \dots && m_{n}
+      \end{pmatrix}\) acts on L \(x_{i} \mapsto x_{m_{i}}\).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Elementary Symmetric Functions}
+
+      They are defined as \(\sigma_{1} = \sum^{n}_{i = 1} x_{i}\),
+      \(\sigma_{2} = \sum_{1 \leq i < j \leq n} x_{i} x_{j}\),
+      \(\sigma_{3} = \sum_{1 \leq i < j < k \leq n} x_{i} x_{j} x_{k}\),
+      and so on. (\(\sigma_{i}\) actually means \(\sigma_{i}(L)\)). \\
+      Clearly any \(\sigma_{i}(L) \in L\). Also (not as clearly)
+      \(k(\sigma_{1}, \dots , \sigma_{n}) = K\)
+
+      This means that \(k[\sigma_{1}, \dots , \sigma_{n}] =
+      k[x_{1}, \dots , x_{n}]^{S_{n}} (= P)\) and therefor
+      \textbf{any symmetric polynomial can be expressed as a polynomial in ESFs}
+
+      \(f(T) = (T - x_{1})(T - x_{2}) \dots (T - x_{n}) =
+      T^{n} - \sigma_{1} T^{n - 1} + \sigma_{2} T^{n - 2} + \cdots +
+      (-1)^{n}_{\sigma_{n}}.\)
+
+    \end{subsubsection}
+
+    % Review usefullness
+    \begin{subsubsection}{Calculations}
+
+      For a symmetric polynomial \(p(x_{1}, \dots , x_{n}) \in P\) it can be
+      said that
+      \[p = \sum_{\textbf{a}} \alpha_{\textbf{a}} x^{a_{1}}_{1} \dots x^{a_{n}}_{n}\]
+      for \(\alpha_{\textbf{a}} \in k\) and \(\textbf{a} \in k^{n}\) (will be in
+      \(\Z\) most of the time??).
+
+      Then to compute the symmetric polynomial \(P(x)\) in terms of elementary
+      functions, take the \textbf{monomialy} biggest term
+      \(x^{a_{1}}_{1} \dots x^{a_{n}}_{n}\) and define \(p_{1} = p - r\) where
+      \[r = \alpha_{\textbf{a}} \sigma^{a_{1} - a_{2}}_{1} \dots
+        \sigma^{a_{n - 1} - a_{n}}_{n - 1} \sigma^{a_{n}}_{n}.\]
+      Apply the algorithm from the beggining on \(p_{1}\) if \(p_{1} \neq 0\).
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Degree n}
+
+    For some fields k, \(K = k(\sigma_{1}, \dots , \sigma_{n})\) and
+    \(L = k(X_{1}, \dots , X_{n})\) and an irreducable polynomial \(f(X) =
+    X^{n} - \sigma_{1} X^{n - 1} + \sigma_{2} X^{n - 2} - \cdots (-1)^{n} \sigma_{n}\)
+    with roots \(X_{1}, \dots , X_{n}\).
+
+  \end{subsection}
+
+  \begin{subsection}{Degree 2}
+
+    Use the normal quodratic formula and \(Gal(K(X_{1}, X_{2}) / K) = \Z_{2}\).
+
+  \end{subsection}
+
+  \begin{subsection}{Degree 3}
+
+    \begin{subsubsection}{Solutions}
+
+      Compute the quodratic resolvant of \(f(X)\). This is \(g(U) \in K[U]\)
+      \(U^{2} + aU + b\) where \[a = \frac{1}{27} (2 \sigma^{3}_{1} -
+        9 \sigma_{1} \sigma_{2} + 27 \sigma_{3})\] and \(b = \frac{1}{9^{3}}
+      (\sigma^{2}_{1} - 3 \sigma_{2})^{3}\).
+
+      Then find the roots of \(g(U)\) \(U_{1}, U_{2}\), define
+      \(\theta_{1} = \sqrt[3]{U_{1}}\) and \(\theta_{2}\) s.t.
+      \(\theta^{3}_{1} \theta^{3}_{2} = b\) and
+      \(X_{1} = \frac{\sigma_{1}}{3} + \theta_{1} + \theta_{2}\),
+      \(X_{2} = \frac{\sigma_{1}}{3} + \theta_{1} \rho + \theta_{2} \rho^{2}\),
+      \(X_{3} = \frac{\sigma_{1}}{3} + \theta_{1} \rho^{2} + \theta_{2} \rho\).
+      \\
+      Where \(\rho\) is the third root of unity.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Galois Group}
+
+      The group is either \(S_{3}\) or \(A_{3}\). To resolve this, calculate the
+      discriminant \[\Delta_{0}  = -27 (b^{2} - 4c)\] with a and b the
+      coefficiants of the resolvant polynomial. \\ Then
+      \begin{itemize}
+        \item \(\Delta_{0} \in K^{\times 2} \iff Gal(L / K) = A_{3}\)
+        \item Otherwise \(Gal(L / K) = S_{3}\)
+      \end{itemize}
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Reduced Cubic}
+
+      A reduced cubic is \(h(X) = X^{3} + aX + b\). Its quodracit resolvent is
+      \(U^{2} + bU - \frac{a^{3}}{27}\). \\
+      Also \(\Delta_{0} = -4a^{3} - 27b^{2}\)
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \newpage
+
+  \begin{subsection}{Degree 4}
+
+    \begin{subsubsection}{Solutions}
+
+      First compute the cubic resolvant of \(f(X)\). This is \(g(U) \in K[U]\),
+      \(g = U^{3} + aU^{2} + bU + c\) where \[a = -\frac{3}{4} \sigma^{2}_{1} +
+        2 \sigma_{2},\]
+      \[b = \frac{3}{16} \sigma^{4}_{1} - \sigma^{2}_{1} \sigma_{2} +
+        \sigma^{2}_{2} + \sigma_{1} \sigma_{3} - 4 \sigma_{4},\]
+      \[c = -(d){}^{2} = -(\frac{\sigma^{3}_{1}}{8} -
+        \frac{\sigma_{1} \sigma_{2}}{2} + \sigma_{3}){}^{2}.\]
+
+      Then compute the roots \(U_{1}, U_{2}, U_{3}\) of \(g(U)\) can be computed
+      and \(\theta_{i} = \pm \sqrt{U_{i}}\) where the sign is chosen such that
+      \(\theta_{1} \theta_{2} \theta_{3} = -d\).
+
+      Finally \(X_{1} = \frac{1}{2} (\theta_{1} + \theta_{2} + \theta_{3})\)
+      and other \(X_{i}s\) are the same sums with odd numbers of odd signs (the
+      order does not matter).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Galois Group}
+
+      The Galois group of L depends on the group of
+      \(\tilde{L} = k(U_{1}, U_{2}, U_{3})\). If \(g(x)\) is irreducable,
+      \begin{itemize}
+        \item \(Gal(\tilde{L} / K) = S_{3} \Rightarrow Gal(L / K) = S_{4}\)
+        \item \(Gal(\tilde{L} / K) = A_{3} \Rightarrow Gal(L / K) = A_{4}\)
+      \end{itemize}
+      On the other hand if it is reducable
+      \begin{itemize}
+        \item \(U_{1}, U_{2}, U_{3} \in K \Rightarrow Gal(L / K) = \Z_{2}
+              \times \Z_{2}\)
+        \item \(U_{1} \in K \Rightarrow \) \\
+              \(Gal(\tilde{L} / K) = \{e, \tau\}\) then for \(\alpha \in
+              \tilde{L}^{\times}\) and \(\bar{\alpha} = \tau(\alpha)\) s.t.\
+              \(\alpha, \bar{\alpha} \notin \tilde{L}^{\times 2}\)
+              \begin{itemize}
+                \item \(\alpha \bar{\alpha} \in K^{\times 2}
+                      \Rightarrow Gal(L / K) = \Z_{2} \times \Z_{2}\)
+                \item \(\alpha \bar{\alpha} \in \tilde{L}^{\times 2}
+                      \backslash K^{\times 2} \Rightarrow \Z_{4}\)
+                \item \(\alpha \bar{\alpha} \notin \tilde{L}^{\times 2}
+                      \Rightarrow Gal(L / K) = D_{4}\)
+              \end{itemize}
+      \end{itemize}
 
     \end{subsubsection}
 

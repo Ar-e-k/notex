@@ -1,0 +1,213 @@
+\documentclass[12pt, letterpaper]{article}
+
+\usepackage{graphicx}
+\usepackage{parskip} % Disabling paragraph index as it does not fit maths
+\usepackage{hyperref} % Usable menu and references
+\usepackage{amssymb} % Used to show sets of sumbers, like the real numbers
+\usepackage{amsmath} % Used for column vectors
+\usepackage{xargs} % Used for multiple deafult command values
+
+\graphicspath{{images}}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\title{Project Prereading}
+\author{Arkadiusz Naks}
+\date{2024}
+
+\begin{document}
+
+\tableofcontents
+\newpage
+
+\begin{section}{Introduction}
+
+  \begin{subsection}{Catalan Numbers}
+
+    A \textbf{Ballot} sequence is a sequence \((\epsilon_{1}, \dots,
+    \epsilon_{2n})\) where \(\epsilon_{i} = \pm 1\) and
+    \begin{itemize}
+      \item \(\sum^{2n}_{i} \epsilon_{i} = 0\)
+      \item \(\sum^{k}_{i} \epsilon \geq 0\) for \(k \leq 2n\)
+    \end{itemize}
+    Clearly every such sequence starts with \(1\) and ends in \(-1\).
+
+    The n-th \textbf{Catalan} number denoted \(C_{n}\) is the number of such
+    sequences of lenght \(2n\). This is not the only definision, equivalently
+    \begin{itemize}
+      \item The number of bracket arrangements in a non-associative product of
+            \(n + 1\) variables (non trivial)
+      \item Number of triangulations of a convex \((n + 2)\)-gon on a place
+    \end{itemize}
+
+    \begin{subsubsection}{Dyck Path}
+
+      In a \(n \times n\) square, a \textbf{Dyck} path is a path going from one
+      corner to the opposite one, for example \((0, n) \to (n, 0)\) while staing
+      above (or on) the main diagonal of the square. \\
+      They can be related to Ballot sequences easly by taking \(\epsilon = 1\)
+      to mean a move to the right and \(\epsilon = -1\) to be a move down (for
+      the choice of corners above). \\
+      This can also taken as the triangular top right half of the square only
+      with the diagonal acting as the x-axis.
+
+      Both of these models of Dyck paths are \(\Z^{2}\) \textbf{lattice} paths.
+
+      Define a peak of a path as a local maximum nd valley as a local minimum.
+      Then there is one more peak than valley.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Catalan Explicitly}
+
+      \[C_{n} = \frac{1}{n + 1} {{2n}\choose{n}}\].
+      Equivelantely, the Catalan numbers can be defined recurrently
+      as \[C_{n} = \sum^{n}_{k=1} C_{k-1} C_{n-k}.\] For this purpouse,
+      \(C_{0}\) is defined as \(1\).
+
+      For a non-negative integer sequence \((a_{n})\), a \textbf{generating
+        function} is defined as \(A(x) = \sum^{\infty}_{k=0} a_{k} x^{k}\). \\
+      For the series \((C_{n})\), the generating
+      function \[C(x) = \frac{1 - \sqrt{1 - 4x}}{2x},\]
+      which is derived from the fact that \[xC(x)^{2} - C(x) + 1 = 0.\]
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Young Diagram}
+
+    \begin{subsubsection}{Definision}
+
+      A partition on n integers is a sequence of integers
+      \(\lambda = (\lambda_{1}, \dots, \lambda_{k})\) s.t.\
+      \(\sum^{k} \lambda_{i} = n\) and \(\lambda_{i} \geq \lambda_{j} > 0\) for
+      \(i > j\). These can be represented as a diagram of squares with
+      \(\lambda_{i}\) squares in the ith row, called a Young diagram. \\
+      Then a \textbf{standard Young tableau} (SYT) is a filling of a Young
+      diagram by numbers \(1, \dots, n\) with each number appearing once and the
+      entries increasing both down the columns and right in rows. Then let
+      \(f_{\lambda}\) denote the number of possible SYTs
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Calculating SYT}
+
+      The \textbf{hook} of the \((i, j)\) square is \(1 + \) all boxes below
+      \(+\) all boxes to the right. This is denoted as \(h(i, j)\). \\
+      Then denote \(H(\lambda) = \Pi_{(i, j) \in \lambda} h(i, j)\). It is
+      useful as \(f_{\lambda} = \frac{n!}{H(\lambda)}\). \\
+      \(f_{0}\) is defined to be \(1\). Then \(f_{\lambda} =
+      \sum f_{\lambda - c}\) where c is all the bottom right corners.
+
+      Define weight as \(wt(p, q) = \frac{1}{h(p, q) - 1}\).
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Set Partitions}
+
+    \begin{subsubsection}{Definision}
+      
+      Denote \([n]\) the set of integers \(1, \dots, n\), then a set partition
+      of \([n]\) a subdivision itno disjoint union of non-empty subsets. This is
+      often represented as dots representing numbers and lines connecting the
+      dots iff they are the closest numbers in its subpartition. The number of
+      set partitions is called the \textbf{Bell number} \(B(n)\). The more
+      rigorous case is partitioning the numbers into k partitions, counted by
+      the \textbf{Stirling number of second kind}, \(S(n, k)\). Clearly
+      \(B(n) = S(n ,k)\). \\
+      The exponential generating function for Bells numbers is
+      \(B(x) = \exp(e^{x} - 1)\).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Special Partitions}
+
+      A set partition can \textbf{non-crossing} or \textbf{non-nesting}. The
+      number of non-nesting set partitions is equal to \(C_{n}\). The number of
+      non-nesting partitions with k blocks is equal to \(N(n, n - (k - 1))\)
+      where \(N(n, k)\) is the \textbf{Narayana number}, the number of Dyck
+      paths with k peaks.
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Generating Functions}
+
+      An \textbf{exponential} generating function for a sequence \((a_{n})\) if
+      a formal power series \(\sum^{\infty} a_{n} \frac{x^{n}}{n!}\). This is
+      usually used for labelled objects as opposed to regular generating
+      functions being used for unlabelled ones.
+
+      For \(c_{n}\) counting some objects on n labelled nodes and \(c(x)\) its
+      exponential genrating function, define \(d_{n}\) as the number of
+      collections of c-objects on \(n_{1}, \dots, n_{k}\) elements s.t.\
+      \(\sum^{k}_{i = 1} n_{i}\).  Then \(d(x) = \exp(c(x))\).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Integer Partition}
+
+      For a partition \(\lambda = (\lambda_{1}, \dots, \lambda_{k})\), it can
+      also be writen as \(\lambda = 1^{m_{1}} 2^{m_{2}} \dots\) where \(m_{i}\)
+      is the number of \(\lambda_{j} = i\).
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+\end{section}
+
+\begin{section}{Permutations}
+
+  One line notation is the same as two line notation except for the top line is
+  ignored.
+
+  For a permutation \(w \in S_{n}\), define an \textbf{inversion} as a pair
+  \((i < j)\) s.t.\ \(w_{i} > w_{j}\) where w writen in one line notation. Also
+  define \textbf{descent} as \(i < n\) s.t.\ \(w_{i + 1} < w_{i}\). This is
+  essentially an inversion next to each other.
+
+  \begin{subsection}{Statistics}
+
+    A statisctic on a permutaion is a function \(\mu: S_{n} \to \Z_{\geq 0}\).
+    Its generating function is \(f_{\mu}(x) = \sum_{w \in S_{n}} x^{\mu(w)}\).
+    If two generating functions are equivelant, the statistics are said to be
+    \textbf{equidistributed}.
+
+    \begin{subsubsection}{Basic Examples}
+
+      Define \(inv(w)\) was the number of inversions in w, \(des(w)\) as the
+      number of descents and \(cyc(w)\) as the number of cycles. Then any
+      statistic is called \textbf{Mahonian} if it is equidistributed to inv,
+      similarly with \textbf{Eulerian} and des.
+
+      \[F_{inv}(x) = (1 + x)(1 + x + x^{2}) \cdots (1 + x + \dots + x^{n - 1}) =
+        \frac{\prod^{n} (1 - x^{k})}{(1-x)^{n}}.\]
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Examples}
+
+      Define the \textbf{Major index} as
+      \(maj(w) = \sum _{k \; a \; descent} k\)
+      (where k is the index). This statistic is Mahonian.
+
+      Define a \textbf{record} as an element s.t.\ \(w_{i}\) is a record if
+      \(w_{i} > w_{j}\) \(\forall j < i\). The number of records is a statistic
+      equidistributed to cyc and denoted \(rec\).
+
+      Define an \textbf{exceedance} is an index i s.t.\ \(i < w_{i}\). Then the
+      number of exceedances \(exc\) is an Eulerian statistic.
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+\end{section}
+
+\end{document}

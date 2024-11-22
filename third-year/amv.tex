@@ -299,4 +299,64 @@
 
 \end{section}
 
+\newpage
+
+\begin{section}{Partial Differential Equations}
+
+  \begin{subsection}{Basics}
+
+    A \textbf{linear second-order PDE} in two \textbf{independent} variables x
+    and y has the form \[
+      A(x, y) \partial^{2}_{xx} u +B(x, y) \partial^{2}_{xy} u +
+      C(x, y) \partial^{2}_{yy} u + D(x, y) \partial_{x} u +
+      E(x, y) \partial_{y} u + F(x, y) u = f(x, y)\]
+    with a solution of \(u(x, y)\) and \(f(x, y)\) known. If \(f(x, y) = 0\) for
+    all x, y, the PDE is called \textbf{homogeneous}.
+
+    A linear combination with constant coefficients of solutions of a PDE are
+    also solutions. \\
+    A \textbf{general solution} contains a number of arbitrary independent
+    functions while a \textbf{particular} one is obtained from the general one
+    by a paricular choice of those functions.
+
+    \begin{subsubsection}{Actions}
+
+      An operator \[\mathcal{D} :=
+        A(x, y) \partial^{2}_{xx} +B(x, y) \partial^{2}_{xy} +
+        C(x, y) \partial^{2}_{yy} + D(x, y) \partial_{x} +
+        E(x, y) \partial_{y} + F(x, y),\] can be defined to act on an unknown
+      function u so that a linear PDE can be writen as \(\mathcal{D}u = f\).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Solutions}
+
+      A solution of a PDE in some region R is a function that possesses all of
+      the partial derivatives that are present in the PDE in a region containing
+      R and satisfies the PDE everywhere in R.
+
+      A fundamental property of the solution of a linear and
+      \textbf{homogeneous} PDE is that they obey the \textbf{superposition}
+      principle, meaning the solutions form a baisis for all other solutions. \\
+      The single solutions are called \textbf{particular} while the whole space
+      is described by a \textbf{general} solution.
+
+      The solutions u are on a subset \(\Omega \subset K^{n}\) with K a field,
+      meaning u is a function \(u: \Omega \to K\).
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Clasiffication}
+
+    Most generral second order PDEs in n independent variables
+    \(x_{1}, \dots , x_{n}\) take the form \[\sum^{n}_{i, j = 0} A_{ij}
+      \partial_{i} \partial_{j} u + \sum^{n}_{i = 1} B_{i} \partial_{i} u +Cu +
+      D = 0,\] where \(A_{ij}, B_{i}, C, D\) are functions depending on
+    \(x_{i}s\) as well as i and j. For any \(i, j\), \(A_{ij} = A_{ji}\),
+    meaning A is a symmetric \(n \times n\) matrix.
+
+\end{section}
+
 \end{document}

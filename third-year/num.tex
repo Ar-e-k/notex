@@ -4,7 +4,7 @@
 \usepackage{parskip} % Disabling paragraph index as it does not fit maths
 \usepackage{hyperref} % Usable menu and references
 \usepackage{amssymb} % Used to show sets of sumbers, like the real numbers
-\usepackage{amsmath} % Used for collumn vectors
+\usepackage{amsmath} % Used for column vectors
 \usepackage{xargs} % Used for multiple deafult command values
 
 \graphicspath{{images}}
@@ -20,7 +20,7 @@
 \newcommand{\id}[1]{\mathfrak{#1}}
 
 \newcommandx{\val}[1][1=\cdot]{| #1 |}
-\newcommandx{\pdc}[2][1=a, 2=k, 3=0]{p^{#2} (\sum^{\infty}_{i = #3} #1_{i} p^{i})}
+\newcommandx{\pdc}[3][1=a, 2=k, 3=0]{p^{#2} (\sum^{\infty}_{i = #3} #1_{i} p^{i})}
 
 \title{Number Theory}
 \author{Arkadiusz Naks}
@@ -307,7 +307,7 @@
 
     \(d \in \Z\) is called \textbf{squarefree} if \(d \notin {0, 1}\)
     and no such prime p s.t.\ \(p^{2} | d\). Then for \(K / \Q\) with
-    degree 2, \(K = \Q(\sqrt(d))\) for some \textbf{squarefree} d. Such
+    degree 2, \(K = \Q(\sqrt{d})\) for some \textbf{squarefree} d. Such
     fields are called \textbf{quadratic fields}, or \textbf{real quodratic
       fields} for \(d > 0\) and \textbf{imaginary quadratic fields} otherwise.
 
@@ -351,7 +351,7 @@
       \item If \(d \equiv 1 \pmod{4} \Rightarrow S =
             \Z[\frac{1 + \sqrt{d}}{2}]\)
             \begin{itemize}
-              \item For \(d > 5\) for \(s, t > t\) s.t.\ \(\frac{s + t
+              \item For \(d > 5\) for \(s, t > 0\) s.t.\ \(\frac{s + t
                     \sqrt{d}}{2}\), it is \textbf{fundamental} if t is
                     \textbf{minimal} (very similar to the
                     \(\Z[\sqrt{d}]\) case)
@@ -379,8 +379,6 @@
       equation where RHS is any integer, solving it is equivelant to looking
       for all elements of \(\Z[d]\) with the norm equal to the RHS.
 
-    \end{subsubsection}
-
     The \textbf{Main theorem} can be used to find all solutions to such
     equations. For d \textbf{squarefree} and u the fundamental unit of
     \(\Z[d]\) the solutions are simply given by \[x = \pm
@@ -395,8 +393,11 @@
     \(a|z\). This is not always the case. To find the fundamental unit in
     \(\Z[\sqrt{d}]\) simply take the smallest power p of u s.t.\
     \(u^{p} \in \Z[\sqrt{d}]\). Then x, y are given by \[x = \pm
-      \frac{u^{pr} + u^{-pr}}{2} \; and \; y = \pm \frac{u^{pr} - u^{-pr}}{a \times
-        2 \sqrt{\frac{d}{a^{2}}}} \;\; \forall r \in \N.\]
+      \frac{u^{pr} + \bar{u}^{pr}}{2} \; and
+      \; y = \pm \frac{u^{pr} - \bar{u}^{pr}}
+      {2 \sqrt{d}} \;\; \forall r \in \N.\]
+
+    \end{subsubsection}
 
   \end{subsection}
 
@@ -417,7 +418,7 @@
         (\theta_{i} - \theta_{j}){}^{2}.\] (This is equal to 0 if \(f(x)\) has
       repeated  roots.) \\
       The discrimiant of the number field K s.t.\ \(\Ok_{K} = \Z[\theta]\) for
-      some \(\theta \in K\) is the descriminant of the minimal polynomial of
+      some \(\theta \in K\) is the discriminant of the minimal polynomial of
       \(\theta\) over \(\Q\). It is denoted as \(\Delta_{K}\). \\
       \textit{This is not always appliciable as sometimes such \(\theta\) does
         not exist.}
@@ -426,7 +427,7 @@
 
     \begin{subsubsection}{Discriminants of n-tuples}
 
-      The \textbf{descriminant} of an n-tuple \(\gamma = (\gamma_{1}, \dots ,
+      The \textbf{discriminant} of an n-tuple \(\gamma = (\gamma_{1}, \dots ,
       \gamma_{n}) \in K^{n}\) is \(\Delta_{K}(\gamma) := \det(Q(\gamma))\)
       where \(Q(\gamma) = (Tr_{K}(\gamma_{i} \gamma_{j})
       ){}_{1 \leq i < j \leq n}\), a n by n square symmetric matrix. \\
@@ -461,12 +462,13 @@
       \(p_{\theta}(x)\). \\
       If K is a quadratic field with \(\theta = \sqrt{d}\), d squarefree,
       \(\Delta_{K}(\{ 1, \theta \}) = 4d\). Note that if \(d \equiv 1 \pmod{4}\)
-      \(\Delta_{K} \neq disc(p_{\alpha})\). This is because in that case
-      \(\{ 1, \theta \}\) does not generate R.
+      \(\Delta_{K} \neq disc(p_{\theta})\). This is because in that case
+      \(\{ 1, \theta \}\) does not generate R. In that case \(\Delta_{K}(
+      \frac{1 + \theta}{2}) = d\).
 
       \(\Delta_{K}(\gamma) \neq 0 \iff \gamma\) is a \(\Q\)-baises of K.
 
-      Generally \(\Delta_{K}\) only depends on the A, not on its generating
+      Generally \(\Delta_{K}\) only depends on the K, not on its generating
       basis. The discriminant of K is defined as \(\Delta_{K}(R) =
       \Delta_{K}(\alpha)\) with \(\alpha\) a generating basis.
 
@@ -515,8 +517,9 @@
             \neq 0\))
     \end{itemize}
     This can be used to show that \(S = R\) as if no such p can exist they have
-    to equall. Morever \(S = \Z(\theta)\) can be used to check if
-    \(\Ok = \Z[\theta]\).
+    to equall. Morever \(S = \Z[\theta]\) can be used to check if
+    \(\Ok = \Z[\theta]\). This is done by taking an element \(\alpha \in S\)
+    s.t. \(\frac{\alpha}{p}\) with coefficients \(| a_{i} | < \frac{p}{2}\).
 
   \end{subsection}
 
@@ -528,8 +531,10 @@
 
   \begin{subsection}{Basic Group Structure}
 
-    As unique factorisation of elements in R ofter fails, exploring
+    As unique factorisation of elements in R often fails, exploring
     factorisation of prime ideals of R is a good idea as it is always unique.
+
+    \(\mathcal{I}(R)\) is an abelian group.
 
     \begin{subsubsection}{Operation}
 
@@ -537,7 +542,7 @@
       \[IJ = \{ \sum^{k}_{i = i} x_{i}y_{i} | k \in \N, x_{i} \in I,
         y_{i} \in J \}.\] This is still an ideal of R. Note that \(IJ \subseteq
       I\), meaning the product decreases the size of the ideal. Divisibility
-      \(I | J\) can be defined as \(\exists S\) s.t.\ \(J = IS\). As if S
+      \(I | J\) can be defined as \(\exists S\) s.t.\ \(J = IS\). If S
       exists (meaning I divides J), \(J = IS \subseteq I\), meaning that
       \textit{to divide is to contain}. The reverse is also true;
       \textit{to contain is to divide}.
@@ -554,6 +559,8 @@
 
       Let \(\p\) be a prime ideal in R. Then \[\p \supseteq IJ \iff
         \p \supseteq I \;\; or \;\; \p \supseteq J.\]
+
+      All ideals can be \textbf{uniquely} expressed in terms of prime ideals.
 
     \end{subsubsection}
 
@@ -576,9 +583,212 @@
       \id{b}\) s.t.\ \(\id{a} \id{b} = R\). Then \(\id{b} = \id{a}^{-1}\). \\
       \textbf{Ever fractional ideal is \emph{invertible}.}
 
-      Therefor \(\mathcal{I}(R)\) is an abelian group.
+    \end{subsubsection}
+
+    \begin{subsubsection}{Divisibily}
+
+      For \(J \subseteq I\) ideals in R
+      \begin{itemize}
+        \item \(I^{-1} J\) is an ideal in R, therefore \(I | J\)
+        \item \(I \subseteq I^{-1} J\)
+      \end{itemize}
 
     \end{subsubsection}
+
+    \begin{subsubsection}{Conjugation in Quodratics}
+
+      For any element \(\alpha \in K\), there exists a unique \(\bar{\alpha}
+      \in K\) (\(\alpha \in \Q \iff \bar{\alpha} \in \Q\)). Similarly for any
+      ideal I, \(\bar{I} = \{ \bar{\alpha} | \alpha \in I \}\). This is a proper
+      ideal of R. Morever if \(I = (\alpha, \beta)_{R}\); \(\bar{I} =
+      (\bar{\alpha}, \bar{\beta})_{R}\). \\
+      \(I\) prime \(\iff \bar{I}\) prime and \(N(I) = N(\bar{I})\).
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Norm}
+
+    \begin{subsubsection}{Definision}
+
+      For I a non-zero ideal of R, \(| R / I | \leq \infty\) and that size
+      defines its norm denoted \(N(I)\).
+      \begin{itemize}
+        \item \(N(I) \in \N\)
+        \item \(N(R) = 1\)
+        \item \(J \subseteq I \iff N(I) \leq N(J)\) and
+              \(J \subset I \iff N(I) < N(J)\)
+      \end{itemize}
+      For a principal ideal \(I = (\alpha)_{R}\), \(N(I) = N(\alpha) =
+      | N_{K}(\alpha) |\). \\
+      For an ideal \(I = (\alpha, \beta)_{R}\), \(N(I) = \gcd(
+      \alpha \bar{\alpha}, \beta \bar{\beta}, \alpha \bar{\beta} + \bar{\alpha} \beta)\).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Properties}
+
+      The norm decreases as the size of the ideal increases.
+
+      For an ideal \(I = (\alpha)_{R}\) \(N(I) = Nr_{K}(\alpha)\).
+
+      \(N(IJ) = N(I)N(J)\)
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Calculations}
+
+      For \(\p\) a prime non zero ideal: \\
+      \(\p | (N(\p))_{R}\). This implies \((N(\p)){}_{R} \subset \p\) and
+      \(N(\p) \in \p\). Also \(\p \cap \Z \neq (0)\). In fact the ideal
+      \(\p \cap \Z = (p)_{\Z}\) which is a non-zero prime ideal. \\
+      It can be said that \(\p\) \textit{lies above} p, which is equivalant to
+      \(\p | (p)_{R}\). This is true iff \(N(\p) = p^{r}\) for
+      \(1 \leq r \leq n\) and \(n = [K : \Q]\).
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Unique Factorisation}
+
+    As mentioned above, any non-zero ideal of R has a uniqe factorisation to
+    prime ideals. \\
+    Rings with this property are called \textbf{Dedekind Domains}.
+
+    If a ring of integers \(\Ok_{k} = R\) is a UFD, it is also a PID (the
+    converse is always true). R is a UFD iff \(Cl(R) = \{ e \}\) (is trivial).
+
+    Every non-zero prime ideal of R is \textbf{maximal} (not true in general,
+    but the converse is).
+
+    \begin{subsubsection}{Factorisation}
+
+      For an ideal \(I = (\alpha_{1}, \alpha_{2}, \dots , \alpha_{n})\)
+      factorise all \(J_{i} = \alpha_{i}\) by calculating the norm. Then
+      \(I = \gcd(J_{1}, \dots , J_{n})\).
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Spitting of Primes}
+
+    \begin{subsubsection}{The Theorem}
+
+      \textit{Important note: \(x^{n}\) factorises to \((x)(x) \dots\)}
+
+      For \(R = \Ok_{K} = \Z[\theta]\) for some \(\theta \in K\), \(p \in \Z\) a
+      prime and \(\bar{p}_{\theta}(x) = \bar{f}_{1}(x){}^{m_{1}} \cdots
+      \bar{f}_{r}(x)^{m_{r}}\) where \(\bar{p}_{\theta}, \bar{f}_{i} \in
+      \F_{p}[x]\) and \(m_{i} \in \N\); \[(p)_{R} = \p^{m_{1}}_{1} \cdots
+        \p^{m_{r}}_{r}\] with \[\p_{i} = (p, \bar{f}_{i}(\theta)){}_{R}.\]
+      All \(\p_{i}s\) have the norm of \(N(\p_{i}) = p^{deg(f_{i})}\).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Quadratics}
+
+      If \(\p\) \textbf{lies above} p, \(\p \bar{\p} = (N(\p))_{R}\).
+
+      This always holds for \textbf{quodratic} number fields. Furthermore there
+      are only three mutally exclusive options for a prime p
+      \begin{itemize}
+        \item \textbf{Inert}: \((p)_{R}\) is a prime ideal,
+              \(\p = \bar{\p}\) and \(N(\p) = p^{2}\)
+        \item \textbf{Split}: \((p)_{R} = \p \bar{\p}\),
+              \(\p \neq \bar{\p}\) and \(N(\p) = N(\bar{\p}) = p\)
+        \item \textbf{Ramified}: \((p)_{R} = \p^{2}\),
+              \(\p = \bar{\p}\) and \(N(\p) = p\)
+              (More generally this is the name if any of the \(m_{i} \geq 2\),
+              this is only true if \(p | \delta_{K}\))
+      \end{itemize}
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+\end{section}
+
+\begin{section}{The Ideal Class}
+
+  The quotient \(Cl(R) := \mathcal{I}(R) / \mathcal{P}(R)\). It is called the
+  \textbf{ideal class group} of R. Then for every ideal \(I \in
+  \mathcal{I}(R)\), \([I]\) denoteds the class \(I \times \mathcal{P}(R)\). \\
+  Clearly \([\p]^{-1} = [\bar{\p}]\).
+
+  \begin{subsection}{Finitnes and Order}
+
+    For any given norm \(n \in \N\), \(|\{ N(I) < n | I \in R \}|\) is finite.
+    More importantly, \(Cl(R)\) is finite. Its order is called the \textbf{class
+      number} of K, denoted \(h_{k}\) (or h).
+
+    \begin{subsubsection}{Minkowski Bound}
+
+      The upper bound of the order of the class goup dependant on the
+      discriminant.
+
+      For a number field \(K = \Q(\theta)\) of degree \(n = s + 2t\), where s is
+      the number of real roots and t is the number of pairs of complex roots,
+      \[B_{K} = (\frac{4}{\pi})^{t} \frac{n!}{n^{n}} \sqrt{| \Delta_{K} |}.\]
+      Then for each class \([I] \in Cl(R)\), there exits J a non fractional
+      ideal s.t.\ \[N(J) \leq B_{K}.\]
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+\end{section}
+
+\begin{section}{Equations}
+
+  \begin{subsection}{Mordell}
+
+    \begin{subsubsection}{Base Case}
+
+      For an equation \[x^{2} - s^{2} d = y^{3},\] with d sqrarefree check
+      \(K = \Q(\sqrt{d})\). If \(h_{K} = 1\), it is a UFD factorise into
+      \((x + s \sqrt{d})(x - s \sqrt{d}) \in K\). Then both terms have to be
+      cubes, therefor \(x + s \sqrt{d} = (u + v \sqrt{d})^{3}\) for some
+      \(u, v \in \Z\).
+
+    \end{subsubsection}
+
+    \begin{subsubsection}{Class Number 2}
+
+      With \(h_{K} = 2\) it is harder but a similar process can be applied with
+      ideals. First take \(\alpha = x + s \sqrt{d}\) so
+      \(N_{K}(\alpha) = y^{3}\). Then find all ideals \(\p\) s.t.
+      \(\p|(\alpha - \bar{\alpha})\) and write \((\alpha) = \p Q\) and
+      \(\bar{\alpha} = \p \bar{Q}\) for \(Q\) and \(\bar{Q}\) cooprime to all
+      \(\p\) and to each other. \\
+      From there write \((y^{3}) = \p^{2} Q \bar{Q}\). Due to uniqe
+      factorisation of ideals this means that \((\alpha) = I^{3}\) for some
+      ideal \(I\). As \(h_{k} = 2\); \([I^{3}] = e \Rightarrow [I] = e\)
+      and \[\exists \beta \;\; s.t. \;\; (\beta^{3}) = (\alpha) \Rightarrow \beta^{3} = \alpha,\]
+      getting the same enaquolity as for \(h_{K} = 1\) case.
+
+      For \(\gcd(h_{K}, 3) \neq 1\) find a prime that divides y but not x (can
+      be achived using modulo reductions, esspecially viable if d is odd, then
+      try 2). Then for \(h_{K} = 3\); \(\p = (\alpha / p) (I^{3})^{-1}\) for some I where
+      the RHS is principle as all cubes are. This can be used to find a solution
+      or show there is none depening on the ideal \(\p\).
+
+    \end{subsubsection}
+
+  \end{subsection}
+
+  \begin{subsection}{Pell 2.0}
+
+    An equation \[x^{2} - s^{2} d y^{2} = \pm a\] with d squarefree can be
+    seolved similar method similar to the one earlier can be used. The only
+    difference is the a rather than 1. This can be achived by finding an element
+    \(\beta \in K = \Q(\sqrt{d})\) s.t.\ \(N_{K}(\beta) = a\). Then the
+    solutions are
+    \[x = \pm \frac{u^{pr} \beta + \bar{u}^{pr} \bar{\beta}}{2} \; and
+      \; y = \pm \frac{u^{pr} \beta - \bar{u}^{pr} \bar{\beta}}
+      {s \times 2 \sqrt{d}} \;\; \forall r \in \N.\]
 
   \end{subsection}
 
@@ -711,7 +921,7 @@
       For this section \(a = \pdc\).
 
       \textbf{Negation}: \\
-      \(-a = p^{k}((p - a_{0}) + \pdc[-1 - a_{0}][k][1])\)
+      \(-a = p^{k}((p - a_{0}) + \pdc[-1 - a][k][1])\)
 
       \textbf{Reciprocals}: \\
       \(a^{-1} = \pdc[a'][-k]\) where \(a'_{i}s\) can be found by computing
